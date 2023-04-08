@@ -174,11 +174,11 @@ def create_post():
     # get students name for sending notification mail
     first_name = profile_doc['this_student']['first_name']
     last_name = profile_doc['this_student']['last_name']
-    student_name = first_name + last_name
+    student_name = first_name + ' ' + last_name
 
     all_users = db.collection('profiles').get()
     for user in all_users:
-        send_email('omar.basheer@ashesi.edu.gh', 'New Post Test', 'Post from user ' + student_name)
+        send_email('omasheer@gmail.com', 'New Post Test', 'Post from user ' + student_name)
         print('mail sent')
 
     # redirect to feed page
@@ -202,7 +202,7 @@ def view_feeds():
 def send_email(recipient, subject, body):
     # Email account credentials
     email_address = 'universe.ashesi@gmail.com'
-    email_password = 'UniVerse-Ashesi1'
+    email_password = 'wtwgcgpfakasitkc'
 
     # Set up email message
     message = MIMEText(body)
@@ -218,6 +218,7 @@ def send_email(recipient, subject, body):
     smtp_connection.login(email_address, email_password)
 
     # Send email
+    smtp_connection.set_debuglevel(1)
     smtp_connection.sendmail(email_address, recipient, message.as_string())
     smtp_connection.quit()
 
