@@ -23,6 +23,7 @@ def create_profile():
     # get profile data from form data
     profile = json.loads(request.data)
     profile_id = profile['id']
+    
 
     # create empty doc object for new profile
     new_profile = db.collection('profiles').document(profile_id)
@@ -143,7 +144,7 @@ def create_post():
 
     profile = db.collection('profiles').document(student_id)
     profile_doc = profile.get().to_dict()
-    print(profile_doc)
+    # print(profile_doc)
 
     # get list of posts by this students
     student_posts = profile_doc['posts']
@@ -175,10 +176,14 @@ def create_post():
     first_name = profile_doc['this_student']['first_name']
     last_name = profile_doc['this_student']['last_name']
     student_name = first_name + ' ' + last_name
+    gen_message = 'New Post by ' + student_name + '!'
+    gen_subject = student_name + ' just posted on Universe! Click the link below to access the feed and join the convo: '
 
     all_users = db.collection('profiles').get()
     for user in all_users:
-        send_email('universe.ashesi@gmail.com', 'New Post by ' + student_name + '!', student_name + ' just posted on Universe! Click the link below to access the feed and join the convo: ')
+        # print(user.to_dict()['this_student']['email'])
+        # receiver = user.to_dict()['this_student']['email']
+        send_email('omasheer@gmail.com', gen_message, gen_subject)
         print('mail sent')
 
     # redirect to feed page
@@ -202,6 +207,7 @@ def view_feeds():
 def send_email(recipient, subject, body):
     # Email account credentials
     email_address = 'universe.ashesi@gmail.com'
+    # email_password = 'vrbgplevrrgxevkx'
     email_password = 'rduwpbhzledgsjpt'
 
     # Set up email message
