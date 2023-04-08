@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/universe_api.iml" filepath="$PROJECT_DIR$/.idea/universe_api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../universe_flutter/.idea/universe_flutter.iml" filepath="$PROJECT_DIR$/../universe_flutter/.idea/universe_flutter.iml" />
     </modules>
   </component>
 </project>
