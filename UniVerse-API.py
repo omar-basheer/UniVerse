@@ -178,7 +178,7 @@ def create_post():
 
     all_users = db.collection('profiles').get()
     for user in all_users:
-        send_email('omasheer@gmail.com', 'New Post Test', 'Post from user ' + student_name)
+        send_email('universe.ashesi@gmail.com', 'New Post by ' + student_name + '!', student_name + ' just posted on Universe! Click the link below to access the feed and join the convo: ')
         print('mail sent')
 
     # redirect to feed page
@@ -202,7 +202,7 @@ def view_feeds():
 def send_email(recipient, subject, body):
     # Email account credentials
     email_address = 'universe.ashesi@gmail.com'
-    email_password = 'wtwgcgpfakasitkc'
+    email_password = 'rduwpbhzledgsjpt'
 
     # Set up email message
     message = MIMEText(body)
@@ -218,7 +218,7 @@ def send_email(recipient, subject, body):
     smtp_connection.login(email_address, email_password)
 
     # Send email
-    smtp_connection.set_debuglevel(1)
+    # smtp_connection.set_debuglevel(1)
     smtp_connection.sendmail(email_address, recipient, message.as_string())
     smtp_connection.quit()
 
