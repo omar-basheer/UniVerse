@@ -14,7 +14,6 @@ firebase_admin.initialize_app(cred, {
 db = firestore.client()
 
 # define functions for api
-kkkk
 
 universe_app = Flask(__name__)
 
