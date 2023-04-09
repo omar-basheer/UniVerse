@@ -1,22 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+// import 'package:flutter/rendering.dart';
+
+// my pages
+// import 'pages/welcome_mob.dart';
+// import 'pages/welcome.dart';
+import 'pages/login.dart';
+import 'pages/create_profile.dart';
 
 void main() {
-  debugPaintSizeEnabled= false; // Add this line to hide debug banner
-  runApp(
-    MaterialApp(
-      home: Scaffold(
-        backgroundColor: const Color.fromARGB(255, 219, 217, 219),
-        appBar: AppBar(
-          title: const Text('buidling rome'),
-          backgroundColor: const Color.fromARGB(255, 124, 64, 164),
-        ),
-        body: const Image(
-          image: NetworkImage(
-            "https://www.freecodecamp.org/news/content/images/2022/09/jonatan-pie-3l3RwQdHRHg-unsplash.jpg"
-          ),
-        ),
-      ),
-    ),
-  );
+  // debugPaintSizeEnabled = false;
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'UniVerseApp', 
+      initialRoute: '/login', 
+      routes: {
+      '/login': (context) => const LoginScreen(),
+      '/create-profile': (context) => const CreateProfileScreen()
+      // '/login': (context) => LoginScreen()
+    },
+    );
+  }
 }
