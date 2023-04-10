@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 // import 'package:flutter/rendering.dart';
 
-class CreateProfileScreen extends StatefulWidget {
-  const CreateProfileScreen({super.key});
+class CreateProfile extends StatefulWidget {
+  const CreateProfile({super.key});
 
   @override
   CreateProfileState createState() => CreateProfileState();
 }
 
-class CreateProfileState extends State<CreateProfileScreen> {
+class CreateProfileState extends State<CreateProfile> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -67,7 +67,6 @@ class CreateProfileState extends State<CreateProfileScreen> {
                       offset: const Offset(0, 3),
                     ),
                   ],
-
                 ),
                 child: Column(
                   children: const [
@@ -75,22 +74,20 @@ class CreateProfileState extends State<CreateProfileScreen> {
                     Text(
                       'Join The UniVerse Community',
                       style: TextStyle(
-                        color: Color.fromRGBO(30, 30, 30, 1),
-                        fontSize: 35,
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.w300
-                      ),
+                          color: Color.fromRGBO(30, 30, 30, 1),
+                          fontSize: 35,
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.w300),
                     ),
 
                     SizedBox(height: 20),
                     Text(
                       'Create Your Profile',
                       style: TextStyle(
-                        color: Color.fromRGBO(30, 30, 30, 1),
-                        fontSize: 14,
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.w300
-                      ),
+                          color: Color.fromRGBO(30, 30, 30, 1),
+                          fontSize: 14,
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.w300),
                     ),
 
                     // const SizedBox(height: 35),
@@ -115,8 +112,7 @@ class CreateProfileState extends State<CreateProfileScreen> {
                     //     Navigator.pushNamed(context, '/home');
                     //   },
                     //   child: const Text('sign in !'))
-
-                    ],
+                  ],
                 ),
               ),
             ),

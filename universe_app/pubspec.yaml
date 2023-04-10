@@ -80,9 +80,12 @@ fonts:
       - asset: assets/fonts/Montserrat/static/Montserrat-SemiBold.ttf
       - asset: assets/fonts/Montserrat/static/Montserrat-Bold.ttf
       - asset: assets/fonts/Montserrat/static/Montserrat-ExtraBold.ttf
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
+      - asset: assets/fonts/Montserrat/static/Montserrat-Thin.ttf
+      - asset: fonts/Montserrat/static/Montserrat-ThinItalic.ttf
+
+  - family: RubikPixels
+    fonts:
+    - asset: universe_app/lib/fonts/Rubik_Pixels/RubikPixels-Regular.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #

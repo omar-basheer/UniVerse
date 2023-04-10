@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-// import 'package:flutter/rendering.dart';
 
 // my pages
 // import 'pages/welcome_mob.dart';
-// import 'pages/welcome.dart';
+import 'pages/welcome.dart';
 import 'pages/login.dart';
 import 'pages/create_profile.dart';
+import 'pages/feeds.dart';
 
 void main() {
   // debugPaintSizeEnabled = false;
@@ -20,13 +20,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'UniVerseApp', 
-      initialRoute: '/login', 
+      title: 'UniVerseApp',
+      initialRoute: '/login',
       routes: {
-      '/login': (context) => const LoginScreen(),
-      '/create-profile': (context) => const CreateProfileScreen()
-      // '/login': (context) => LoginScreen()
-    },
+        '/login': (context) => const Login(),
+        '/create-profile': (context) => const CreateProfile(),
+        '/feeds': (context) => const Feeds()
+        // '/login': (context) => LoginScreen()
+      },
     );
   }
 }
