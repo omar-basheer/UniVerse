@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'dart:async';
+import 'dart:ui';
 
 // my pages
 // import 'pages/welcome_mob.dart';
