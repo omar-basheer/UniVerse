@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:provider/provider.dart';
+import 'package:universe_app/providers/user_provider.dart';
 import 'dart:async';
 import 'dart:ui';
 
@@ -10,9 +12,10 @@ import 'pages/login.dart';
 import 'pages/create_profile.dart';
 import 'pages/feeds.dart';
 
+// my providers
+
 void main() {
-  // debugPaintSizeEnabled = false;
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -20,16 +23,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'UniVerseApp',
-      initialRoute: '/login',
-      routes: {
-        '/login': (context) => const Login(),
-        '/create-profile': (context) => const CreateProfile(),
-        '/feeds': (context) => const Feeds()
-        // '/login': (context) => LoginScreen()
-      },
+    return ChangeNotifierProvider<UserProvider>(
+      create: (_) => UserProvider(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'UniVerseApp',
+        initialRoute: '/login',
+        routes: {
+          '/login': (context) => const Login(),
+          '/create-profile': (context) => const CreateProfile(),
+          '/feeds': (context) => const Feeds()
+          // '/login': (context) => LoginScreen()
+        },
+      ),
     );
   }
 }
