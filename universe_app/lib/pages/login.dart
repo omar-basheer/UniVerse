@@ -155,6 +155,8 @@ class LoginState extends State<Login> {
                     onPressed: () {
                       String studentId = student_id.text;
                       String password = student_pass.text;
+                      print(studentId);
+                      print(password);
                       loginUser(context, studentId, password);
                       Navigator.pushNamed(context, '/feeds');
                     },
