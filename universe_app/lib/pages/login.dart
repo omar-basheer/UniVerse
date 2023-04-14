@@ -158,7 +158,6 @@ class LoginState extends State<Login> {
                       print(studentId);
                       print(password);
                       loginUser(context, studentId, password);
-                      Navigator.pushNamed(context, '/feeds');
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 132, 94, 194),

@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'UniVerseApp',
         // initialRoute: '/login',
-        initialRoute: '/login',
+        initialRoute: '/create-profile',
         routes: {
           '/login': (context) => const Login(),
           '/create-profile': (context) => const CreateProfile(),

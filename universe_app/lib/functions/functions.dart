@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
+import 'package:universe_app/pages/create_profile.dart';
 import '../providers/user_provider.dart';
 
 // my providers
@@ -26,48 +27,95 @@ Future<void> loginUser(BuildContext context, String studentid, String password) 
   http.StreamedResponse response = await request.send();
 
   if (response.statusCode == 200) {
-    print('user ' + studentid + 'logged in successfully');
-    print(await response.stream.bytesToString());
-  } else {
-    print('failed to create user:  {$response.body}');
-    print(response.reasonPhrase);
+    print(response.statusCode);
+    final apiResponse = json.decode(await response.stream.bytesToString());
+    print('final resp: ' + apiResponse.toString());
+
+    if (apiResponse.containsKey('success') && apiResponse['success'] == 'true') {
+      // print(await response.stream.bytesToString());
+      print('logged user ');
+      Navigator.pushNamed(context, '/feeds');
+    } else {
+      // ignore: use_build_context_synchronously
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Login Status'),
+            content: Text(apiResponse['message']),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('ok'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        },
+      );
+    }
   }
 }
 
+
 Future<void> createProfile(BuildContext context, String studentid, String firstname, String lastname, String email,
-    String password, String major, String year, String residence, String food, String movie) async {
+    String password, String major, String year, String birthday, String residence, String food, String movie) async {
   String url = 'http://127.0.0.1:5000/create-profile';
 
   var request = http.Request('POST', Uri.parse(url));
+  // request.body = json.encode({"id": studentid, "password": password});
 
-  Map<String, dynamic> data = {
-    "id": "14042024",
+  request.body = json.encode({
+    "id": studentid,
     "this_student": {
-      "id_number": "14042024",
-      "first_name": "abigail",
-      "last_name": "basheer",
-      "email": "abby@ashesi.edu.gh",
-      "DOB": "12/05/2002",
-      "year": "2024",
-      "major": "Computer Science",
-      "residence": "Off-Campus",
-      "best_food": "jollof",
-      "best_movie": "we were once a fairytale"
+      "id_number": studentid,
+      "first_name": firstname,
+      "last_name": lastname,
+      "email": email,
+      "DOB": birthday,
+      "year": year,
+      "major": major,
+      "residence": residence,
+      "best_food": food,
+      "best_movie": movie,
     },
-    "password": "somePass4"
-  };
+    "password": password,
+  });
 
-  request.body = json.encode(data);
   request.headers.addAll(headers);
   print('making request....');
   http.StreamedResponse response = await request.send();
 
   if (response.statusCode == 200) {
-    print('user profile for ' + studentid + 'created successfully');
-    print(await response.stream.bytesToString());
-  } else {
-    print('failed to create user:  {$response.body}');
-    print(response.reasonPhrase);
-  }
+    print(response.statusCode);
+    final apiResponse = json.decode(await response.stream.bytesToString());
+    print(apiResponse['message']);
+    print(apiResponse['success']);
 
+    if (apiResponse['success'].toString() == 'true') {
+      print('profile created');
+      Navigator.pushNamed(context, '/login');
+    }
+  } else {
+    final apiResponse = json.decode(await response.stream.bytesToString());
+    // ignore: use_build_context_synchronously
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Profile Creation Status:'),
+          content: Text(apiResponse['message']),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
+      },
+    );
+  }
 }
