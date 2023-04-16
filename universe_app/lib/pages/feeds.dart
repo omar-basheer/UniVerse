@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:universe_app/functions/functions.dart';
 // import 'package:flutter/rendering.dart';
 
 class Feeds extends StatefulWidget {
@@ -9,6 +10,23 @@ class Feeds extends StatefulWidget {
 }
 
 class FeedsState extends State<Feeds> {
+  List<dynamic> feedsList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _getFeeds();
+    print('_getFeeds here');
+  }
+
+  Future<void> _getFeeds() async {
+    List<dynamic>data = await getUserFeeds();
+    print('setting state...');
+    setState(() {
+      feedsList = data;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -115,59 +133,9 @@ class FeedsState extends State<Feeds> {
                                   child: Column(
                                     // feeds-stack starts here
                                     children: [
-                                      //single feed starts here
-                                      const SizedBox(height: 40),
-                                      Container(
-                                        width: 800,
-                                        height: 145,
-                                        decoration: BoxDecoration(
-                                          borderRadius: const BorderRadius.only(
-                                            topLeft: Radius.circular(0),
-                                            topRight: Radius.circular(20),
-                                            bottomLeft: Radius.circular(20),
-                                            bottomRight: Radius.circular(20),
-                                          ),
-                                          color: const Color.fromARGB(255, 255, 255, 255),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: const Color.fromARGB(255, 98, 98, 98).withOpacity(0.5),
-                                              spreadRadius: 0,
-                                              blurRadius: 2,
-                                              offset: const Offset(1, 3),
-                                            ),
-                                          ],
-                                        ),
+                                      // over here
 
-                                        // user image avatar
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(top: 20, left: 30),
-                                          child: Row(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                width: 40,
-                                                height: 40,
-                                                decoration: const BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: Color.fromRGBO(245, 244, 244, 1),
-                                                ),
-                                              ),
-                                              const SizedBox(width:10),
-                                              Expanded(
-                                                child: Column(
-                                                  children: [
-                                                    Text(
-                                                      '@kanye.yeezuswest',
-                                                    )
-                                                ],)
-                                              )
-                                            ],
-                                          ),
-                                        ),
-
-
-                                      ),
-                                      // single feed ends here
+                                      for (var feed in feedsList) genSingleFeed(context, 'text', 'message')
                                     ], // feeds-stack ends here
                                   ),
                                 ),
