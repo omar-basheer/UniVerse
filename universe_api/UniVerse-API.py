@@ -35,8 +35,9 @@ def create_profile():
         profile['posts'] = []
         new_profile.set(profile)
         profiles = db.collection('profiles').get()
-        profiles_list = [prof.to_dict() for prof in profiles]
-        return jsonify(profiles_list)
+        # profiles_list = [prof.to_dict() for prof in profiles]
+        return jsonify({'success': True, 'message': 'created user profile  for user '+ profile_id + ' successfully'})
+        # return jsonify(profiles)
 
 
 @universe_app.route('/login', methods=['POST'])
@@ -52,7 +53,7 @@ def login_profile():
     profile_doc = profile.get()
 
     if profile_doc.exists:
-        print(profile_doc.to_dict())
+        # print(profile_doc.to_dict())
         if profile_doc.to_dict()['password'] == password:
             print('logged student '+ login_id + ' in successfully')
             # redirect('/feed')
@@ -60,10 +61,10 @@ def login_profile():
         else:
             print('incorrect id or password')
             # redirect('/login')
-            return jsonify({'success': False, 'message': 'incorrect id or password'})
+            return jsonify({'success': False, 'message': 'Incorrect id or password'})
 
     else:
-        return jsonify({'success': False, 'message': 'Student with this id already exists '})
+        return jsonify({'success': False, 'message': 'Incorrect id or password'})
 
 
 @universe_app.route('/view-profile', methods=['GET'])
@@ -186,7 +187,7 @@ def create_post():
         print('mail sent')
 
     # redirect to feed page
-    redirect('/feeds')
+    # redirect('/feeds')
     # view_feeds()
 
     # all_feeds = db.collection('feeds').get()
