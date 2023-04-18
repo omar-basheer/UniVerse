@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:universe_app/functions/functions.dart';
 // import 'package:flutter/rendering.dart';
 
+final TextEditingController student_id = TextEditingController();
+final TextEditingController post_message = TextEditingController();
+
 class Feeds extends StatefulWidget {
   const Feeds({super.key});
 
@@ -10,22 +13,31 @@ class Feeds extends StatefulWidget {
 }
 
 class FeedsState extends State<Feeds> {
+  bool isLoading = false;
   List<dynamic> feedsList = [];
+  // String loggedmail = "";
 
   @override
   void initState() {
     super.initState();
+    // _getLoggedMail();
     _getFeeds();
     print('_getFeeds here');
   }
 
   Future<void> _getFeeds() async {
-    List<dynamic>data = await getUserFeeds();
-    print('setting state...');
+    List<dynamic> data = await getUserFeeds();
     setState(() {
       feedsList = data;
     });
   }
+
+  // Future<void> _getLoggedMail() async {
+  //   String loggedUserMail = await getLoggedMail();
+  //   setState(() {
+  //     loggedmail = loggedUserMail;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +61,7 @@ class FeedsState extends State<Feeds> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            // sticky side menu bar
+                            // sticky side-menu bar
                             Container(
                               padding: const EdgeInsets.only(bottom: 20),
                               width: 180,
@@ -65,6 +77,145 @@ class FeedsState extends State<Feeds> {
                                     offset: const Offset(0, 2),
                                   ),
                                 ],
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 20, left: 34, right: 0, bottom: 0),
+                                // menu items
+                                child: Container(
+                                  child: Column(
+                                    children: [
+                                      // single button starts here
+                                      const SizedBox(height: 25),
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.pushNamed(context, '/home');
+                                        },
+                                        child: Row(
+                                          children: const [
+                                            Icon(
+                                              Icons.home,
+                                              size: 30,
+                                              color: Color.fromARGB(255, 245, 245, 245),
+                                            ),
+                                            SizedBox(width: 15),
+                                            Text(
+                                              'Home',
+                                              style: TextStyle(
+                                                  color: Color.fromARGB(255, 245, 245, 245),
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w400),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      // single button ends here
+
+                                      // single button starts here
+                                      const SizedBox(height: 25),
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.pushNamed(context, '/feeds');
+                                        },
+                                        child: Row(
+                                          children: const [
+                                            Icon(
+                                              Icons.question_answer,
+                                              size: 30,
+                                              color: Color.fromARGB(255, 245, 245, 245),
+                                            ),
+                                            SizedBox(width: 10),
+                                            Text(
+                                              'Messages',
+                                              style: TextStyle(
+                                                  color: Color.fromARGB(255, 245, 245, 245),
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w400),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      // single button ends here
+
+                                      // single button starts here
+                                      const SizedBox(height: 25),
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.pushNamed(context, '/home');
+                                        },
+                                        child: Row(
+                                          children: const [
+                                            Icon(
+                                              Icons.bookmark,
+                                              size: 30,
+                                              color: Color.fromARGB(255, 245, 245, 245),
+                                            ),
+                                            SizedBox(width: 10),
+                                            Text(
+                                              'Bookmarks',
+                                              style: TextStyle(
+                                                  color: Color.fromARGB(255, 245, 245, 245),
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w400),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      // single button ends here
+
+                                      // single button starts here
+                                      const SizedBox(height: 25),
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.pushNamed(context, '/edit-profile');
+                                        },
+                                        child: Row(
+                                          children: const [
+                                            Icon(
+                                              Icons.people,
+                                              size: 30,
+                                              color: Color.fromARGB(255, 245, 245, 245),
+                                            ),
+                                            SizedBox(width: 10),
+                                            Text(
+                                              'Profile',
+                                              style: TextStyle(
+                                                  color: Color.fromARGB(255, 245, 245, 245),
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w400),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      // single button ends here
+
+                                      // single button starts here
+                                      const SizedBox(height: 25),
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.pushNamed(context, '/login');
+                                        },
+                                        child: Row(
+                                          children: const [
+                                            Icon(
+                                              Icons.logout,
+                                              size: 30,
+                                              color: Color.fromARGB(255, 245, 245, 245),
+                                            ),
+                                            SizedBox(width: 10),
+                                            Text(
+                                              'LogOut',
+                                              style: TextStyle(
+                                                  color: Color.fromARGB(255, 245, 245, 245),
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w400),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      // single button ends here
+                                    ],
+                                  ),
+                                ),
                               ),
                             ),
                           ],
@@ -85,12 +236,12 @@ class FeedsState extends State<Feeds> {
 
                             //sticky top menu bar
                             Container(
-                              padding: const EdgeInsets.only(top: 12, left: 10),
+                              padding: const EdgeInsets.only(top: 12, left: 5, right: 15),
                               width: 900,
                               height: 55,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(17),
-                                color: const Color.fromRGBO(132, 94, 194, 1),
+                                color: const Color.fromARGB(255, 140, 101, 204),
                                 boxShadow: [
                                   BoxShadow(
                                     color: const Color.fromARGB(255, 98, 98, 98).withOpacity(0.5),
@@ -133,11 +284,72 @@ class FeedsState extends State<Feeds> {
                                   child: Column(
                                     // feeds-stack starts here
                                     children: [
-                                      // over here
-
-                                      for (var feed in feedsList) genSingleFeed(context, 'text', 'message')
+                                      for (var feed in feedsList.reversed)
+                                        genSingleFeed(context, feed['email'], feed['message'], feed['timestamp'])
                                     ], // feeds-stack ends here
                                   ),
+                                ),
+                              ),
+                            ),
+
+                            Container(
+                              padding: const EdgeInsets.only(top: 12, left: 5, right: 15, bottom: 20),
+                              child: Opacity(
+                                opacity: 0.8,
+                                child: TextFormField(
+                                  controller: post_message,
+                                  style: const TextStyle(
+                                      color: Color.fromARGB(213, 101, 101, 101),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400),
+                                  decoration: InputDecoration(
+                                      filled: true,
+                                      fillColor: const Color.fromRGBO(255, 255, 255, 1),
+                                      hoverColor: const Color.fromRGBO(
+                                        255,
+                                        255,
+                                        255,
+                                        1,
+                                      ),
+                                      labelText: 'Write Something...',
+                                      enabledBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(22),
+                                          borderSide: const BorderSide(
+                                            color: Color.fromARGB(196, 122, 122, 122),
+                                            width: 0.6,
+                                          )),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                          color: Color.fromARGB(255, 132, 94, 194),
+                                        ),
+                                        borderRadius: BorderRadius.circular(22),
+                                      ),
+                                      disabledBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                          color: Color.fromARGB(255, 132, 94, 194),
+                                        ),
+                                        borderRadius: BorderRadius.circular(22),
+                                      ),
+                                      labelStyle: const TextStyle(
+                                        color: Color.fromARGB(196, 122, 122, 122),
+                                        fontFamily: 'Montserrat',
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w300,
+                                      ),
+                                      suffixIcon: GestureDetector(
+                                        onTap: () {
+                                          String message = post_message.text;
+                                          if (message != "") {
+                                            createPost(context, '49032024', message);
+                                            post_message.clear();
+                                          }
+                                        },
+                                        child: const Icon(
+                                          Icons.send,
+                                          size: 20,
+                                          color: Color.fromARGB(255, 132, 94, 194),
+                                        ),
+                                      )),
                                 ),
                               ),
                             ),
@@ -186,34 +398,3 @@ class FeedsState extends State<Feeds> {
     );
   }
 }
-
-// Expanded(
-//   flex: 1,
-//   child: FractionallySizedBox(
-//     widthFactor: 1,
-//     child: Container(
-//       decoration: const BoxDecoration(
-//         color: Color.fromARGB(255, 255, 255, 255),
-//       ),
-//       alignment: Alignment.topCenter,
-//       // Right column Right half
-//       child: Padding(
-//         padding: const EdgeInsets.only(top: 55, left:22, right: 22),
-//         child: TextFormField(
-//           decoration:
-//           InputDecoration(
-//             labelText: 'Search...',
-//             border: OutlineInputBorder(
-//               borderRadius: BorderRadius.circular(10),
-//             ),
-//             labelStyle: const TextStyle(
-//               color: Color.fromRGBO(180, 180, 180, 1),
-//               fontFamily: 'Montserrat',
-//               fontSize: 16,
-//               fontWeight: FontWeight.w300,
-//               ),
-//           ),
-//         ),
-//       ),
-//     ),
-//   ),

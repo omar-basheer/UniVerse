@@ -11,6 +11,7 @@ import 'pages/welcome.dart';
 import 'pages/login.dart';
 import 'pages/create_profile.dart';
 import 'pages/feeds.dart';
+import 'pages/edit_profile.dart';
 
 // my providers
 
@@ -33,8 +34,8 @@ class MyApp extends StatelessWidget {
         routes: {
           '/login': (context) => const Login(),
           '/create-profile': (context) => const CreateProfile(),
-          '/feeds': (context) => const Feeds()
-          // '/login': (context) => LoginScreen()
+          '/feeds': (context) => const Feeds(),
+          '/edit-profile': (context) => const EditProfile()
         },
       ),
     );

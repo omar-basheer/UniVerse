@@ -2,12 +2,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class UserProvider extends ChangeNotifier {
-  bool isLoggedIn = false;
+String loggedStudentId = "";
 
-  bool get userStatus => isLoggedIn;
+ String get loggedInStudentId => loggedStudentId;
 
-  void setLoggedIn(bool value) {
-    isLoggedIn = value;
+  void setLoggedIn(String studentid) {
+    loggedStudentId = studentid;
     notifyListeners();
   }
 }

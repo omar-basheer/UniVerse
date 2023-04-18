@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:universe_app/functions/functions.dart';
-// import 'package:flutter/rendering.dart';
-// import 'package:date_time_picker/date_time_picker.dart';
+import 'package:universe_app/pages/feeds.dart';
+import 'package:universe_app/providers/user_provider.dart';
+import 'package:provider/provider.dart';
 
 // store suser info while they create their profile
-final TextEditingController student_id = TextEditingController();
-final TextEditingController first_name = TextEditingController();
-final TextEditingController last_name = TextEditingController();
-final TextEditingController student_email = TextEditingController();
-final TextEditingController student_pass = TextEditingController();
+// final TextEditingController student_id = TextEditingController();
+// final TextEditingController first_name = TextEditingController();
+// final TextEditingController last_name = TextEditingController();
+// final TextEditingController student_email = TextEditingController();
+// final TextEditingController student_pass = TextEditingController();
 final TextEditingController student_major = TextEditingController();
 final TextEditingController student_year = TextEditingController();
 final TextEditingController student_birthday = TextEditingController();
@@ -16,18 +17,19 @@ final TextEditingController student_residence = TextEditingController();
 final TextEditingController best_food = TextEditingController();
 final TextEditingController best_movie = TextEditingController();
 
-class CreateProfile extends StatefulWidget {
-  const CreateProfile({super.key});
+class EditProfile extends StatefulWidget {
+  const EditProfile({super.key});
 
   @override
-  CreateProfileState createState() => CreateProfileState();
+  EditProfileState createState() => EditProfileState();
 }
 
-class CreateProfileState extends State<CreateProfile> {
+class EditProfileState extends State<EditProfile> {
   bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
+    String loggedUserid = Provider.of<UserProvider>(context, listen: false).loggedStudentId;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -95,21 +97,21 @@ class CreateProfileState extends State<CreateProfile> {
                       children: [
                         const SizedBox(height: 35),
                         const Text(
-                          'Join The UniVerse Community',
+                          'jermaine.cole@universe.com',
                           style: TextStyle(
                               color: Color.fromRGBO(30, 30, 30, 1),
                               fontSize: 35,
                               fontFamily: 'Montserrat',
                               fontWeight: FontWeight.w300),
                         ),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 30),
                         const Text(
-                          'Create Your Profile',
+                          'Edit Your Profile',
                           style: TextStyle(
                               color: Color.fromRGBO(30, 30, 30, 1),
-                              fontSize: 14,
+                              fontSize: 27,
                               fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.w300),
+                              fontWeight: FontWeight.w200),
                         ),
 
                         // profile form starts here
@@ -122,125 +124,9 @@ class CreateProfileState extends State<CreateProfile> {
                                 children: [
                                   // Widgets to stack on top of each other in the first column
                                   Padding(
-                                    padding: const EdgeInsets.only(top: 30, bottom: 20, left: 30),
+                                    padding: const EdgeInsets.only(top: 30, bottom: 10, left: 30, right: 30),
                                     child: FractionallySizedBox(
-                                      widthFactor: 0.9,
-                                      child: TextFormField(
-                                        controller: student_id,
-                                        decoration: InputDecoration(
-                                          labelText: 'Student Id',
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(10),
-                                          ),
-                                          labelStyle: const TextStyle(
-                                              color: Color.fromRGBO(99, 99, 99, 1),
-                                              fontFamily: 'Montserrat',
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w300),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 3, bottom: 20, left: 30),
-                                    child: FractionallySizedBox(
-                                      widthFactor: 0.90,
-                                      child: TextFormField(
-                                        controller: first_name,
-                                        decoration: InputDecoration(
-                                          labelText: 'First Name',
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(10),
-                                          ),
-                                          labelStyle: const TextStyle(
-                                              color: Color.fromRGBO(99, 99, 99, 1),
-                                              fontFamily: 'Montserrat',
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w300),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 3, bottom: 20, left: 30),
-                                    child: FractionallySizedBox(
-                                      widthFactor: 0.90,
-                                      child: TextFormField(
-                                        controller: last_name,
-                                        decoration: InputDecoration(
-                                          labelText: 'Last Name',
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(10),
-                                          ),
-                                          labelStyle: const TextStyle(
-                                              color: Color.fromRGBO(99, 99, 99, 1),
-                                              fontFamily: 'Montserrat',
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w300),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 3, bottom: 20, left: 30),
-                                    child: FractionallySizedBox(
-                                      widthFactor: 0.90,
-                                      child: TextFormField(
-                                        controller: student_email,
-                                        decoration: InputDecoration(
-                                          labelText: 'Email',
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(10),
-                                          ),
-                                          labelStyle: const TextStyle(
-                                              color: Color.fromRGBO(99, 99, 99, 1),
-                                              fontFamily: 'Montserrat',
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w300),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 3, bottom: 20, left: 30),
-                                    child: FractionallySizedBox(
-                                      widthFactor: 0.90,
-                                      child: TextFormField(
-                                        obscureText: true,
-                                        controller: student_pass,
-                                        decoration: InputDecoration(
-                                          labelText: 'Password',
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(10),
-                                          ),
-                                          labelStyle: const TextStyle(
-                                              color: Color.fromRGBO(99, 99, 99, 1),
-                                              fontFamily: 'Montserrat',
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w300),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 75),
-                                ],
-                              ),
-                            ),
-
-                            // Column 1
-                            Expanded(
-                              flex: 1,
-                              child: Column(
-                                children: [
-                                  // Widgets to stack on top of each other in the first column
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 30, bottom: 20, right: 30),
-                                    child: FractionallySizedBox(
-                                      widthFactor: 0.90,
+                                      widthFactor: 0.6,
                                       child: TextFormField(
                                         controller: student_major,
                                         decoration: InputDecoration(
@@ -257,10 +143,11 @@ class CreateProfileState extends State<CreateProfile> {
                                       ),
                                     ),
                                   ),
+
                                   Padding(
-                                    padding: const EdgeInsets.only(top: 3, bottom: 20, right: 30),
+                                    padding: const EdgeInsets.only(top: 10, bottom: 10, left: 30, right: 30),
                                     child: FractionallySizedBox(
-                                      widthFactor: 0.90,
+                                      widthFactor: 0.6,
                                       child: TextFormField(
                                         controller: student_year,
                                         decoration: InputDecoration(
@@ -277,10 +164,11 @@ class CreateProfileState extends State<CreateProfile> {
                                       ),
                                     ),
                                   ),
+
                                   Padding(
-                                    padding: const EdgeInsets.only(top: 3, bottom: 20, right: 30),
+                                    padding: const EdgeInsets.only(top: 10, bottom: 10, left: 30, right: 30),
                                     child: FractionallySizedBox(
-                                      widthFactor: 0.90,
+                                      widthFactor: 0.6,
                                       child: TextFormField(
                                         controller: student_birthday,
                                         decoration: InputDecoration(
@@ -299,9 +187,9 @@ class CreateProfileState extends State<CreateProfile> {
                                   ),
 
                                   Padding(
-                                    padding: const EdgeInsets.only(top: 3, bottom: 20, right: 30),
+                                    padding: const EdgeInsets.only(top: 10, bottom: 10, left: 30, right: 30),
                                     child: FractionallySizedBox(
-                                      widthFactor: 0.90,
+                                      widthFactor: 0.6,
                                       child: TextFormField(
                                         controller: student_residence,
                                         decoration: InputDecoration(
@@ -320,9 +208,9 @@ class CreateProfileState extends State<CreateProfile> {
                                   ),
 
                                   Padding(
-                                    padding: const EdgeInsets.only(top: 3, bottom: 20, right: 30),
+                                    padding: const EdgeInsets.only(top: 10, bottom: 10, left: 30, right: 30),
                                     child: FractionallySizedBox(
-                                      widthFactor: 0.9,
+                                      widthFactor: 0.6,
                                       child: TextFormField(
                                         controller: best_food,
                                         decoration: InputDecoration(
@@ -341,9 +229,9 @@ class CreateProfileState extends State<CreateProfile> {
                                   ),
 
                                   Padding(
-                                    padding: const EdgeInsets.only(top: 3, bottom: 20, right: 30),
+                                    padding: const EdgeInsets.only(top: 10, bottom: 10, left: 30, right: 30),
                                     child: FractionallySizedBox(
-                                      widthFactor: 0.9,
+                                      widthFactor: 0.6,
                                       child: TextFormField(
                                         controller: best_movie,
                                         decoration: InputDecoration(
@@ -365,51 +253,88 @@ class CreateProfileState extends State<CreateProfile> {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 15),
-                        ElevatedButton(
-                          onPressed: () async {
-                            String studentId = student_id.text;
-                            String fName = first_name.text;
-                            String lName = last_name.text;
-                            String email = student_email.text;
-                            String password = student_pass.text;
-                            String major = student_major.text;
-                            String year = student_year.text;
-                            String birthday = student_birthday.text;
-                            String residence = student_residence.text;
-                            String bestFood = best_food.text;
-                            String bestMov = best_movie.text;
 
-                            setState(() {
-                              isLoading = true;
-                            });
-                            await createProfile(context, studentId, fName, lName, email, password, major, year,
-                                residence, birthday, bestFood, bestMov);
-                            setState(() {
-                              isLoading = false;
-                            });
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color.fromARGB(255, 132, 94, 194),
-                            minimumSize: const Size(185, 55),
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(15),
-                                topRight: Radius.circular(15),
-                                bottomLeft: Radius.circular(15),
-                                bottomRight: Radius.circular(0),
+                        const SizedBox(height: 25),
+                        Padding(
+                          padding: EdgeInsets.only(left: 175),
+                          child: Row(
+                            children: [
+                              ElevatedButton(
+                                onPressed: () async {
+                                  setState(() {
+                                    isLoading = true;
+                                  });
+                                  await Navigator.pushNamed(context, '/feeds');
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color.fromRGBO(99, 99, 99, 1),
+                                  minimumSize: const Size(165, 55),
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(0),
+                                      topRight: Radius.circular(15),
+                                      bottomLeft: Radius.circular(15),
+                                      bottomRight: Radius.circular(15),
+                                    ),
+                                  ),
+                                ),
+                                child: const Text(
+                                  'back',
+                                  style: TextStyle(
+                                      color: Color.fromRGBO(255, 255, 255, 1),
+                                      fontSize: 17,
+                                      fontFamily: 'Montserrat',
+                                      fontWeight: FontWeight.w400),
+                                ),
                               ),
-                            ),
+                              const SizedBox(width: 30),
+                              ElevatedButton(
+                                onPressed: () async {
+                                  String studentid = loggedUserid;
+                                  print(studentid);
+                                  String major = student_major.text;
+                                  String year = student_year.text;
+                                  String birthday = student_birthday.text;
+                                  String residence = student_residence.text;
+                                  String bestFood = best_food.text;
+                                  String bestMov = best_movie.text;
+
+                                  setState(() {
+                                    isLoading = true;
+                                  });
+                                  await editProfile(
+                                      context, studentid, major, year, residence, birthday, bestFood, bestMov);
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color.fromARGB(255, 132, 94, 194),
+                                  minimumSize: const Size(165, 55),
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(15),
+                                      topRight: Radius.circular(15),
+                                      bottomLeft: Radius.circular(15),
+                                      bottomRight: Radius.circular(0),
+                                    ),
+                                  ),
+                                ),
+                                child: const Text(
+                                  'finish!',
+                                  style: TextStyle(
+                                      color: Color.fromRGBO(255, 255, 255, 1),
+                                      fontSize: 17,
+                                      fontFamily: 'Montserrat',
+                                      fontWeight: FontWeight.w400),
+                                ),
+                              ),
+                            ],
                           ),
-                          child: const Text(
-                            'sign up!',
-                            style: TextStyle(
-                                color: Color.fromRGBO(255, 255, 255, 1),
-                                fontSize: 17,
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.w400),
-                          ),
-                        ),
+                        )
                       ],
                     ),
                   ),
