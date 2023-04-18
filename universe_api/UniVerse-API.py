@@ -100,33 +100,6 @@ def edit_profile():
     curr_student = curr_profile_doc['this_student']
     print(curr_student)
 
-    # display data in form
-    birthday = curr_student['DOB']
-    major = curr_student['major']
-    year = curr_student['year']
-    residence = curr_student['residence']
-    best_food = curr_student['best_food']
-    best_movie = curr_student['best_movie']
-
-    # # form submission?
-    # if request.method == 'POST':
-    #     birth_edit = request.form.get('birthday')
-    #     major_edit = request.form.get('major')
-    #     year_edit = request.form.get('year')
-    #     residence_edit = request.form.get('residence')
-    #     best_food_edit = request.form.get('best_food')
-    #     best_movie_edit = request.form.get('best_movie')
-    #
-    #     curr_profile.update({
-    #         'birthday': birth_edit,
-    #         'major': major_edit,
-    #         'year': year_edit,
-    #         'residence': residence_edit,
-    #         'best_food': best_food_edit,
-    #         'best_movie': best_movie_edit
-    #     })
-    #     return redirect('/view-profile')
-
     curr_profile.update({'this_student': new_profile})
 
     return jsonify(curr_profile.get().to_dict())
