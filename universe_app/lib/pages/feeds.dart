@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:universe_app/functions/functions.dart';
+
+import '../providers/user_provider.dart';
 // import 'package:flutter/rendering.dart';
 
-final TextEditingController student_id = TextEditingController();
-final TextEditingController post_message = TextEditingController();
+final TextEditingController studentsId = TextEditingController();
+final TextEditingController postMessage = TextEditingController();
 
 class Feeds extends StatefulWidget {
   const Feeds({super.key});
@@ -15,12 +18,10 @@ class Feeds extends StatefulWidget {
 class FeedsState extends State<Feeds> {
   bool isLoading = false;
   List<dynamic> feedsList = [];
-  // String loggedmail = "";
 
   @override
   void initState() {
     super.initState();
-    // _getLoggedMail();
     _getFeeds();
     print('_getFeeds here');
   }
@@ -32,15 +33,11 @@ class FeedsState extends State<Feeds> {
     });
   }
 
-  // Future<void> _getLoggedMail() async {
-  //   String loggedUserMail = await getLoggedMail();
-  //   setState(() {
-  //     loggedmail = loggedUserMail;
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
+    String loggedname = Provider.of<UserProvider>(context, listen: false).loggedStudentname;
+    String loggedId = Provider.of<UserProvider>(context, listen: false).loggedStudentId;
+    String loggedmail = Provider.of<UserProvider>(context, listen: false).loggedStudentmail;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'Montserrat'),
@@ -253,10 +250,10 @@ class FeedsState extends State<Feeds> {
                               ),
                               child: RichText(
                                 textAlign: TextAlign.center,
-                                text: const TextSpan(
+                                text:  TextSpan(
                                   children: [
-                                    TextSpan(
-                                      text: 'UniVerse',
+                                    const TextSpan(
+                                      text: 'UniVerse@',
                                       style: TextStyle(
                                         color: Color.fromRGBO(30, 30, 30, 1),
                                         fontFamily: 'Montserrat',
@@ -265,8 +262,8 @@ class FeedsState extends State<Feeds> {
                                       ),
                                     ),
                                     TextSpan(
-                                      text: '@jermaine.cole',
-                                      style: TextStyle(
+                                      text: loggedname,
+                                      style: const TextStyle(
                                         color: Colors.white,
                                         fontFamily: 'Montserrat',
                                         fontSize: 22,
@@ -285,6 +282,9 @@ class FeedsState extends State<Feeds> {
                                     // feeds-stack starts here
                                     children: [
                                       for (var feed in feedsList.reversed)
+                                      if(feed['email'] == loggedmail)
+                                      genLoggedFeed(context, feed['email'], feed['message'], feed['timestamp'])
+                                      else
                                         genSingleFeed(context, feed['email'], feed['message'], feed['timestamp'])
                                     ], // feeds-stack ends here
                                   ),
@@ -297,7 +297,7 @@ class FeedsState extends State<Feeds> {
                               child: Opacity(
                                 opacity: 0.8,
                                 child: TextFormField(
-                                  controller: post_message,
+                                  controller: postMessage,
                                   style: const TextStyle(
                                       color: Color.fromARGB(213, 101, 101, 101),
                                       fontSize: 14,
@@ -338,11 +338,12 @@ class FeedsState extends State<Feeds> {
                                       ),
                                       suffixIcon: GestureDetector(
                                         onTap: () {
-                                          String message = post_message.text;
+                                          String message = postMessage.text;
                                           if (message != "") {
-                                            createPost(context, '49032024', message);
-                                            post_message.clear();
+                                            createPost(context, loggedId, message);
+                                            postMessage.clear();
                                           }
+                                        
                                         },
                                         child: const Icon(
                                           Icons.send,

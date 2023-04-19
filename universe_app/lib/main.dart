@@ -29,8 +29,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'UniVerseApp',
-        // initialRoute: '/login',
-        initialRoute: '/create-profile',
+        initialRoute: '/login',
         routes: {
           '/login': (context) => const Login(),
           '/create-profile': (context) => const CreateProfile(),

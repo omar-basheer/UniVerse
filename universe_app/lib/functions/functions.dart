@@ -31,8 +31,17 @@ Future<void> loginUser(BuildContext context, String studentid, String password) 
       // ignore: use_build_context_synchronously
       Navigator.pushNamed(context, '/feeds');
       student_id.clear();
+
+      // setting provider variables
       Provider.of<UserProvider>(context, listen: false).loggedStudentId = studentid;
       print(studentid + ' is logged in');
+
+      String name = logResponse['fname'] + '.' + logResponse['lname'];
+      Provider.of<UserProvider>(context, listen: false).loggedStudentname = name;
+
+      String mail = logResponse['email'];
+      print(mail);
+      Provider.of<UserProvider>(context, listen: false).loggedStudentmail = mail;
     } else {
       // ignore: use_build_context_synchronously
       showCustomDialog(context, 'Login Failed', logResponse['message']);
@@ -87,7 +96,8 @@ Future<void> createProfile(BuildContext context, String studentid, String firstn
 
 Future<void> editProfile(BuildContext context, String studentid, String major, String year, String birthday,
     String residence, String food, String movie) async {
-  String url = 'http://127.0.0.1:5000/view-profile?id=' + studentid;
+  // first get old info from db
+  String url = 'http://127.0.0.1:5000/edit-profile?id=' + studentid;
   print(url);
   var request = http.Request('PATCH', Uri.parse(url));
 
@@ -99,6 +109,11 @@ Future<void> editProfile(BuildContext context, String studentid, String major, S
   http.StreamedResponse response = await request.send();
   final editResponse = json.decode(await response.stream.bytesToString());
   print(response.statusCode);
+
+  if (response.statusCode == 200) {
+    showCustomDialog(context, 'Proflie Updated!', 'yay?!');
+    Navigator.pushNamed(context, '/feeds');
+  }
 }
 
 // get all feeds for a single user
@@ -109,25 +124,19 @@ Future<List<dynamic>> getUserFeeds() async {
   print('making request....');
   http.StreamedResponse response = await request.send();
   final feedResponse = json.decode(await response.stream.bytesToString());
-  List<Map> genericMap = [
-    {'test': "value"}
-  ];
+
   if (response.statusCode == 200) {
     print(response.statusCode);
-    print(json.encode(feedResponse));
+    // print(json.encode(feedResponse));
   }
   return feedResponse;
 }
 
-// Future<String> getLoggedMail() async{
-
-// }
-
-Future<void> createPost(BuildContext context, String studentid, String post_message) async {
+Future<void> createPost(BuildContext context, String studentid, String postMessage) async {
   String url = 'http://127.0.0.1:5000/create-post';
   var request = http.Request('PATCH', Uri.parse(url));
   request.headers.addAll(headers);
-  request.body = json.encode({"id": studentid, "message": post_message});
+  request.body = json.encode({"id": studentid, "message": postMessage});
   print('making request....');
   http.StreamedResponse response = await request.send();
   if (response.statusCode == 200) {
@@ -223,6 +232,104 @@ genSingleFeed(BuildContext context, String email, String message, String time) {
                           textAlign: TextAlign.left,
                           style: const TextStyle(
                               color: Color.fromARGB(255, 142, 142, 142), fontSize: 12, fontWeight: FontWeight.w400),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            Row()
+          ]),
+        ),
+      ),
+    ),
+  );
+}
+
+// single user feed for logged in user
+genLoggedFeed(BuildContext context, String email, String message, String time) {
+  // message box
+  return Padding(
+    padding: const EdgeInsets.only(top: 40, right: 30),
+    child: Container(
+      width: 850,
+      height: 155,
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(25),
+          topRight: Radius.circular(25),
+          bottomLeft: Radius.circular(25),
+          bottomRight: Radius.circular(0),
+        ),
+        color: const Color.fromARGB(255, 132, 94, 194),
+        boxShadow: [
+          BoxShadow(
+            color: const Color.fromARGB(255, 98, 98, 98).withOpacity(0.5),
+            spreadRadius: 0,
+            blurRadius: 2,
+            offset: const Offset(1, 3),
+          ),
+        ],
+      ),
+      // message box contents
+      child: Padding(
+        padding: const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 10),
+        child: Container(
+          // color: Colors.amberAccent,
+          child: Column(children: [
+            Container(
+              // color: Colors.blueGrey,
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10, left: 25),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        // user image avatar
+                        Container(
+                          width: 40,
+                          height: 40,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Color.fromRGBO(195, 195, 195, 1),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 20, left: 10),
+                          child: Text(
+                            email,
+                            style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 500, bottom: 15),
+                      child: Text(time,
+                          style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w300)),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 10, left: 25),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 5),
+                        child: Text(
+                          message,
+                          textAlign: TextAlign.left,
+                          style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w400),
                         ),
                       ),
                     ],

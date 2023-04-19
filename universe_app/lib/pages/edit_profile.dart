@@ -4,12 +4,7 @@ import 'package:universe_app/pages/feeds.dart';
 import 'package:universe_app/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
-// store suser info while they create their profile
-// final TextEditingController student_id = TextEditingController();
-// final TextEditingController first_name = TextEditingController();
-// final TextEditingController last_name = TextEditingController();
-// final TextEditingController student_email = TextEditingController();
-// final TextEditingController student_pass = TextEditingController();
+// store suser info while they edit their profile
 final TextEditingController student_major = TextEditingController();
 final TextEditingController student_year = TextEditingController();
 final TextEditingController student_birthday = TextEditingController();
