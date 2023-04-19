@@ -96,13 +96,11 @@ def edit_profile():
     # get id of student whose profile we are going to edit
     profile_id = request.args.get('id')
     new_profile = json.loads(request.data)
-    print(new_profile)
 
     # get current user data from db
     curr_profile = db.collection('profiles').document(profile_id)
     curr_profile_doc = curr_profile.get().to_dict()
     curr_student = curr_profile_doc['this_student']
-    print(curr_student)
 
     curr_student.update({
         'major': new_profile['major'],
@@ -110,13 +108,12 @@ def edit_profile():
         'residence': new_profile['residence'],
         'best_food': new_profile['best_food'],
         'best_movie': new_profile['best_movie'],
-        'email': new_profile['email'],
         })
     
     # save changes to the database
     curr_profile.update({'this_student': curr_student})
 
-    return jsonify(curr_student)
+    return jsonify({'success': 'true', 'message': 'Profile updated succesfully'})
 
 
 @universe_app.route('/create-post', methods=['PATCH'])
