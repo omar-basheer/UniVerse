@@ -56,8 +56,12 @@ def login_profile():
         # print(profile_doc.to_dict())
         if profile_doc.to_dict()['password'] == password:
             print('logged student '+ login_id + ' in successfully')
+            student_mail = profile_doc.to_dict()['this_student']['email']
+            fname = profile_doc.to_dict()['this_student']['first_name']
+            lname= profile_doc.to_dict()['this_student']['last_name']
+            print(student_mail)
             # redirect('/feed')
-            return jsonify({'success': True, 'message': 'logged student '+ login_id + ' in successfully'})
+            return jsonify({'success': True, 'message': 'logged student '+ login_id + ' in successfully', 'email': student_mail, 'fname': fname, 'lname': lname})
         else:
             print('incorrect id or password')
             # redirect('/login')
@@ -92,17 +96,27 @@ def edit_profile():
     # get id of student whose profile we are going to edit
     profile_id = request.args.get('id')
     new_profile = json.loads(request.data)
+    print(new_profile)
 
     # get current user data from db
     curr_profile = db.collection('profiles').document(profile_id)
     curr_profile_doc = curr_profile.get().to_dict()
-    print(curr_profile_doc)
     curr_student = curr_profile_doc['this_student']
     print(curr_student)
 
-    curr_profile.update({'this_student': new_profile})
+    curr_student.update({
+        'major': new_profile['major'],
+        'year': new_profile['year'],
+        'residence': new_profile['residence'],
+        'best_food': new_profile['best_food'],
+        'best_movie': new_profile['best_movie'],
+        'email': new_profile['email'],
+        })
+    
+    # save changes to the database
+    curr_profile.update({'this_student': curr_student})
 
-    return jsonify(curr_profile.get().to_dict())
+    return jsonify(curr_student)
 
 
 @universe_app.route('/create-post', methods=['PATCH'])
