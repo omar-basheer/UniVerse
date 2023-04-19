@@ -108,11 +108,17 @@ Future<void> editProfile(BuildContext context, String studentid, String major, S
   print('making request....');
   http.StreamedResponse response = await request.send();
   final editResponse = json.decode(await response.stream.bytesToString());
-  print(response.statusCode);
 
   if (response.statusCode == 200) {
-    showCustomDialog(context, 'Proflie Updated!', 'yay?!');
-    Navigator.pushNamed(context, '/feeds');
+    print(response.statusCode);
+    if (editResponse['success'] == true) {
+      print('updated');
+      // ignore: use_build_context_synchronously
+      showCustomDialog(context, 'Proflie Updated!', 'yay?!');
+      // Navigator.pushNamed(context, '/feeds');
+    }
+  } else {
+    showCustomDialog(context, 'Error:', 'Profile couldn\'t update hmm....');
   }
 }
 

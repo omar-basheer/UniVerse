@@ -25,6 +25,7 @@ class EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     String loggedUserid = Provider.of<UserProvider>(context, listen: false).loggedStudentId;
+    String loggedmail = Provider.of<UserProvider>(context, listen: false).loggedStudentmail;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -91,9 +92,9 @@ class EditProfileState extends State<EditProfile> {
                     child: Column(
                       children: [
                         const SizedBox(height: 35),
-                        const Text(
-                          'jermaine.cole@universe.com',
-                          style: TextStyle(
+                        Text(
+                          loggedmail,
+                          style: const TextStyle(
                               color: Color.fromRGBO(30, 30, 30, 1),
                               fontSize: 35,
                               fontFamily: 'Montserrat',
@@ -124,6 +125,7 @@ class EditProfileState extends State<EditProfile> {
                                       widthFactor: 0.6,
                                       child: TextFormField(
                                         controller: student_major,
+                                        // initialValue: '',
                                         decoration: InputDecoration(
                                           labelText: 'Major',
                                           border: OutlineInputBorder(

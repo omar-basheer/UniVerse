@@ -388,6 +388,17 @@ class CreateProfileState extends State<CreateProfile> {
                             setState(() {
                               isLoading = false;
                             });
+                            student_id.clear();
+                            first_name.clear();
+                            last_name.clear();
+                            student_email.clear();
+                            student_pass.clear();
+                            student_major.clear();
+                            student_year.clear();
+                            student_birthday.clear();
+                            student_residence.clear();
+                            best_food.clear();
+                            best_movie.clear();
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color.fromARGB(255, 132, 94, 194),
