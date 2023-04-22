@@ -171,12 +171,6 @@ def create_post():
         # send_email('omasheer@gmail.com', gen_message, gen_subject)
         print('mail sent')
 
-    # redirect to feed page
-    # redirect('/feeds')
-    # view_feeds()
-
-    # all_feeds = db.collection('feeds').get()
-    # feeds_list = [this_feed.to_dict() for this_feed in all_feeds]
     return jsonify({'success': True, 'message': 'post with id ' + timestamp + ' by student ' + student_mail + ' created successfully'})
 
 
