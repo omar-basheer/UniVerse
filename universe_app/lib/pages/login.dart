@@ -74,9 +74,12 @@ class LoginState extends State<Login> {
                 padding: const EdgeInsets.only(bottom: 25, top: 120),
                 child: Center(
                   child: isLoading
-                      ? const CircularProgressIndicator(
-                          color: Color.fromARGB(255, 132, 94, 194),
-                        )
+                      ? const Padding(
+                        padding: EdgeInsets.only(top: 170),
+                        child: CircularProgressIndicator(
+                            color: Color.fromARGB(255, 132, 94, 194),
+                          ),
+                      )
                       : Column(
                           children: [
                             Container(

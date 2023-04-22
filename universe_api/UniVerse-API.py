@@ -1,10 +1,10 @@
 import datetime
-
 import firebase_admin, smtplib
 from firebase_admin import firestore
 from firebase_admin import credentials
 from flask import Flask, request, jsonify, json, redirect, render_template
 from email.mime.text import MIMEText
+from flask_cors import CORS
 
 # setup firestore database
 cred = credentials.Certificate("my-cloud-api-382615-firebase-adminsdk-6d5bf-eb61d58e29.json")
@@ -16,6 +16,7 @@ db = firestore.client()
 # define functions for api
 
 universe_app = Flask(__name__)
+CORS(universe_app)
 
 @universe_app.route('/create-profile', methods=['POST'])
 def create_profile():
@@ -84,7 +85,7 @@ def view_profile():
         profile_doc = profile.get().to_dict()
         student_posts = profile_doc['posts']
         student_info = profile_doc['this_student']
-        return jsonify([student_posts, student_info])
+        return jsonify({"success": True, "info": {"posts": student_posts, "profile": student_info}})
 
     else:
         # probably have to redirect
@@ -113,7 +114,7 @@ def edit_profile():
     # save changes to the database
     curr_profile.update({'this_student': curr_student})
 
-    return jsonify({'success': 'true', 'message': 'Profile updated succesfully'})
+    return jsonify({'success': True, 'message': 'Profile updated succesfully'})
 
 
 @universe_app.route('/create-post', methods=['PATCH'])
@@ -167,7 +168,7 @@ def create_post():
     for user in all_users:
         # print(user.to_dict()['this_student']['email'])
         # receiver = user.to_dict()['this_student']['email']
-        send_email('omasheer@gmail.com', gen_message, gen_subject)
+        # send_email('omasheer@gmail.com', gen_message, gen_subject)
         print('mail sent')
 
     # redirect to feed page

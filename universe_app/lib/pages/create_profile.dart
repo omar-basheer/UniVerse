@@ -388,6 +388,7 @@ class CreateProfileState extends State<CreateProfile> {
                             setState(() {
                               isLoading = false;
                             });
+                            
                             student_id.clear();
                             first_name.clear();
                             last_name.clear();

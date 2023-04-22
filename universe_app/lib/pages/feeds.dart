@@ -1,6 +1,11 @@
+import 'dart:async';
+
+// import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:universe_app/functions/functions.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../providers/user_provider.dart';
 // import 'package:flutter/rendering.dart';
@@ -17,20 +22,12 @@ class Feeds extends StatefulWidget {
 
 class FeedsState extends State<Feeds> {
   bool isLoading = false;
-  List<dynamic> feedsList = [];
+  Stream<QuerySnapshot> feedsStream = FirebaseFirestore.instance.collection('feeds').snapshots();
 
   @override
   void initState() {
     super.initState();
-    _getFeeds();
-    print('_getFeeds here');
-  }
-
-  Future<void> _getFeeds() async {
-    List<dynamic> data = await getUserFeeds();
-    setState(() {
-      feedsList = data;
-    });
+    print('feedStream initialized');
   }
 
   @override
@@ -111,7 +108,7 @@ class FeedsState extends State<Feeds> {
                                       const SizedBox(height: 25),
                                       GestureDetector(
                                         onTap: () {
-                                          Navigator.pushNamed(context, '/feeds');
+                                          // Navigator.pushNamed(context, '/feeds');
                                         },
                                         child: Row(
                                           children: const [
@@ -122,7 +119,7 @@ class FeedsState extends State<Feeds> {
                                             ),
                                             SizedBox(width: 10),
                                             Text(
-                                              'Messages',
+                                              'Feeds',
                                               style: TextStyle(
                                                   color: Color.fromARGB(255, 245, 245, 245),
                                                   fontSize: 15,
@@ -137,7 +134,7 @@ class FeedsState extends State<Feeds> {
                                       const SizedBox(height: 25),
                                       GestureDetector(
                                         onTap: () {
-                                          Navigator.pushNamed(context, '/home');
+                                          Navigator.pushNamed(context, '/my-posts');
                                         },
                                         child: Row(
                                           children: const [
@@ -148,7 +145,7 @@ class FeedsState extends State<Feeds> {
                                             ),
                                             SizedBox(width: 10),
                                             Text(
-                                              'Bookmarks',
+                                              'My Posts',
                                               style: TextStyle(
                                                   color: Color.fromARGB(255, 245, 245, 245),
                                                   fontSize: 15,
@@ -189,6 +186,9 @@ class FeedsState extends State<Feeds> {
                                       const SizedBox(height: 25),
                                       GestureDetector(
                                         onTap: () {
+                                          loggedId = '';
+                                          loggedname = '';
+                                          loggedmail = '';
                                           Navigator.pushNamed(context, '/login');
                                         },
                                         child: Row(
@@ -250,7 +250,7 @@ class FeedsState extends State<Feeds> {
                               ),
                               child: RichText(
                                 textAlign: TextAlign.center,
-                                text:  TextSpan(
+                                text: TextSpan(
                                   children: [
                                     const TextSpan(
                                       text: 'UniVerse@',
@@ -274,22 +274,45 @@ class FeedsState extends State<Feeds> {
                                 ),
                               ),
                             ),
-                            Expanded(
-                              child: SingleChildScrollView(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 30, right: 20),
-                                  child: Column(
-                                    // feeds-stack starts here
-                                    children: [
-                                      for (var feed in feedsList.reversed)
-                                      if(feed['email'] == loggedmail)
-                                      genLoggedFeed(context, feed['email'], feed['message'], feed['timestamp'])
-                                      else
-                                        genSingleFeed(context, feed['email'], feed['message'], feed['timestamp'])
-                                    ], // feeds-stack ends here
+                            StreamBuilder<QuerySnapshot>(
+                              stream: feedsStream,
+                              builder: (context, snapshot) {
+                                if (snapshot.hasError) {
+                                  return Center(
+                                    child: Text('Error: ${snapshot.error}'),
+                                  );
+                                }
+
+                                if (!snapshot.hasData) {
+                                  return const Padding(
+                                    padding: EdgeInsets.only(top:300, bottom: 300),
+                                    child: Center(
+                                      child: CircularProgressIndicator(
+                                        color: Color.fromARGB(255, 132, 94, 194),
+                                      ),
+                                    ),
+                                  );
+                                }
+
+                                final feedsList = snapshot.data!.docs;
+
+                                return Expanded(
+                                  child: SingleChildScrollView(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 30, right: 20),
+                                      child: Column(
+                                        children: [
+                                          for (var feed in feedsList.reversed)
+                                            if (feed['email'] == loggedmail)
+                                              genLoggedFeed(context, feed['email'], feed['message'], feed['timestamp'])
+                                            else
+                                              genSingleFeed(context, feed['email'], feed['message'], feed['timestamp'])
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
+                                );
+                              },
                             ),
 
                             Container(
@@ -343,10 +366,9 @@ class FeedsState extends State<Feeds> {
                                             createPost(context, loggedId, message);
                                             postMessage.clear();
                                           }
-                                        
                                         },
                                         child: const Icon(
-                                          Icons.send,
+                                          Icons.near_me,
                                           size: 20,
                                           color: Color.fromARGB(255, 132, 94, 194),
                                         ),

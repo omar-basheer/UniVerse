@@ -18,6 +18,18 @@ var headers = {'Content-Type': 'application/json'};
 Future<void> loginUser(BuildContext context, String studentid, String password) async {
   String url = 'http://127.0.0.1:5000/login';
 
+  if (studentid == null || studentid.trim().isEmpty) {
+    // ignore: use_build_context_synchronously
+    showCustomDialog(context, 'Error', 'Enter a valid student Id');
+    return;
+  }
+
+  if (password == null || password.trim().isEmpty) {
+    // ignore: use_build_context_synchronously
+    showCustomDialog(context, 'Error', 'Enter a valid password');
+    return;
+  }
+
   var request = http.Request('POST', Uri.parse(url));
   request.body = json.encode({"id": studentid, "password": password});
   request.headers.addAll(headers);
@@ -94,11 +106,31 @@ Future<void> createProfile(BuildContext context, String studentid, String firstn
   }
 }
 
+Future<Map<String, dynamic>> getProfile(String studentid) async {
+  String url = 'http://127.0.0.1:5000/view-profile?id=' + studentid;
+  var request = http.Request('GET', Uri.parse(url));
+  request.headers.addAll(headers);
+
+  print('making request....');
+  http.StreamedResponse response = await request.send();
+  final viewResponse = json.decode(await response.stream.bytesToString());
+  print(viewResponse.toString());
+  Map<String, dynamic> info = {};
+  if (response.statusCode != 200) {
+    print(response.statusCode);
+  } else {
+    if (viewResponse['success'] == true) {
+      print('set info');
+      info = viewResponse['info'];
+    }
+  }
+  return info;
+}
+
 Future<void> editProfile(BuildContext context, String studentid, String major, String year, String birthday,
     String residence, String food, String movie) async {
   // first get old info from db
   String url = 'http://127.0.0.1:5000/edit-profile?id=' + studentid;
-  print(url);
   var request = http.Request('PATCH', Uri.parse(url));
 
   request.body = json.encode(
@@ -108,35 +140,37 @@ Future<void> editProfile(BuildContext context, String studentid, String major, S
   print('making request....');
   http.StreamedResponse response = await request.send();
   final editResponse = json.decode(await response.stream.bytesToString());
+  print(editResponse.toString());
 
   if (response.statusCode == 200) {
     print(response.statusCode);
-    if (editResponse['success'] == true) {
+    if (editResponse.containsKey('success') && editResponse['success'] == true) {
       print('updated');
       // ignore: use_build_context_synchronously
-      showCustomDialog(context, 'Proflie Updated!', 'yay?!');
+      showCustomNavDialog(context, 'Proflie Updated!', '         yay?!', '/feeds');
       // Navigator.pushNamed(context, '/feeds');
     }
   } else {
+    // ignore: use_build_context_synchronously
     showCustomDialog(context, 'Error:', 'Profile couldn\'t update hmm....');
   }
 }
 
 // get all feeds for a single user
-Future<List<dynamic>> getUserFeeds() async {
-  String url = 'http://127.0.0.1:5000/feeds';
-  var request = http.Request('GET', Uri.parse(url));
-  request.headers.addAll(headers);
-  print('making request....');
-  http.StreamedResponse response = await request.send();
-  final feedResponse = json.decode(await response.stream.bytesToString());
+// Future<List<dynamic>> getUserFeeds() async {
+//   String url = 'http://127.0.0.1:5000/feeds';
+//   var request = http.Request('GET', Uri.parse(url));
+//   request.headers.addAll(headers);
+//   print('making request....');
+//   http.StreamedResponse response = await request.send();
+//   final feedResponse = json.decode(await response.stream.bytesToString());
 
-  if (response.statusCode == 200) {
-    print(response.statusCode);
-    // print(json.encode(feedResponse));
-  }
-  return feedResponse;
-}
+//   if (response.statusCode == 200) {
+//     print(response.statusCode);
+//     // print(json.encode(feedResponse));
+//   }
+//   return feedResponse;
+// }
 
 Future<void> createPost(BuildContext context, String studentid, String postMessage) async {
   String url = 'http://127.0.0.1:5000/create-post';
@@ -364,6 +398,27 @@ void showCustomDialog(BuildContext context, String title, String message) {
             child: const Text('ok'),
             onPressed: () {
               Navigator.of(context).pop();
+            },
+          )
+        ],
+      );
+    },
+  );
+}
+
+void showCustomNavDialog(BuildContext context, String title, String message, String path) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('ok'),
+            onPressed: () {
+              Navigator.of(context).pop();
+              Navigator.pushNamed(context, path);
             },
           )
         ],
