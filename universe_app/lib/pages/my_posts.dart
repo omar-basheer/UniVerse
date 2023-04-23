@@ -13,14 +13,14 @@ import '../providers/user_provider.dart';
 final TextEditingController studentsId = TextEditingController();
 final TextEditingController postMessage = TextEditingController();
 
-class Feeds extends StatefulWidget {
-  const Feeds({super.key});
+class MyPosts extends StatefulWidget {
+  const MyPosts({super.key});
 
   @override
-  FeedsState createState() => FeedsState();
+  MyPostsState createState() => MyPostsState();
 }
 
-class FeedsState extends State<Feeds> {
+class MyPostsState extends State<MyPosts> {
   bool isLoading = false;
   Stream<QuerySnapshot> feedsStream = FirebaseFirestore.instance.collection('feeds').snapshots();
 
@@ -308,8 +308,6 @@ class FeedsState extends State<Feeds> {
                                           for (var feed in feedsList.reversed)
                                             if (feed['email'] == loggedmail)
                                               genLoggedFeed(context, feed['email'], feed['message'], feed['timestamp'])
-                                            else
-                                              genSingleFeed(context, feed['email'], feed['message'], feed['timestamp'])
                                         ],
                                       ),
                                     ),

@@ -13,7 +13,8 @@ import 'pages/login.dart';
 import 'pages/create_profile.dart';
 import 'pages/feeds.dart';
 import 'pages/profile.dart';
-import 'pages/edit_profile.dart';
+import 'pages/edit_profile2.dart';
+import 'pages/my_posts.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,8 +46,8 @@ class MyApp extends StatelessWidget {
           '/login': (context) => const Login(),
           '/create-profile': (context) => const CreateProfile(),
           '/feeds': (context) => const Feeds(),
-          '/edit-profile': (context) => const EditProfile(),
-          // '/my-posts':(context) => const ViewPosts()
+          '/edit-profile': (context) => const EditProf(),
+          '/my-posts':(context) => const MyPosts()
         },
       ),
     );

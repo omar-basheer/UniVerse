@@ -250,9 +250,11 @@ genSingleFeed(BuildContext context, String email, String message, String time) {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.only(left: 500, bottom: 15),
-                      child: Text(time,
-                          style: const TextStyle(
-                              color: Color.fromARGB(255, 142, 142, 142), fontSize: 10, fontWeight: FontWeight.w300)),
+                      child: Text(
+                        time,
+                        style: const TextStyle(
+                            color: Color.fromARGB(255, 142, 142, 142), fontSize: 10, fontWeight: FontWeight.w300),
+                      ),
                     ),
                   )
                 ],
