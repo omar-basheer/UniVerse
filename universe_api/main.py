@@ -207,7 +207,7 @@ def send_email(recipient, subject, body):
     smtp_connection.sendmail(email_address, recipient, message.as_string())
     smtp_connection.quit()
 
-universe_app.run(debug=True)
+# universe_app.run(debug=True)
 
 
 
