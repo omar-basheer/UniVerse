@@ -1,6 +1,7 @@
 import 'dart:async';
 
 // import 'package:firebase_database/firebase_database.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +22,12 @@ TextEditingController student_birthday = TextEditingController();
 TextEditingController student_residence = TextEditingController();
 TextEditingController best_food = TextEditingController();
 TextEditingController best_movie = TextEditingController();
+
+final List<String> residenceDropdown = ['on campus', 'off campus'];
+final List<String> majorDropdown = ['Computer Science', 'Business Admin', 'Management Systems', 'Engineering'];
+
+String? residenceItem;
+String? majorItem;
 
 class EditProf extends StatefulWidget {
   const EditProf({super.key});
@@ -71,7 +78,7 @@ class EditProfState extends State<EditProf> {
     student_birthday.text = profile['DOB'];
     best_food.text = profile['best_food'];
     best_movie.text = profile['best_movie'];
-    student_residence.text = profile['residence'];
+    student_residence = profile['residence'];
     student_major.text = profile['major'];
     student_year.text = profile['year'];
 
@@ -80,7 +87,8 @@ class EditProfState extends State<EditProf> {
 
   @override
   Widget build(BuildContext context) {
-    String loggedId = Provider.of<UserProvider>(context, listen: false).loggedStudentId;
+    // String loggedId = Provider.of<UserProvider>(context, listen: false).loggedStudentId;
+    // print(student_id.text);
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -103,169 +111,7 @@ class EditProfState extends State<EditProf> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             // sticky side-menu bar
-                            Container(
-                              padding: const EdgeInsets.only(bottom: 20),
-                              width: 180,
-                              height: 350,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(25),
-                                color: const Color.fromARGB(255, 132, 94, 194),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: const Color.fromARGB(255, 98, 98, 98).withOpacity(0.5),
-                                    spreadRadius: 0,
-                                    blurRadius: 2,
-                                    offset: const Offset(0, 2),
-                                  ),
-                                ],
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 20, left: 34, right: 0, bottom: 0),
-                                // menu items
-                                child: Container(
-                                  child: Column(
-                                    children: [
-                                      // single button starts here
-                                      const SizedBox(height: 25),
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.pushNamed(context, '/home');
-                                        },
-                                        child: Row(
-                                          children: const [
-                                            Icon(
-                                              Icons.home,
-                                              size: 30,
-                                              color: Color.fromARGB(255, 245, 245, 245),
-                                            ),
-                                            SizedBox(width: 15),
-                                            Text(
-                                              'Home',
-                                              style: TextStyle(
-                                                  color: Color.fromARGB(255, 245, 245, 245),
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w400),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      // single button ends here
-
-                                      // single button starts here
-                                      const SizedBox(height: 25),
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.pushNamed(context, '/feeds');
-                                        },
-                                        child: Row(
-                                          children: const [
-                                            Icon(
-                                              Icons.question_answer,
-                                              size: 30,
-                                              color: Color.fromARGB(255, 245, 245, 245),
-                                            ),
-                                            SizedBox(width: 10),
-                                            Text(
-                                              'Feeds',
-                                              style: TextStyle(
-                                                  color: Color.fromARGB(255, 245, 245, 245),
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w400),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      // single button ends here
-
-                                      // single button starts here
-                                      const SizedBox(height: 25),
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.pushNamed(context, '/my-posts');
-                                        },
-                                        child: Row(
-                                          children: const [
-                                            Icon(
-                                              Icons.bookmark,
-                                              size: 30,
-                                              color: Color.fromARGB(255, 245, 245, 245),
-                                            ),
-                                            SizedBox(width: 10),
-                                            Text(
-                                              'My Posts',
-                                              style: TextStyle(
-                                                  color: Color.fromARGB(255, 245, 245, 245),
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w400),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      // single button ends here
-
-                                      // single button starts here
-                                      const SizedBox(height: 25),
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.pushNamed(context, '/edit-profile');
-                                        },
-                                        child: Row(
-                                          children: const [
-                                            Icon(
-                                              Icons.people,
-                                              size: 30,
-                                              color: Color.fromARGB(255, 245, 245, 245),
-                                            ),
-                                            SizedBox(width: 10),
-                                            Text(
-                                              'Profile',
-                                              style: TextStyle(
-                                                  color: Color.fromARGB(255, 245, 245, 245),
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w400),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      // single button ends here
-
-                                      // single button starts here
-                                      const SizedBox(height: 25),
-                                      GestureDetector(
-                                        onTap: () {
-                                          // loggedid = '';
-                                          // loggedname = '';
-                                          // loggedmail = '';
-                                          Provider.of<UserProvider>(context, listen: false).loggedStudentmail = '';
-                                          Provider.of<UserProvider>(context, listen: false).loggedStudentname = '';
-                                          Provider.of<UserProvider>(context, listen: false).loggedStudentId = '';
-                                          Navigator.restorablePushNamedAndRemoveUntil(
-                                              context, '/login', (route) => false);
-                                        },
-                                        child: Row(
-                                          children: const [
-                                            Icon(
-                                              Icons.logout,
-                                              size: 30,
-                                              color: Color.fromARGB(255, 245, 245, 245),
-                                            ),
-                                            SizedBox(width: 10),
-                                            Text(
-                                              'LogOut',
-                                              style: TextStyle(
-                                                  color: Color.fromARGB(255, 245, 245, 245),
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w400),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      // single button ends here
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
+                            showSideMenubar(context)
                           ],
                         ),
                       ),
@@ -289,7 +135,8 @@ class EditProfState extends State<EditProf> {
                               height: 55,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(17),
-                                color: const Color.fromARGB(255, 140, 101, 204),
+                                color: const Color.fromARGB(255, 97, 194, 94),
+                                // color: const Color.fromARGB(255, 140, 101, 204),
                                 boxShadow: [
                                   BoxShadow(
                                     color: const Color.fromARGB(255, 98, 98, 98).withOpacity(0.5),
@@ -330,11 +177,12 @@ class EditProfState extends State<EditProf> {
                             Container(
                               child: isLoading
                                   ? const Padding(
-                                    padding: EdgeInsets.only(top:300),
-                                    child: CircularProgressIndicator(
-                                        color: Color.fromARGB(255, 132, 94, 194),
+                                      padding: EdgeInsets.only(top: 300),
+                                      child: CircularProgressIndicator(
+                                        color: Color.fromARGB(255, 97, 194, 94),
+                                        // color: Color.fromARGB(255, 132, 94, 194),
                                       ),
-                                  )
+                                    )
                                   : Padding(
                                       padding: const EdgeInsets.only(bottom: 30, top: 15),
                                       child: Center(
@@ -531,6 +379,7 @@ class EditProfState extends State<EditProf> {
                                                             ),
                                                           ),
                                                         ),
+
                                                         Padding(
                                                           padding: const EdgeInsets.only(top: 3, bottom: 20, right: 30),
                                                           child: FractionallySizedBox(
@@ -555,22 +404,32 @@ class EditProfState extends State<EditProf> {
                                                             ),
                                                           ),
                                                         ),
+
                                                         Padding(
                                                           padding: const EdgeInsets.only(top: 3, bottom: 20, right: 30),
-                                                          child: FractionallySizedBox(
-                                                            widthFactor: 0.90,
-                                                            child: TextFormField(
-                                                              controller: student_major,
-                                                              decoration: InputDecoration(
-                                                                labelText: 'Major',
-                                                                border: OutlineInputBorder(
-                                                                  borderRadius: BorderRadius.circular(10),
-                                                                ),
-                                                                labelStyle: const TextStyle(
-                                                                    color: Color.fromRGBO(99, 99, 99, 1),
-                                                                    fontFamily: 'Montserrat',
-                                                                    fontSize: 15,
-                                                                    fontWeight: FontWeight.w300),
+                                                          child: Container(
+                                                            width: 290,
+                                                            height: 50,
+                                                            decoration: BoxDecoration(
+                                                              border: Border.all(
+                                                                color: Colors.grey,
+                                                                width: 1.0,
+                                                              ),
+                                                              borderRadius: BorderRadius.circular(10),
+                                                            ),
+                                                            child: DropdownButtonHideUnderline(
+                                                              child: DropdownButton2(
+                                                                hint: Text('Major'),
+                                                                items: majorDropdown
+                                                                    .map((item) => DropdownMenuItem<String>(
+                                                                        value: item, child: Text(item)))
+                                                                    .toList(),
+                                                                value: majorItem,
+                                                                onChanged: (value) {
+                                                                  setState(() {
+                                                                    majorItem = value;
+                                                                  });
+                                                                },
                                                               ),
                                                             ),
                                                           ),
@@ -578,20 +437,29 @@ class EditProfState extends State<EditProf> {
 
                                                         Padding(
                                                           padding: const EdgeInsets.only(top: 3, bottom: 20, right: 30),
-                                                          child: FractionallySizedBox(
-                                                            widthFactor: 0.90,
-                                                            child: TextFormField(
-                                                              controller: student_residence,
-                                                              decoration: InputDecoration(
-                                                                labelText: 'Residence',
-                                                                border: OutlineInputBorder(
-                                                                  borderRadius: BorderRadius.circular(10),
-                                                                ),
-                                                                labelStyle: const TextStyle(
-                                                                    color: Color.fromRGBO(99, 99, 99, 1),
-                                                                    fontFamily: 'Montserrat',
-                                                                    fontSize: 15,
-                                                                    fontWeight: FontWeight.w300),
+                                                          child: Container(
+                                                            width: 290,
+                                                            height: 50,
+                                                            decoration: BoxDecoration(
+                                                              border: Border.all(
+                                                                color: Colors.grey,
+                                                                width: 1.0,
+                                                              ),
+                                                              borderRadius: BorderRadius.circular(10),
+                                                            ),
+                                                            child: DropdownButtonHideUnderline(
+                                                              child: DropdownButton2(
+                                                                hint: const Text('Residence'),
+                                                                items: residenceDropdown
+                                                                    .map((item) => DropdownMenuItem<String>(
+                                                                        value: item, child: Text(item)))
+                                                                    .toList(),
+                                                                value: residenceItem,
+                                                                onChanged: (value) {
+                                                                  setState(() {
+                                                                    residenceItem = value;
+                                                                  });
+                                                                },
                                                               ),
                                                             ),
                                                           ),
@@ -643,7 +511,8 @@ class EditProfState extends State<EditProf> {
                                                   });
                                                 },
                                                 style: ElevatedButton.styleFrom(
-                                                  backgroundColor: const Color.fromARGB(255, 132, 94, 194),
+                                                  backgroundColor: const Color.fromARGB(255, 97, 194, 94),
+                                                  // backgroundColor: const Color.fromARGB(255, 132, 94, 194),
                                                   minimumSize: const Size(185, 55),
                                                   shape: const RoundedRectangleBorder(
                                                     borderRadius: BorderRadius.only(

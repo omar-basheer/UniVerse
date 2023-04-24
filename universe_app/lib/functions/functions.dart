@@ -6,7 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import 'package:universe_app/pages/create_profile.dart';
+// import 'package:universe_app/pages/create_profile.dart';
+import 'package:universe_app/pages/edit_profile2.dart';
+import 'package:universe_app/pages/feeds.dart';
+import 'package:universe_app/pages/my_posts.dart';
+import 'package:universe_app/pages/view_profile.dart';
+import 'package:universe_app/providers/profile_provider.dart';
+import '../pages/login.dart';
 import '../providers/user_provider.dart';
 
 // my providers
@@ -41,8 +47,13 @@ Future<void> loginUser(BuildContext context, String studentid, String password) 
     final logResponse = json.decode(await response.stream.bytesToString());
     if (logResponse.containsKey('success') && logResponse['success'] == true) {
       // ignore: use_build_context_synchronously
-      Navigator.pushNamed(context, '/feeds');
-      student_id.clear();
+      // Navigator.pushNamed(context, '/feeds');
+       Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const Feeds(),
+                  ),
+                );
 
       // setting provider variables
       Provider.of<UserProvider>(context, listen: false).loggedStudentId = studentid;
@@ -94,7 +105,13 @@ Future<void> createProfile(BuildContext context, String studentid, String firstn
     if (profileResponse.containsKey('success') && profileResponse['success'] == true) {
       print('profile created');
       // ignore: use_build_context_synchronously
-      Navigator.pushNamed(context, '/login');
+      // Navigator.pushNamed(context, '/login');
+       Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const Login(),
+                  ),
+                );
     } else {
       // ignore: use_build_context_synchronously
       showCustomDialog(context, 'Profile Creation Error:', profileResponse['message']);
@@ -127,6 +144,20 @@ Future<Map<String, dynamic>> getProfile(String studentid) async {
   return info;
 }
 
+Future<Map<String, dynamic>> viewProfile(String messagetime) async {
+  String url = 'http://127.0.0.1:5000/feeds?timestamp=' + messagetime;
+  var request = http.Request('GET', Uri.parse(url));
+  print('making request....');
+  http.StreamedResponse response = await request.send();
+  final viewResponse = json.decode(await response.stream.bytesToString());
+
+  if (response.statusCode == 200) {
+    print(viewResponse);
+  }
+
+  return viewResponse;
+}
+
 Future<void> editProfile(BuildContext context, String studentid, String major, String year, String birthday,
     String residence, String food, String movie) async {
   // first get old info from db
@@ -147,7 +178,7 @@ Future<void> editProfile(BuildContext context, String studentid, String major, S
     if (editResponse.containsKey('success') && editResponse['success'] == true) {
       print('updated');
       // ignore: use_build_context_synchronously
-      showCustomNavDialog(context, 'Proflie Updated!', '         yay?!', '/feeds');
+      showCustomNavDialog(context, 'Proflie Updated!', 'yay?!', '/feeds');
       // Navigator.pushNamed(context, '/feeds');
     }
   } else {
@@ -238,10 +269,25 @@ genSingleFeed(BuildContext context, String email, String message, String time) {
                         const SizedBox(width: 10),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 20, left: 10),
-                          child: Text(
-                            email,
-                            style: const TextStyle(
-                                color: Color.fromARGB(255, 105, 105, 105), fontSize: 12, fontWeight: FontWeight.w500),
+                          child: GestureDetector(
+                            onTap: () {
+                              print('tapped');
+                              Provider.of<ProfileProvider>(context, listen: false).profileMail = email;
+                              print(Provider.of<ProfileProvider>(context, listen: false).profileMail);
+                              Provider.of<ProfileProvider>(context, listen: false).messageTime = time;
+                              print(Provider.of<ProfileProvider>(context, listen: false).messageTime);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const ViewProfile(),
+                                ),
+                              );
+                            },
+                            child: Text(
+                              email,
+                              style: const TextStyle(
+                                  color: Color.fromARGB(255, 105, 105, 105), fontSize: 12, fontWeight: FontWeight.w500),
+                            ),
                           ),
                         ),
                       ],
@@ -304,7 +350,8 @@ genLoggedFeed(BuildContext context, String email, String message, String time) {
           bottomLeft: Radius.circular(25),
           bottomRight: Radius.circular(0),
         ),
-        color: const Color.fromARGB(255, 132, 94, 194),
+        color: const Color.fromARGB(255, 97, 194, 94),
+        // color: const Color.fromARGB(255, 132, 94, 194),
         boxShadow: [
           BoxShadow(
             color: const Color.fromARGB(255, 98, 98, 98).withOpacity(0.5),
@@ -426,5 +473,184 @@ void showCustomNavDialog(BuildContext context, String title, String message, Str
         ],
       );
     },
+  );
+}
+
+showSideMenubar(BuildContext context) {
+  return Container(
+    padding: const EdgeInsets.only(bottom: 20),
+    width: 180,
+    height: 350,
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(25),
+      color: const Color.fromARGB(255, 97, 194, 94),
+      // color: const Color.fromARGB(255, 132, 94, 194),
+      boxShadow: [
+        BoxShadow(
+          color: const Color.fromARGB(255, 98, 98, 98).withOpacity(0.5),
+          spreadRadius: 0,
+          blurRadius: 2,
+          offset: const Offset(0, 2),
+        ),
+      ],
+    ),
+    child: Padding(
+      padding: const EdgeInsets.only(top: 20, left: 34, right: 0, bottom: 0),
+      // menu items
+      child: Container(
+        child: Column(
+          children: [
+            // single button starts here
+            const SizedBox(height: 25),
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, '/view-profile');
+              },
+              child: Row(
+                children: const [
+                  Icon(
+                    Icons.home,
+                    size: 30,
+                    color: Color.fromARGB(255, 245, 245, 245),
+                  ),
+                  SizedBox(width: 15),
+                  Text(
+                    'Home',
+                    style:
+                        TextStyle(color: Color.fromARGB(255, 245, 245, 245), fontSize: 15, fontWeight: FontWeight.w400),
+                  )
+                ],
+              ),
+            ),
+            // single button ends here
+
+            // single button starts here
+            const SizedBox(height: 25),
+            GestureDetector(
+              onTap: () {
+                // Navigator.pushNamed(context, '/feeds');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const Feeds(),
+                  ),
+                );
+              },
+              child: Row(
+                children: const [
+                  Icon(
+                    Icons.question_answer,
+                    size: 30,
+                    color: Color.fromARGB(255, 245, 245, 245),
+                  ),
+                  SizedBox(width: 10),
+                  Text(
+                    'Feeds',
+                    style:
+                        TextStyle(color: Color.fromARGB(255, 245, 245, 245), fontSize: 15, fontWeight: FontWeight.w400),
+                  )
+                ],
+              ),
+            ),
+            // single button ends here
+
+            // single button starts here
+            const SizedBox(height: 25),
+            GestureDetector(
+              onTap: () {
+                // Navigator.pushNamed(context, '/my-posts');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const MyPosts(),
+                  ),
+                );
+              },
+              child: Row(
+                children: const [
+                  Icon(
+                    Icons.bookmark,
+                    size: 30,
+                    color: Color.fromARGB(255, 245, 245, 245),
+                  ),
+                  SizedBox(width: 10),
+                  Text(
+                    'My Posts',
+                    style:
+                        TextStyle(color: Color.fromARGB(255, 245, 245, 245), fontSize: 15, fontWeight: FontWeight.w400),
+                  )
+                ],
+              ),
+            ),
+            // single button ends here
+
+            // single button starts here
+            const SizedBox(height: 25),
+            GestureDetector(
+              onTap: () {
+                // Navigator.pushNamed(context, '/edit-profile');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const EditProf(),
+                  ),
+                );
+              },
+              child: Row(
+                children: const [
+                  Icon(
+                    Icons.people,
+                    size: 30,
+                    color: Color.fromARGB(255, 245, 245, 245),
+                  ),
+                  SizedBox(width: 10),
+                  Text(
+                    'Profile',
+                    style:
+                        TextStyle(color: Color.fromARGB(255, 245, 245, 245), fontSize: 15, fontWeight: FontWeight.w400),
+                  )
+                ],
+              ),
+            ),
+            // single button ends here
+
+            // single button starts here
+            const SizedBox(height: 25),
+            GestureDetector(
+              onTap: () {
+                // loggedid = '';
+                // loggedname = '';
+                // loggedmail = '';
+                Provider.of<UserProvider>(context, listen: false).loggedStudentmail = '';
+                Provider.of<UserProvider>(context, listen: false).loggedStudentname = '';
+                Provider.of<UserProvider>(context, listen: false).loggedStudentId = '';
+                // Navigator.restorablePushNamedAndRemoveUntil(context, '/login', (route) => false);
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Login()),
+                  (route) => false,
+                );
+              },
+              child: Row(
+                children: const [
+                  Icon(
+                    Icons.logout,
+                    size: 30,
+                    color: Color.fromARGB(255, 245, 245, 245),
+                  ),
+                  SizedBox(width: 10),
+                  Text(
+                    'LogOut',
+                    style:
+                        TextStyle(color: Color.fromARGB(255, 245, 245, 245), fontSize: 15, fontWeight: FontWeight.w400),
+                  )
+                ],
+              ),
+            ),
+            // single button ends here
+          ],
+        ),
+      ),
+    ),
   );
 }

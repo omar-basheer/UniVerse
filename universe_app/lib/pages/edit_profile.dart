@@ -84,7 +84,7 @@ class EditProfileState extends State<EditProfile> {
             backgroundColor: const Color.fromARGB(255, 132, 94, 194),
             title: Container(
               alignment: Alignment.centerLeft,
-              padding: const EdgeInsets.only(top: 25, left: 140),
+              padding: const EdgeInsets.only(top: 25, left: 150),
               child: RichText(
                 text: const TextSpan(
                   children: [

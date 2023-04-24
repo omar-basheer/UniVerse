@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
+import 'package:universe_app/providers/profile_provider.dart';
 import 'package:universe_app/providers/user_provider.dart';
 import 'dart:async';
 import 'dart:ui';
@@ -12,7 +13,7 @@ import 'pages/welcome.dart';
 import 'pages/login.dart';
 import 'pages/create_profile.dart';
 import 'pages/feeds.dart';
-import 'pages/profile.dart';
+import 'pages/view_profile.dart';
 import 'pages/edit_profile2.dart';
 import 'pages/my_posts.dart';
 
@@ -36,8 +37,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<UserProvider>(
-      create: (_) => UserProvider(),
+    return MultiProvider(
+      // Use MultiProvider to provide multiple providers
+      providers: [
+        ChangeNotifierProvider<UserProvider>(
+          // UserProvider
+          create: (_) => UserProvider(),
+        ),
+        ChangeNotifierProvider<ProfileProvider>(
+          // ProfileProvider
+          create: (_) => ProfileProvider(),
+        ),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'UniVerseApp',
@@ -47,7 +58,8 @@ class MyApp extends StatelessWidget {
           '/create-profile': (context) => const CreateProfile(),
           '/feeds': (context) => const Feeds(),
           '/edit-profile': (context) => const EditProf(),
-          '/my-posts':(context) => const MyPosts()
+          '/my-posts': (context) => const MyPosts(),
+          '/view-profile': (context) => const ViewProfile(),
         },
       ),
     );

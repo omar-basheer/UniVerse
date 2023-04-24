@@ -1,3 +1,4 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:universe_app/functions/functions.dart';
 // import 'package:flutter/rendering.dart';
@@ -15,6 +16,12 @@ final TextEditingController student_birthday = TextEditingController();
 final TextEditingController student_residence = TextEditingController();
 final TextEditingController best_food = TextEditingController();
 final TextEditingController best_movie = TextEditingController();
+
+final List<String> residenceDropdown = ['on campus', 'off campus'];
+final List<String> majorDropdown = ['Computer Science', 'Business Admin', 'Management Systems', 'Engineering'];
+
+String? residenceItem;
+String? majorItem;
 
 class CreateProfile extends StatefulWidget {
   const CreateProfile({super.key});
@@ -34,7 +41,8 @@ class CreateProfileState extends State<CreateProfile> {
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(100),
           child: AppBar(
-            backgroundColor: const Color.fromARGB(255, 132, 94, 194),
+            backgroundColor: const Color.fromARGB(255, 97, 194, 94),
+            // backgroundColor: Color.fromARGB(255, 132, 94, 194),
             title: Container(
               alignment: Alignment.centerLeft,
               padding: const EdgeInsets.only(top: 25, left: 140),
@@ -74,7 +82,8 @@ class CreateProfileState extends State<CreateProfile> {
           child: Center(
             child: isLoading
                 ? const CircularProgressIndicator(
-                    color: Color.fromARGB(255, 132, 94, 194),
+                    // color: Color.fromARGB(255, 132, 94, 194),
+                    color: Color.fromARGB(255, 97, 194, 94),
                   )
                 : Container(
                     width: 700,
@@ -129,6 +138,10 @@ class CreateProfileState extends State<CreateProfile> {
                                         controller: student_id,
                                         decoration: InputDecoration(
                                           labelText: 'Student Id',
+                                          hintText: '########',
+                                          hintStyle: const TextStyle(
+                                            color: Color.fromRGBO(184, 184, 184, 1),
+                                          ),
                                           border: OutlineInputBorder(
                                             borderRadius: BorderRadius.circular(10),
                                           ),
@@ -150,6 +163,10 @@ class CreateProfileState extends State<CreateProfile> {
                                         controller: first_name,
                                         decoration: InputDecoration(
                                           labelText: 'First Name',
+                                          hintText: 'John',
+                                          hintStyle: const TextStyle(
+                                            color: Color.fromRGBO(184, 184, 184, 1),
+                                          ),
                                           border: OutlineInputBorder(
                                             borderRadius: BorderRadius.circular(10),
                                           ),
@@ -171,6 +188,10 @@ class CreateProfileState extends State<CreateProfile> {
                                         controller: last_name,
                                         decoration: InputDecoration(
                                           labelText: 'Last Name',
+                                          hintText: 'Doe',
+                                          hintStyle: const TextStyle(
+                                            color: Color.fromRGBO(184, 184, 184, 1),
+                                          ),
                                           border: OutlineInputBorder(
                                             borderRadius: BorderRadius.circular(10),
                                           ),
@@ -192,6 +213,10 @@ class CreateProfileState extends State<CreateProfile> {
                                         controller: student_email,
                                         decoration: InputDecoration(
                                           labelText: 'Email',
+                                          hintText: 'johndoe@gmail.com',
+                                          hintStyle: const TextStyle(
+                                            color: Color.fromRGBO(184, 184, 184, 1),
+                                          ),
                                           border: OutlineInputBorder(
                                             borderRadius: BorderRadius.circular(10),
                                           ),
@@ -214,6 +239,10 @@ class CreateProfileState extends State<CreateProfile> {
                                         controller: student_pass,
                                         decoration: InputDecoration(
                                           labelText: 'Password',
+                                          hintText: 'must be at least 8 chars',
+                                          hintStyle: const TextStyle(
+                                            color: Color.fromRGBO(184, 184, 184, 1),
+                                          ),
                                           border: OutlineInputBorder(
                                             borderRadius: BorderRadius.circular(10),
                                           ),
@@ -239,24 +268,33 @@ class CreateProfileState extends State<CreateProfile> {
                                   // Widgets to stack on top of each other in the first column
                                   Padding(
                                     padding: const EdgeInsets.only(top: 30, bottom: 20, right: 30),
-                                    child: FractionallySizedBox(
-                                      widthFactor: 0.90,
-                                      child: TextFormField(
-                                        controller: student_major,
-                                        decoration: InputDecoration(
-                                          labelText: 'Major',
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(10),
-                                          ),
-                                          labelStyle: const TextStyle(
-                                              color: Color.fromRGBO(99, 99, 99, 1),
-                                              fontFamily: 'Montserrat',
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w300),
+                                    child: Container(
+                                      width: 290,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: Colors.grey,
+                                          width: 1.0,
+                                        ),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: DropdownButtonHideUnderline(
+                                        child: DropdownButton2(
+                                          hint: const Text('Major'),
+                                          items: majorDropdown
+                                              .map((item) => DropdownMenuItem<String>(value: item, child: Text(item)))
+                                              .toList(),
+                                          value: majorItem,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              majorItem = value;
+                                            });
+                                          },
                                         ),
                                       ),
                                     ),
                                   ),
+
                                   Padding(
                                     padding: const EdgeInsets.only(top: 3, bottom: 20, right: 30),
                                     child: FractionallySizedBox(
@@ -265,6 +303,10 @@ class CreateProfileState extends State<CreateProfile> {
                                         controller: student_year,
                                         decoration: InputDecoration(
                                           labelText: 'Year',
+                                          hintText: '2024',
+                                          hintStyle: const TextStyle(
+                                            color: Color.fromRGBO(184, 184, 184, 1),
+                                          ),
                                           border: OutlineInputBorder(
                                             borderRadius: BorderRadius.circular(10),
                                           ),
@@ -285,6 +327,10 @@ class CreateProfileState extends State<CreateProfile> {
                                         controller: student_birthday,
                                         decoration: InputDecoration(
                                           labelText: 'Birthday',
+                                          hintText: 'dd/mm/yy',
+                                          hintStyle: const TextStyle(
+                                            color: Color.fromRGBO(184, 184, 184, 1),
+                                          ),
                                           border: OutlineInputBorder(
                                             borderRadius: BorderRadius.circular(10),
                                           ),
@@ -300,20 +346,28 @@ class CreateProfileState extends State<CreateProfile> {
 
                                   Padding(
                                     padding: const EdgeInsets.only(top: 3, bottom: 20, right: 30),
-                                    child: FractionallySizedBox(
-                                      widthFactor: 0.90,
-                                      child: TextFormField(
-                                        controller: student_residence,
-                                        decoration: InputDecoration(
-                                          labelText: 'Residence',
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(10),
-                                          ),
-                                          labelStyle: const TextStyle(
-                                              color: Color.fromRGBO(99, 99, 99, 1),
-                                              fontFamily: 'Montserrat',
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w300),
+                                    child: Container(
+                                      width: 290,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: Colors.grey,
+                                          width: 1.0,
+                                        ),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: DropdownButtonHideUnderline(
+                                        child: DropdownButton2(
+                                          hint: const Text('Residence'),
+                                          items: residenceDropdown
+                                              .map((item) => DropdownMenuItem<String>(value: item, child: Text(item)))
+                                              .toList(),
+                                          value: residenceItem,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              residenceItem = value;
+                                            });
+                                          },
                                         ),
                                       ),
                                     ),
@@ -365,7 +419,7 @@ class CreateProfileState extends State<CreateProfile> {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 15),
+                        const SizedBox(height: 10),
                         ElevatedButton(
                           onPressed: () async {
                             String studentId = student_id.text;
@@ -373,10 +427,10 @@ class CreateProfileState extends State<CreateProfile> {
                             String lName = last_name.text;
                             String email = student_email.text;
                             String password = student_pass.text;
-                            String major = student_major.text;
+                            String major = majorItem.toString();
                             String year = student_year.text;
                             String birthday = student_birthday.text;
-                            String residence = student_residence.text;
+                            String residence = residenceItem.toString();
                             String bestFood = best_food.text;
                             String bestMov = best_movie.text;
 
@@ -388,7 +442,7 @@ class CreateProfileState extends State<CreateProfile> {
                             setState(() {
                               isLoading = false;
                             });
-                            
+
                             student_id.clear();
                             first_name.clear();
                             last_name.clear();
@@ -402,7 +456,8 @@ class CreateProfileState extends State<CreateProfile> {
                             best_movie.clear();
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color.fromARGB(255, 132, 94, 194),
+                            backgroundColor: const Color.fromARGB(255, 97, 194, 94),
+                            // backgroundColor: const Color.fromARGB(255, 132, 94, 194),
                             minimumSize: const Size(185, 55),
                             shape: const RoundedRectangleBorder(
                               borderRadius: BorderRadius.only(

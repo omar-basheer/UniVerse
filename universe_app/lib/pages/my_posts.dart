@@ -56,168 +56,7 @@ class MyPostsState extends State<MyPosts> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             // sticky side-menu bar
-                            Container(
-                              padding: const EdgeInsets.only(bottom: 20),
-                              width: 180,
-                              height: 350,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(25),
-                                color: const Color.fromARGB(255, 132, 94, 194),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: const Color.fromARGB(255, 98, 98, 98).withOpacity(0.5),
-                                    spreadRadius: 0,
-                                    blurRadius: 2,
-                                    offset: const Offset(0, 2),
-                                  ),
-                                ],
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 20, left: 34, right: 0, bottom: 0),
-                                // menu items
-                                child: Container(
-                                  child: Column(
-                                    children: [
-                                      // single button starts here
-                                      const SizedBox(height: 25),
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.pushNamed(context, '/home');
-                                        },
-                                        child: Row(
-                                          children: const [
-                                            Icon(
-                                              Icons.home,
-                                              size: 30,
-                                              color: Color.fromARGB(255, 245, 245, 245),
-                                            ),
-                                            SizedBox(width: 15),
-                                            Text(
-                                              'Home',
-                                              style: TextStyle(
-                                                  color: Color.fromARGB(255, 245, 245, 245),
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w400),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      // single button ends here
-
-                                      // single button starts here
-                                      const SizedBox(height: 25),
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.pushNamed(context, '/feeds');
-                                        },
-                                        child: Row(
-                                          children: const [
-                                            Icon(
-                                              Icons.question_answer,
-                                              size: 30,
-                                              color: Color.fromARGB(255, 245, 245, 245),
-                                            ),
-                                            SizedBox(width: 10),
-                                            Text(
-                                              'Feeds',
-                                              style: TextStyle(
-                                                  color: Color.fromARGB(255, 245, 245, 245),
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w400),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      // single button ends here
-
-                                      // single button starts here
-                                      const SizedBox(height: 25),
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.pushNamed(context, '/my-posts');
-                                        },
-                                        child: Row(
-                                          children: const [
-                                            Icon(
-                                              Icons.bookmark,
-                                              size: 30,
-                                              color: Color.fromARGB(255, 245, 245, 245),
-                                            ),
-                                            SizedBox(width: 10),
-                                            Text(
-                                              'My Posts',
-                                              style: TextStyle(
-                                                  color: Color.fromARGB(255, 245, 245, 245),
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w400),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      // single button ends here
-
-                                      // single button starts here
-                                      const SizedBox(height: 25),
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.pushNamed(context, '/edit-profile');
-                                        },
-                                        child: Row(
-                                          children: const [
-                                            Icon(
-                                              Icons.people,
-                                              size: 30,
-                                              color: Color.fromARGB(255, 245, 245, 245),
-                                            ),
-                                            SizedBox(width: 10),
-                                            Text(
-                                              'Profile',
-                                              style: TextStyle(
-                                                  color: Color.fromARGB(255, 245, 245, 245),
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w400),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      // single button ends here
-
-                                      // single button starts here
-                                      const SizedBox(height: 25),
-                                      GestureDetector(
-                                        onTap: () {
-                                          // loggedId = '';
-                                          // loggedname = '';
-                                          // loggedmail = '';
-                                          Provider.of<UserProvider>(context, listen: false).loggedStudentmail = '';
-                                          Provider.of<UserProvider>(context, listen: false).loggedStudentname = '';
-                                          Provider.of<UserProvider>(context, listen: false).loggedStudentId= '';
-                                          Navigator.restorablePushNamedAndRemoveUntil(context, '/login', (route) => false );
-                                        },
-                                        child: Row(
-                                          children: const [
-                                            Icon(
-                                              Icons.logout,
-                                              size: 30,
-                                              color: Color.fromARGB(255, 245, 245, 245),
-                                            ),
-                                            SizedBox(width: 10),
-                                            Text(
-                                              'LogOut',
-                                              style: TextStyle(
-                                                  color: Color.fromARGB(255, 245, 245, 245),
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w400),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      // single button ends here
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
+                            showSideMenubar(context)
                           ],
                         ),
                       ),
@@ -241,7 +80,8 @@ class MyPostsState extends State<MyPosts> {
                               height: 55,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(17),
-                                color: const Color.fromARGB(255, 140, 101, 204),
+                                // color: const Color.fromARGB(255, 140, 101, 204),
+                                color: const Color.fromARGB(255, 97, 194, 94),
                                 boxShadow: [
                                   BoxShadow(
                                     color: const Color.fromARGB(255, 98, 98, 98).withOpacity(0.5),
@@ -291,7 +131,8 @@ class MyPostsState extends State<MyPosts> {
                                     padding: EdgeInsets.only(top:300, bottom: 300),
                                     child: Center(
                                       child: CircularProgressIndicator(
-                                        color: Color.fromARGB(255, 132, 94, 194),
+                                        // color: Color.fromARGB(255, 132, 94, 194),
+                                        color: Color.fromARGB(255, 97, 194, 94),
                                       ),
                                     ),
                                   );
@@ -339,13 +180,15 @@ class MyPostsState extends State<MyPosts> {
                                           )),
                                       focusedBorder: OutlineInputBorder(
                                         borderSide: const BorderSide(
-                                          color: Color.fromARGB(255, 132, 94, 194),
+                                          color: Color.fromARGB(255, 97, 194, 94),
+                                          // color: Color.fromARGB(255, 132, 94, 194),
                                         ),
                                         borderRadius: BorderRadius.circular(22),
                                       ),
                                       disabledBorder: OutlineInputBorder(
                                         borderSide: const BorderSide(
-                                          color: Color.fromARGB(255, 132, 94, 194),
+                                          color: Color.fromARGB(255, 97, 194, 94),
+                                          // color: Color.fromARGB(255, 132, 94, 194),
                                         ),
                                         borderRadius: BorderRadius.circular(22),
                                       ),
@@ -366,7 +209,8 @@ class MyPostsState extends State<MyPosts> {
                                         child: const Icon(
                                           Icons.near_me,
                                           size: 20,
-                                          color: Color.fromARGB(255, 132, 94, 194),
+                                          color: Color.fromARGB(255, 97, 194, 94),
+                                          // color: Color.fromARGB(255, 132, 94, 194),
                                         ),
                                       )),
                                 ),
