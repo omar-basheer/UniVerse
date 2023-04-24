@@ -5,6 +5,7 @@ from firebase_admin import credentials
 from flask import Flask, request, jsonify, json, redirect, render_template
 from email.mime.text import MIMEText
 from flask_cors import CORS
+# from celery import Celery
 
 # setup firestore database
 cred = credentials.Certificate("my-cloud-api-382615-firebase-adminsdk-6d5bf-eb61d58e29.json")
@@ -15,10 +16,17 @@ db = firestore.client()
 
 # define functions for api
 
-universe_app = Flask(__name__)
-CORS(universe_app)
+app = Flask(__name__)
+CORS(app)
 
-@universe_app.route('/create-profile', methods=['POST'])
+# app.config['CELERY_BROKER_URL'] = 'redis://localhost:6379/0'
+# app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6379/0'
+
+# celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
+# celery.conf.update(app.config)
+
+
+@app.route('/create-profile', methods=['POST'])
 def create_profile():
     # get profile data from form data
     profile = json.loads(request.data)
@@ -41,7 +49,7 @@ def create_profile():
         # return jsonify(profiles)
 
 
-@universe_app.route('/login', methods=['POST'])
+@app.route('/login', methods=['POST'])
 def login_profile():
     # get login credentials from form data
     log_cred = json.loads(request.data)
@@ -72,7 +80,7 @@ def login_profile():
         return jsonify({'success': False, 'message': 'Incorrect id or password'})
 
 
-@universe_app.route('/view-profile', methods=['GET'])
+@app.route('/view-profile', methods=['GET'])
 def view_profile():
     # get id of student whose profile we want to view
     profile_id = request.args.get('id')
@@ -92,7 +100,7 @@ def view_profile():
         return jsonify({'success': False, 'message': 'Student with id ' + profile_id + ' no longer exists. this might be because their account has been deleted '})
 
 
-@universe_app.route('/edit-profile', methods=['PATCH'])
+@app.route('/edit-profile', methods=['PATCH'])
 def edit_profile():
     # get id of student whose profile we are going to edit
     profile_id = request.args.get('id')
@@ -117,7 +125,7 @@ def edit_profile():
     return jsonify({'success': True, 'message': 'Profile updated succesfully'})
 
 
-@universe_app.route('/create-post', methods=['PATCH'])
+@app.route('/create-post', methods=['PATCH'])
 def create_post():
     message = json.loads(request.data)
     student_id = message['id']
@@ -149,6 +157,7 @@ def create_post():
     student_mail = profile_doc['this_student']['email']
     post_obj = {
         'email': student_mail,
+        'id': student_id,
         'message': post_message,
         'timestamp': timestamp
     }
@@ -174,13 +183,22 @@ def create_post():
     return jsonify({'success': True, 'message': 'post with id ' + timestamp + ' by student ' + student_mail + ' created successfully'})
 
 
-@universe_app.route('/feeds', methods=['GET'])
+@app.route('/feeds', methods=['GET'])
 def view_feeds():
     # the only thing we might want to do here is check if you're logged in
     # if you are,
-    all_feeds = db.collection('feeds').get()
-    feeds_list = [this_feed.to_dict() for this_feed in all_feeds]
-    return jsonify(feeds_list)
+    feed_id = request.args.get('timestamp')
+    print(feed_id)
+    if (feed_id):
+        feed = db.collection('feeds').document(feed_id).get()
+        if feed.exists:
+            return jsonify(feed.to_dict())
+        else:
+            return jsonify({'error': 'Feed not found'})
+    else:
+        all_feeds = db.collection('feeds').get()
+        feeds_list = [this_feed.to_dict() for this_feed in all_feeds]
+        return jsonify(feeds_list)
 
 
 def send_email(recipient, subject, body):
@@ -207,8 +225,9 @@ def send_email(recipient, subject, body):
     smtp_connection.sendmail(email_address, recipient, message.as_string())
     smtp_connection.quit()
 
-# universe_app.run(debug=True)
 
+# universe_app.run(debug=True)
+app.run(debug=True)
 
 
 
