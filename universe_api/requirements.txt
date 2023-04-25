@@ -1,3 +1,7 @@
 flask
 flask_cors
 firebase_admin
+datetime
+# smtplib
+flask_mail
+celery

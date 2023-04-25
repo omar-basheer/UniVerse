@@ -5,7 +5,9 @@ from firebase_admin import credentials
 from flask import Flask, request, jsonify, json, redirect, render_template
 from email.mime.text import MIMEText
 from flask_cors import CORS
-# from celery import Celery
+from celery import Celery
+from flask_mail import Message
+
 
 # setup firestore database
 cred = credentials.Certificate("my-cloud-api-382615-firebase-adminsdk-6d5bf-eb61d58e29.json")
@@ -17,13 +19,15 @@ db = firestore.client()
 # define functions for api
 
 app = Flask(__name__)
+# from app import  mail
+
 CORS(app)
 
-# app.config['CELERY_BROKER_URL'] = 'redis://localhost:6379/0'
-# app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6379/0'
+app.config['CELERY_BROKER_URL'] = 'redis://localhost:6379/0'
+app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6379/0'
 
-# celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
-# celery.conf.update(app.config)
+celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
+celery.conf.update(app.config)
 
 
 @app.route('/create-profile', methods=['POST'])
@@ -177,7 +181,7 @@ def create_post():
     for user in all_users:
         # print(user.to_dict()['this_student']['email'])
         # receiver = user.to_dict()['this_student']['email']
-        # send_email('omasheer@gmail.com', gen_message, gen_subject)
+        send_email('omasheer@gmail.com', gen_message, gen_subject)
         print('mail sent')
 
     return jsonify({'success': True, 'message': 'post with id ' + timestamp + ' by student ' + student_mail + ' created successfully'})
@@ -201,6 +205,7 @@ def view_feeds():
         return jsonify(feeds_list)
 
 
+# @ celery.task
 def send_email(recipient, subject, body):
     # Email account credentials
     email_address = 'universe.ashesi@gmail.com'
