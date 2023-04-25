@@ -29,6 +29,7 @@ class EditProfile extends StatefulWidget {
 class EditProfileState extends State<EditProfile> {
   bool isLoading = false;
   Map<String, dynamic> student_info = {};
+  List<dynamic> posts = [];
   String loggedmail = '';
   String loggedid = '';
 
@@ -40,37 +41,54 @@ class EditProfileState extends State<EditProfile> {
       isLoading = true;
     });
 
-    _getProfile();
+    _getProfile().then((value) {
+      student_id.text = value!['id_number'];
+
+      first_name.text = value['first_name'];
+      last_name.text = value['last_name'];
+      student_email.text = value['email'];
+      student_birthday.text = value['DOB'];
+      best_food.text = value['best_food'];
+      best_movie.text = value['best_movie'];
+      student_residence.text = value['residence'];
+      student_major.text = value['major'];
+      student_year.text = value['year'];
+    });
     print('got profiles');
+    print(student_id.text);
+    print(student_year.text);
 
     setState(() {
       isLoading = false;
     });
   }
 
-  Future<void> _getProfile() async {
+  Future<Map<String, dynamic>?> _getProfile() async {
     loggedmail = Provider.of<UserProvider>(context, listen: false).loggedStudentmail;
     // loggedmail = 'test@mail.com';
     loggedid = Provider.of<UserProvider>(context, listen: false).loggedInStudentId;
     // loggedid = '54042024';
 
     student_info = await getProfile(loggedid);
-    List<dynamic> posts = student_info['posts'];
-    Map<String, dynamic> profile = student_info['profile'];
+    print(student_info.toString());
+
+    // List<dynamic> posts = student_info['posts'];
+    // Map<String, dynamic> profile = student_info['profile'];
     print('decoded json from api');
 
-    student_id.text = profile['id_number'];
-    first_name.text = profile['first_name'];
-    last_name.text = profile['last_name'];
-    student_email.text = profile['email'];
-    student_birthday.text = profile['DOB'];
-    best_food.text = profile['best_food'];
-    best_movie.text = profile['best_movie'];
-    student_residence.text = profile['residence'];
-    student_major.text = profile['major'];
-    student_year.text = profile['year'];
+    // student_id.text = profile['id_number'];
+    // first_name.text = profile['first_name'];
+    // last_name.text = profile['last_name'];
+    // student_email.text = profile['email'];
+    // student_birthday.text = profile['DOB'];
+    // best_food.text = profile['best_food'];
+    // best_movie.text = profile['best_movie'];
+    // student_residence.text = profile['residence'];
+    // student_major.text = profile['major'];
+    // student_year.text = profile['year'];
 
     print('set controllers');
+    return student_info;
   }
 
   @override
@@ -424,7 +442,6 @@ class EditProfileState extends State<EditProfile> {
                             setState(() {
                               isLoading = false;
                             });
-
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color.fromARGB(255, 132, 94, 194),

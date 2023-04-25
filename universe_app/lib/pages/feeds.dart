@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:universe_app/functions/functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:universe_app/pages/view_profile.dart';
 
 import '../providers/user_provider.dart';
 import '../providers/profile_provider.dart';
@@ -13,6 +14,7 @@ import '../providers/profile_provider.dart';
 
 final TextEditingController studentsId = TextEditingController();
 final TextEditingController postMessage = TextEditingController();
+TextEditingController searchbar = TextEditingController();
 
 class Feeds extends StatefulWidget {
   const Feeds({super.key});
@@ -36,6 +38,7 @@ class FeedsState extends State<Feeds> {
     String loggedname = Provider.of<UserProvider>(context, listen: false).loggedStudentname;
     String loggedId = Provider.of<UserProvider>(context, listen: false).loggedStudentId;
     String loggedmail = Provider.of<UserProvider>(context, listen: false).loggedStudentmail;
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'Montserrat'),
@@ -173,51 +176,53 @@ class FeedsState extends State<Feeds> {
                                       fontSize: 14,
                                       fontWeight: FontWeight.w400),
                                   decoration: InputDecoration(
-                                      filled: true,
-                                      fillColor: const Color.fromRGBO(255, 255, 255, 1),
-                                      hoverColor: const Color.fromRGBO(255, 255, 255, 1),
-                                      labelText: 'Write Something...',
-                                      enabledBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(22),
-                                          borderSide: const BorderSide(
-                                            color: Color.fromARGB(196, 122, 122, 122),
-                                            width: 0.6,
-                                          )),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: const BorderSide(
-                                          color: Color.fromARGB(255, 97, 194, 94),
-                                          // color: Color.fromARGB(255, 132, 94, 194),
-                                        ),
+                                    filled: true,
+                                    fillColor: const Color.fromRGBO(255, 255, 255, 1),
+                                    hoverColor: const Color.fromRGBO(255, 255, 255, 1),
+                                    labelText: 'Write Something...',
+                                    enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(22),
-                                      ),
-                                      disabledBorder: OutlineInputBorder(
                                         borderSide: const BorderSide(
-                                          color: Color.fromARGB(255, 97, 194, 94),
-                                          // color: Color.fromARGB(255, 132, 94, 194),
-                                        ),
-                                        borderRadius: BorderRadius.circular(22),
+                                          color: Color.fromARGB(196, 122, 122, 122),
+                                          width: 0.6,
+                                        )),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        color: Color.fromARGB(255, 97, 194, 94),
+                                        // color: Color.fromARGB(255, 132, 94, 194),
                                       ),
-                                      labelStyle: const TextStyle(
-                                        color: Color.fromARGB(196, 122, 122, 122),
-                                        fontFamily: 'Montserrat',
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w300,
+                                      borderRadius: BorderRadius.circular(22),
+                                    ),
+                                    disabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        color: Color.fromARGB(255, 97, 194, 94),
+                                        // color: Color.fromARGB(255, 132, 94, 194),
                                       ),
-                                      suffixIcon: GestureDetector(
-                                        onTap: () {
-                                          String message = postMessage.text;
-                                          if (message != "") {
-                                            createPost(context, loggedId, message);
-                                            postMessage.clear();
-                                          }
-                                        },
-                                        child: const Icon(
-                                          Icons.near_me,
-                                          size: 20,
-                                          color: Color.fromARGB(255, 97, 194, 94),
-                                          // color: Color.fromARGB(255, 132, 94, 194),
-                                        ),
-                                      )),
+                                      borderRadius: BorderRadius.circular(22),
+                                    ),
+                                    labelStyle: const TextStyle(
+                                      color: Color.fromARGB(196, 122, 122, 122),
+                                      fontFamily: 'Montserrat',
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w300,
+                                    ),
+                                    suffixIcon: GestureDetector(
+                                      onTap: () {
+                                        String message = postMessage.text;
+                                        if (message != "") {
+                                          createPost(context, loggedId, message);
+                                          postMessage.clear();
+                                        }
+                                      },
+                                      child: const Icon(
+                                        Icons.near_me,
+                                        size: 20,
+                                        color: Color.fromARGB(255, 97, 194, 94),
+                                        // color: Color.fromARGB(255, 132, 94, 194),
+                                      ),
+                                    ),
+                                  ),
+                                  maxLines: null,
                                 ),
                               ),
                             ),
@@ -243,6 +248,7 @@ class FeedsState extends State<Feeds> {
                       child: Padding(
                         padding: const EdgeInsets.only(top: 55, left: 16, right: 16),
                         child: TextFormField(
+                          controller: searchbar,
                           decoration: InputDecoration(
                             labelText: 'Search...',
                             border: OutlineInputBorder(
@@ -255,6 +261,15 @@ class FeedsState extends State<Feeds> {
                               fontWeight: FontWeight.w300,
                             ),
                           ),
+                          onFieldSubmitted: (value) {
+                            String email = searchbar.text;
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>  ViewProfile(),
+                              ),
+                            );
+                          },
                         ),
                       ),
                     ),

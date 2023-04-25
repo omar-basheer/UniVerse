@@ -11,24 +11,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../providers/user_provider.dart';
 // import 'package:flutter/rendering.dart';
 
-// store suser info while they create their profile
-TextEditingController student_id = TextEditingController();
-TextEditingController first_name = TextEditingController();
-TextEditingController last_name = TextEditingController();
-TextEditingController student_email = TextEditingController();
-TextEditingController student_major = TextEditingController();
-TextEditingController student_year = TextEditingController();
-TextEditingController student_birthday = TextEditingController();
-TextEditingController student_residence = TextEditingController();
-TextEditingController best_food = TextEditingController();
-TextEditingController best_movie = TextEditingController();
-
-final List<String> residenceDropdown = ['on campus', 'off campus'];
-final List<String> majorDropdown = ['Computer Science', 'Business Admin', 'Management Systems', 'Engineering'];
-
-String? residenceItem;
-String? majorItem;
-
 class EditProf extends StatefulWidget {
   const EditProf({super.key});
 
@@ -42,6 +24,26 @@ class EditProfState extends State<EditProf> {
   String loggedmail = '';
   String loggedid = '';
   String loggedname = '';
+  String loggedresidence = '';
+  String loggedmajor = '';
+
+  String? residenceItem;
+  String? majorItem;
+
+  final List<String> residenceDropdown = ['on-campus', 'off-campus'];
+  final List<String> majorDropdown = ['Computer Science', 'Business Admin', 'Management Systems', 'Engineering'];
+
+  // store suser info while they create their profile
+  TextEditingController student_id = TextEditingController();
+  TextEditingController first_name = TextEditingController();
+  TextEditingController last_name = TextEditingController();
+  TextEditingController student_email = TextEditingController();
+  TextEditingController student_major = TextEditingController();
+  TextEditingController student_year = TextEditingController();
+  TextEditingController student_birthday = TextEditingController();
+  TextEditingController student_residence = TextEditingController();
+  TextEditingController best_food = TextEditingController();
+  TextEditingController best_movie = TextEditingController();
 
   @override
   void initState() {
@@ -51,24 +53,34 @@ class EditProfState extends State<EditProf> {
       isLoading = true;
     });
 
-    _getProfile();
+    _getProfile().then((value) {
+      setState(() {
+
+      });
+    });
+
     print('got profiles');
+    print(residenceItem);
 
     setState(() {
       isLoading = false;
     });
   }
 
-  Future<void> _getProfile() async {
+  Future<Map<String, dynamic>> _getProfile() async {
     loggedmail = Provider.of<UserProvider>(context, listen: false).loggedStudentmail;
     // loggedmail = 'test@mail.com';
     loggedid = Provider.of<UserProvider>(context, listen: false).loggedInStudentId;
     // loggedid = '54042024';
     loggedname = Provider.of<UserProvider>(context, listen: false).loggedStudentname;
+    loggedresidence = Provider.of<UserProvider>(context, listen: false).loggedresidence;
+    loggedmajor = Provider.of<UserProvider>(context, listen: false).loggedmajor;
 
     student_info = await getProfile(loggedid);
     List<dynamic> posts = student_info['posts'];
     Map<String, dynamic> profile = student_info['profile'];
+
+    print(profile.toString());
     print('decoded json from api');
 
     student_id.text = profile['id_number'];
@@ -78,11 +90,13 @@ class EditProfState extends State<EditProf> {
     student_birthday.text = profile['DOB'];
     best_food.text = profile['best_food'];
     best_movie.text = profile['best_movie'];
-    student_residence = profile['residence'];
-    student_major.text = profile['major'];
     student_year.text = profile['year'];
+    // residenceItem = loggedresidence;
+    // majorItem = loggedmajor;
 
+    print(majorItem);
     print('set controllers');
+    return student_info;
   }
 
   @override
@@ -494,10 +508,10 @@ class EditProfState extends State<EditProf> {
                                               const SizedBox(height: 20),
                                               ElevatedButton(
                                                 onPressed: () async {
-                                                  String major = student_major.text;
+                                                  String major = majorItem ?? '';
                                                   String year = student_year.text;
                                                   String birthday = student_birthday.text;
-                                                  String residence = student_residence.text;
+                                                  String residence = residenceItem ?? '';
                                                   String bestFood = best_food.text;
                                                   String bestMov = best_movie.text;
 

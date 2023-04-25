@@ -23,6 +23,7 @@ var headers = {'Content-Type': 'application/json'};
 // Login function
 Future<void> loginUser(BuildContext context, String studentid, String password) async {
   String url = 'http://127.0.0.1:5000/login';
+  // String url = 'https://universe-384603.ew.r.appspot.com/login';
 
   if (studentid == null || studentid.trim().isEmpty) {
     // ignore: use_build_context_synchronously
@@ -75,6 +76,7 @@ Future<void> loginUser(BuildContext context, String studentid, String password) 
 Future<void> createProfile(BuildContext context, String studentid, String firstname, String lastname, String email,
     String password, String major, String year, String birthday, String residence, String food, String movie) async {
   String url = 'http://127.0.0.1:5000/create-profile';
+  // String url = 'https://universe-384603.ew.r.appspot.com/create-profile';
 
   var request = http.Request('POST', Uri.parse(url));
 
@@ -125,19 +127,20 @@ Future<void> createProfile(BuildContext context, String studentid, String firstn
 
 Future<Map<String, dynamic>> getProfile(String studentid) async {
   String url = 'http://127.0.0.1:5000/view-profile?id=' + studentid;
+  // String url = 'https://universe-384603.ew.r.appspot.com/view-profile?id=' + studentid;
   var request = http.Request('GET', Uri.parse(url));
   request.headers.addAll(headers);
 
   print('making request....');
   http.StreamedResponse response = await request.send();
   final viewResponse = json.decode(await response.stream.bytesToString());
-  print(viewResponse.toString());
+  // print(viewResponse.toString());
   Map<String, dynamic> info = {};
   if (response.statusCode != 200) {
     print(response.statusCode);
   } else {
     if (viewResponse['success'] == true) {
-      print('set info');
+      print('set info1');
       info = viewResponse['info'];
     }
   }
@@ -146,13 +149,14 @@ Future<Map<String, dynamic>> getProfile(String studentid) async {
 
 Future<Map<String, dynamic>> viewProfile(String messagetime) async {
   String url = 'http://127.0.0.1:5000/feeds?timestamp=' + messagetime;
+  // String url = 'https://universe-384603.ew.r.appspot.com' + messagetime;
   var request = http.Request('GET', Uri.parse(url));
   print('making request....');
   http.StreamedResponse response = await request.send();
   final viewResponse = json.decode(await response.stream.bytesToString());
 
   if (response.statusCode == 200) {
-    print(viewResponse);
+    // print(viewResponse);
   }
 
   return viewResponse;
@@ -162,6 +166,7 @@ Future<void> editProfile(BuildContext context, String studentid, String major, S
     String residence, String food, String movie) async {
   // first get old info from db
   String url = 'http://127.0.0.1:5000/edit-profile?id=' + studentid;
+  // String url = 'https://universe-384603.ew.r.appspot.com/edit-profile?id=' + studentid;
   var request = http.Request('PATCH', Uri.parse(url));
 
   request.body = json.encode(
@@ -205,6 +210,7 @@ Future<void> editProfile(BuildContext context, String studentid, String major, S
 
 Future<void> createPost(BuildContext context, String studentid, String postMessage) async {
   String url = 'http://127.0.0.1:5000/create-post';
+  // String url = 'https://universe-384603.ew.r.appspot.com/create-post';
   var request = http.Request('PATCH', Uri.parse(url));
   request.headers.addAll(headers);
   request.body = json.encode({"id": studentid, "message": postMessage});
@@ -220,10 +226,15 @@ Future<void> createPost(BuildContext context, String studentid, String postMessa
 // single user feed for other users
 genSingleFeed(BuildContext context, String email, String message, String time) {
   // message box
+  // final textSpan = TextSpan(text: message, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400));
+  // final textPainter = TextPainter(text: textSpan, maxLines: 100, textDirection: TextDirection.ltr)..layout();
+  // final messageHeight = textPainter.size.height ; // Add 10 for some extra padding
+
   return Padding(
     padding: const EdgeInsets.only(top: 40, right: 30),
     child: Container(
       width: 850,
+      // height: 155 + messageHeight,
       height: 155,
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.only(
@@ -312,11 +323,13 @@ genSingleFeed(BuildContext context, String email, String message, String time) {
                   padding: const EdgeInsets.only(top: 10, left: 25),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
+                    // mainAxisSize: MainAxisSize.min,
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(top: 5),
                         child: Text(
                           message,
+                          // overflow: TextOverflow.clip,
                           textAlign: TextAlign.left,
                           style: const TextStyle(
                               color: Color.fromARGB(255, 142, 142, 142), fontSize: 12, fontWeight: FontWeight.w400),
@@ -618,9 +631,6 @@ showSideMenubar(BuildContext context) {
             const SizedBox(height: 25),
             GestureDetector(
               onTap: () {
-                // loggedid = '';
-                // loggedname = '';
-                // loggedmail = '';
                 Provider.of<UserProvider>(context, listen: false).loggedStudentmail = '';
                 Provider.of<UserProvider>(context, listen: false).loggedStudentname = '';
                 Provider.of<UserProvider>(context, listen: false).loggedStudentId = '';

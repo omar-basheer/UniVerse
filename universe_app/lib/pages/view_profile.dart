@@ -11,18 +11,6 @@ import 'package:universe_app/providers/profile_provider.dart';
 import '../providers/user_provider.dart';
 // import 'package:flutter/rendering.dart';
 
-// store suser info while they create their profile
-String student_id =  '';
-String first_name =  '';
-String last_name =  '';
-String student_email =  '';
-String student_major =  '';
-String student_year =  '';
-String student_birthday = '';
-String student_residence =  '';
-String best_food = '';
-String best_movie =  '';
-
 // final List<String> residenceDropdown = ['on campus', 'off campus'];
 // final List<String> majorDropdown = ['Computer Science', 'Business Admin', 'Management Systems', 'Engineering'];
 
@@ -30,6 +18,7 @@ String best_movie =  '';
 // String? majorItem;
 
 class ViewProfile extends StatefulWidget {
+  // final profmail;
   const ViewProfile({super.key});
 
   @override
@@ -50,6 +39,18 @@ class ViewProfileState extends State<ViewProfile> {
   String messageTime = '';
   String profileid = '';
 
+  // store user info while they create their profile
+  String? student_id;
+  String? first_name;
+  String? last_name;
+  String? student_email;
+  String? student_major;
+  String? student_year;
+  String? student_birthday;
+  String? student_residence;
+  String? best_food;
+  String? best_movie;
+
   @override
   void initState() {
     super.initState();
@@ -58,15 +59,30 @@ class ViewProfileState extends State<ViewProfile> {
       isLoading = true;
     });
 
-    _viewProfile();
-    print('got profiles');
+    // first_name = null;
+
+    _viewProfile().then((value) {
+      student_id = value['profile']['id_number'];
+      setState(() {
+        first_name = value['profile']['first_name'];
+        last_name = value['profile']['last_name'];
+        student_email = value['profile']['email'];
+        student_birthday = value['DOB'];
+        best_food = value['profile']['best_food'];
+        best_movie = value['profile']['best_movie'];
+        student_residence = value['profile']['residence'];
+        student_major = value['profile']['major'];
+        student_year = value['profile']['year'];
+      });
+    });
+    // print('got profiles');
 
     setState(() {
       isLoading = false;
     });
   }
 
-  Future<void> _viewProfile() async {
+  Future<Map<String, dynamic>> _viewProfile() async {
     // logged in user provider vars
     loggedmail = Provider.of<UserProvider>(context, listen: false).loggedStudentmail;
     loggedid = Provider.of<UserProvider>(context, listen: false).loggedInStudentId;
@@ -78,34 +94,19 @@ class ViewProfileState extends State<ViewProfile> {
 
     // get feed info which contains id
     feedInfo = await viewProfile(messageTime);
-    // print(feed_info.toString());
 
     // get profile associated with this id
     profileid = feedInfo['id'];
     studentInfo = await getProfile(profileid);
-    print(studentInfo.toString());
 
     print('decoded json from api');
-
-    student_id = studentInfo['id_number'];
-    first_name = studentInfo['first_name'];
-    last_name = studentInfo['last_name'];
-    student_email = studentInfo['email'];
-    student_birthday = studentInfo['DOB'];
-    best_food = studentInfo['best_food'];
-    best_movie = studentInfo['best_movie'];
-    student_residence = studentInfo['residence'];
-    student_major = studentInfo['major'];
-    student_year = studentInfo['year'];
-
-    print('set controllers');
+    return studentInfo;
   }
 
   @override
   Widget build(BuildContext context) {
-    // String loggedId = Provider.of<UserProvider>(context, listen: false).loggedStudentId;
-    // print(student_id.text);
-
+    String fname = first_name ?? '';
+    String lname = last_name ?? '';
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'Montserrat'),
@@ -237,9 +238,9 @@ class ViewProfileState extends State<ViewProfile> {
                                                   const SizedBox(height: 10),
                                                   Row(
                                                     crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children:  [
+                                                    children: [
                                                       Text(
-                                                        '$first_name $last_name',
+                                                        '$fname $lname',
                                                         style: const TextStyle(
                                                             fontSize: 24,
                                                             fontWeight: FontWeight.w600,
@@ -253,9 +254,9 @@ class ViewProfileState extends State<ViewProfile> {
                                                   const SizedBox(height: 5),
                                                   Row(
                                                     crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children:  [
+                                                    children: [
                                                       Text(
-                                                        student_email,
+                                                        student_email ?? '',
                                                         style: const TextStyle(
                                                           fontSize: 17,
                                                           fontWeight: FontWeight.w500,
@@ -267,9 +268,9 @@ class ViewProfileState extends State<ViewProfile> {
                                                   const SizedBox(height: 30),
                                                   Row(
                                                     crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children:  [
+                                                    children: [
                                                       Text(
-                                                        '$student_major |',
+                                                        student_major ?? '' "|",
                                                         style: const TextStyle(
                                                             fontSize: 19,
                                                             fontWeight: FontWeight.w500,
@@ -279,7 +280,7 @@ class ViewProfileState extends State<ViewProfile> {
                                                       ),
                                                       const SizedBox(width: 8),
                                                       Text(
-                                                        '$student_year |',
+                                                        student_year ?? '' "|",
                                                         style: const TextStyle(
                                                           fontSize: 19,
                                                           fontWeight: FontWeight.w500,
@@ -288,7 +289,7 @@ class ViewProfileState extends State<ViewProfile> {
                                                       ),
                                                       const SizedBox(width: 8),
                                                       Text(
-                                                        '$student_residence |',
+                                                        student_residence ?? '' "|",
                                                         style: const TextStyle(
                                                           fontSize: 19,
                                                           fontWeight: FontWeight.w500,
@@ -300,9 +301,9 @@ class ViewProfileState extends State<ViewProfile> {
                                                   const SizedBox(height: 20),
                                                   Row(
                                                     crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children:  [
+                                                    children: [
                                                       Text(
-                                                        '($best_food, ',
+                                                        best_food ?? '' ", ",
                                                         style: const TextStyle(
                                                           fontSize: 15,
                                                           fontWeight: FontWeight.w300,
@@ -311,7 +312,7 @@ class ViewProfileState extends State<ViewProfile> {
                                                       ),
                                                       const SizedBox(width: 5),
                                                       Text(
-                                                          '$best_movie)',
+                                                        best_movie ?? '' ")",
                                                         style: const TextStyle(
                                                           fontSize: 15,
                                                           fontWeight: FontWeight.w300,
