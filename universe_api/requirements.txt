@@ -4,4 +4,4 @@ firebase_admin
 datetime
 # smtplib
 flask_mail
-celery
+# celery

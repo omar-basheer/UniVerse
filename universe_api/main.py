@@ -5,15 +5,16 @@ from firebase_admin import credentials
 from flask import Flask, request, jsonify, json, redirect, render_template
 from email.mime.text import MIMEText
 from flask_cors import CORS
-from celery import Celery
-from flask_mail import Message
 
 
-# setup firestore database
+# setup firestore databas
+
 cred = credentials.Certificate("my-cloud-api-382615-firebase-adminsdk-6d5bf-eb61d58e29.json")
-firebase_admin.initialize_app(cred, {
-    'projectId': 'my-cloud-api-382615'
-})
+firebase_admin.initialize_app(cred)
+
+# firebase_admin.initialize_app(cred, {
+#     'projectId': 'my-cloud-api-382615'
+# })
 db = firestore.client()
 
 # define functions for api
@@ -22,12 +23,6 @@ app = Flask(__name__)
 # from app import  mail
 
 CORS(app)
-
-app.config['CELERY_BROKER_URL'] = 'redis://localhost:6379/0'
-app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6379/0'
-
-celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
-celery.conf.update(app.config)
 
 
 @app.route('/create-profile', methods=['POST'])
@@ -129,6 +124,7 @@ def edit_profile():
     return jsonify({'success': True, 'message': 'Profile updated succesfully'})
 
 
+
 @app.route('/create-post', methods=['PATCH'])
 def create_post():
     message = json.loads(request.data)
@@ -175,13 +171,13 @@ def create_post():
     last_name = profile_doc['this_student']['last_name']
     student_name = first_name + ' ' + last_name
     gen_message = 'New Post by ' + student_name + '!'
-    gen_subject = student_name + ' just posted on Universe! Click the link below to access the feed and join the convo: '
+    gen_subject = student_name + ' just posted on Universe! Click the link below to access the feed and join the convo: ' 
 
     all_users = db.collection('profiles').get()
     for user in all_users:
         # print(user.to_dict()['this_student']['email'])
-        # receiver = user.to_dict()['this_student']['email']
-        send_email('omasheer@gmail.com', gen_message, gen_subject)
+        receiver = user.to_dict()['this_student']['email']
+        send_email(receiver, gen_subject, gen_message )
         print('mail sent')
 
     return jsonify({'success': True, 'message': 'post with id ' + timestamp + ' by student ' + student_mail + ' created successfully'})
@@ -203,9 +199,34 @@ def view_feeds():
         all_feeds = db.collection('feeds').get()
         feeds_list = [this_feed.to_dict() for this_feed in all_feeds]
         return jsonify(feeds_list)
+    
+
+# def sendEmails(email):
+#     all_emails = db.collection("students")
+#     email_list = []
+#     for student_email in all_emails.get():
+#         student_email = student_email.to_dict()["email"]
+#         email_list.append(student_email)
+#         student_mail = email
+#     student_ref = db.collection("students").document(student_mail)
+#     student_details = students.document(student_mail).get().to_dict()
+#     student_fullname = student_details["first_name"] + " "+ student_details["last_name"]
+#     for email in email_list:
+        
+#         new_email = mail_ref.document()
+#         new_email.set(
+#             {
+#              "to":email,
+#              "message":{
+#                 "subject": "New post by " + student_fullname + "!",
+#                 "text":  "Login into CampusBuzz to see the post" 
+#              }
+#             }
+#         )
 
 
-# @ celery.task
+
+
 def send_email(recipient, subject, body):
     # Email account credentials
     email_address = 'universe.ashesi@gmail.com'
@@ -232,7 +253,7 @@ def send_email(recipient, subject, body):
 
 
 # universe_app.run(debug=True)
-app.run(debug=True)
+# app.run(debug=True)
 
 
 
