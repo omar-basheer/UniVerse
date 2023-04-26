@@ -52,7 +52,7 @@ class CreateProfileState extends State<CreateProfile> {
                     TextSpan(
                       text: 'UniVerse ',
                       style: TextStyle(
-                        color: Color.fromRGBO(30, 30, 30, 1),
+                        color: Color.fromRGBO(63, 63, 63, 1),
                         fontFamily: 'Montserrat',
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
@@ -438,7 +438,7 @@ class CreateProfileState extends State<CreateProfile> {
                               isLoading = true;
                             });
                             await createProfile(context, studentId, fName, lName, email, password, major, year,
-                                residence, birthday, bestFood, bestMov);
+                                 birthday, residence, bestFood, bestMov);
                             setState(() {
                               isLoading = false;
                             });

@@ -102,14 +102,14 @@ class FeedsState extends State<Feeds> {
                                     const TextSpan(
                                       text: 'UniVerse@',
                                       style: TextStyle(
-                                        color: Color.fromRGBO(30, 30, 30, 1),
+                                        color: Color.fromRGBO(63, 63, 63, 1),
                                         fontFamily: 'Montserrat',
                                         fontSize: 23,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextSpan(
-                                      text: loggedname,
+                                      text: loggedname.toLowerCase(),
                                       style: const TextStyle(
                                         color: Colors.white,
                                         fontFamily: 'Montserrat',
@@ -234,48 +234,9 @@ class FeedsState extends State<Feeds> {
                 ),
               ),
               // Right column-Right Half
-              Expanded(
-                flex: 1,
-                child: Container(
-                  color: const Color.fromARGB(255, 255, 255, 255),
-                  child: FractionallySizedBox(
-                    widthFactor: 1,
-                    child: Container(
-                      alignment: Alignment.topCenter,
-                      decoration: const BoxDecoration(
-                        color: Color.fromARGB(255, 255, 255, 255),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 55, left: 16, right: 16),
-                        child: TextFormField(
-                          controller: searchbar,
-                          decoration: InputDecoration(
-                            labelText: 'Search...',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            labelStyle: const TextStyle(
-                              color: Color.fromRGBO(180, 180, 180, 1),
-                              fontFamily: 'Montserrat',
-                              fontSize: 16,
-                              fontWeight: FontWeight.w300,
-                            ),
-                          ),
-                          onFieldSubmitted: (value) {
-                            String email = searchbar.text;
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>  ViewProfile(),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+
+              // search bar
+              genSearchBar(context)
             ],
           )),
     );

@@ -45,7 +45,7 @@ class LoginState extends State<Login> {
                       TextSpan(
                         text: 'UniVerse ',
                         style: TextStyle(
-                          color: Color.fromRGBO(30, 30, 30, 1),
+                          color: Color.fromRGBO(63, 63, 63, 1),
                           fontFamily: 'Montserrat',
                           // fontFamily: 'Rubik_Pixels',
                           fontSize: 28,

@@ -54,9 +54,7 @@ class EditProfState extends State<EditProf> {
     });
 
     _getProfile().then((value) {
-      setState(() {
-
-      });
+      setState(() {});
     });
 
     print('got profiles');
@@ -91,6 +89,7 @@ class EditProfState extends State<EditProf> {
     best_food.text = profile['best_food'];
     best_movie.text = profile['best_movie'];
     student_year.text = profile['year'];
+    print(profile['DOB']);
     // residenceItem = loggedresidence;
     // majorItem = loggedmajor;
 
@@ -167,7 +166,7 @@ class EditProfState extends State<EditProf> {
                                     const TextSpan(
                                       text: 'UniVerse@',
                                       style: TextStyle(
-                                        color: Color.fromRGBO(30, 30, 30, 1),
+                                        color: Color.fromRGBO(63, 63, 63, 1),
                                         fontFamily: 'Montserrat',
                                         fontSize: 23,
                                         fontWeight: FontWeight.bold,
@@ -221,7 +220,7 @@ class EditProfState extends State<EditProf> {
                                               Text(
                                                 loggedmail,
                                                 style: const TextStyle(
-                                                    color: Color.fromRGBO(30, 30, 30, 1),
+                                                    color: Color.fromRGBO(63, 63, 63, 1),
                                                     fontSize: 35,
                                                     fontFamily: 'Montserrat',
                                                     fontWeight: FontWeight.w300),
@@ -230,7 +229,7 @@ class EditProfState extends State<EditProf> {
                                               const Text(
                                                 'Edit Your Profile',
                                                 style: TextStyle(
-                                                    color: Color.fromRGBO(30, 30, 30, 1),
+                                                    color: Color.fromRGBO(63, 63, 63, 1),
                                                     fontSize: 20,
                                                     fontFamily: 'Montserrat',
                                                     fontWeight: FontWeight.w300),
@@ -560,38 +559,9 @@ class EditProfState extends State<EditProf> {
                 ),
               ),
               // Right column-Right Half
-              Expanded(
-                flex: 1,
-                child: Container(
-                  color: const Color.fromARGB(255, 255, 255, 255),
-                  child: FractionallySizedBox(
-                    widthFactor: 1,
-                    child: Container(
-                      alignment: Alignment.topCenter,
-                      decoration: const BoxDecoration(
-                        color: Color.fromARGB(255, 255, 255, 255),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 55, left: 16, right: 16),
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                            labelText: 'Search...',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            labelStyle: const TextStyle(
-                              color: Color.fromRGBO(180, 180, 180, 1),
-                              fontFamily: 'Montserrat',
-                              fontSize: 16,
-                              fontWeight: FontWeight.w300,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+
+              // search bar
+              genSearchBar(context),
             ],
           )),
     );

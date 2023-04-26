@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:http/http.dart' as http;
@@ -22,8 +23,8 @@ var headers = {'Content-Type': 'application/json'};
 
 // Login function
 Future<void> loginUser(BuildContext context, String studentid, String password) async {
-  String url = 'http://127.0.0.1:5000/login';
-  // String url = 'https://universe-384603.ew.r.appspot.com/login';
+  // String url = 'http://0.0.0.0:8080/login';
+  String url = 'https://universeapp-4bb24.nw.r.appspot.com/login';
 
   if (studentid == null || studentid.trim().isEmpty) {
     // ignore: use_build_context_synchronously
@@ -49,12 +50,12 @@ Future<void> loginUser(BuildContext context, String studentid, String password) 
     if (logResponse.containsKey('success') && logResponse['success'] == true) {
       // ignore: use_build_context_synchronously
       // Navigator.pushNamed(context, '/feeds');
-       Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const Feeds(),
-                  ),
-                );
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const Feeds(),
+        ),
+      );
 
       // setting provider variables
       Provider.of<UserProvider>(context, listen: false).loggedStudentId = studentid;
@@ -75,8 +76,8 @@ Future<void> loginUser(BuildContext context, String studentid, String password) 
 
 Future<void> createProfile(BuildContext context, String studentid, String firstname, String lastname, String email,
     String password, String major, String year, String birthday, String residence, String food, String movie) async {
-  String url = 'http://127.0.0.1:5000/create-profile';
-  // String url = 'https://universe-384603.ew.r.appspot.com/create-profile';
+  // String url = 'http://0.0.0.0:8080/create-profile';
+  String url = 'https://universeapp-4bb24.nw.r.appspot.com/create-profile';
 
   var request = http.Request('POST', Uri.parse(url));
 
@@ -108,12 +109,12 @@ Future<void> createProfile(BuildContext context, String studentid, String firstn
       print('profile created');
       // ignore: use_build_context_synchronously
       // Navigator.pushNamed(context, '/login');
-       Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const Login(),
-                  ),
-                );
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const Login(),
+        ),
+      );
     } else {
       // ignore: use_build_context_synchronously
       showCustomDialog(context, 'Profile Creation Error:', profileResponse['message']);
@@ -126,8 +127,8 @@ Future<void> createProfile(BuildContext context, String studentid, String firstn
 }
 
 Future<Map<String, dynamic>> getProfile(String studentid) async {
-  String url = 'http://127.0.0.1:5000/view-profile?id=' + studentid;
-  // String url = 'https://universe-384603.ew.r.appspot.com/view-profile?id=' + studentid;
+  // String url = 'http://0.0.0.0:8080/view-profile?id=' + studentid;
+  String url = 'https://universeapp-4bb24.nw.r.appspot.com/view-profile?id=' + studentid;
   var request = http.Request('GET', Uri.parse(url));
   request.headers.addAll(headers);
 
@@ -148,10 +149,10 @@ Future<Map<String, dynamic>> getProfile(String studentid) async {
 }
 
 Future<Map<String, dynamic>> viewProfile(String messagetime) async {
-  String url = 'http://127.0.0.1:5000/feeds?timestamp=' + messagetime;
-  // String url = 'https://universe-384603.ew.r.appspot.com' + messagetime;
+  // String url = 'http://0.0.0.0:8080/feeds?timestamp=' + messagetime;
+  String url = 'https://universeapp-4bb24.nw.r.appspot.com/feeds?timestamp=' + messagetime;
   var request = http.Request('GET', Uri.parse(url));
-  print('making request....');
+  print('making request 1....');
   http.StreamedResponse response = await request.send();
   final viewResponse = json.decode(await response.stream.bytesToString());
 
@@ -165,8 +166,8 @@ Future<Map<String, dynamic>> viewProfile(String messagetime) async {
 Future<void> editProfile(BuildContext context, String studentid, String major, String year, String birthday,
     String residence, String food, String movie) async {
   // first get old info from db
-  String url = 'http://127.0.0.1:5000/edit-profile?id=' + studentid;
-  // String url = 'https://universe-384603.ew.r.appspot.com/edit-profile?id=' + studentid;
+  // String url = 'http://0.0.0.0:8080/edit-profile?id=' + studentid;
+  String url = 'https://universeapp-4bb24.nw.r.appspot.com/edit-profile?id=' + studentid;
   var request = http.Request('PATCH', Uri.parse(url));
 
   request.body = json.encode(
@@ -176,7 +177,7 @@ Future<void> editProfile(BuildContext context, String studentid, String major, S
   print('making request....');
   http.StreamedResponse response = await request.send();
   final editResponse = json.decode(await response.stream.bytesToString());
-  print(editResponse.toString());
+  // print(editResponse.toString());
 
   if (response.statusCode == 200) {
     print(response.statusCode);
@@ -209,8 +210,8 @@ Future<void> editProfile(BuildContext context, String studentid, String major, S
 // }
 
 Future<void> createPost(BuildContext context, String studentid, String postMessage) async {
-  String url = 'http://127.0.0.1:5000/create-post';
-  // String url = 'https://universe-384603.ew.r.appspot.com/create-post';
+  // String url = 'http://0.0.0.0:8080/create-post';
+  String url = 'https://universeapp-4bb24.nw.r.appspot.com/create-post';
   var request = http.Request('PATCH', Uri.parse(url));
   request.headers.addAll(headers);
   request.body = json.encode({"id": studentid, "message": postMessage});
@@ -226,15 +227,11 @@ Future<void> createPost(BuildContext context, String studentid, String postMessa
 // single user feed for other users
 genSingleFeed(BuildContext context, String email, String message, String time) {
   // message box
-  // final textSpan = TextSpan(text: message, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400));
-  // final textPainter = TextPainter(text: textSpan, maxLines: 100, textDirection: TextDirection.ltr)..layout();
-  // final messageHeight = textPainter.size.height ; // Add 10 for some extra padding
 
   return Padding(
     padding: const EdgeInsets.only(top: 40, right: 30),
     child: Container(
       width: 850,
-      // height: 155 + messageHeight,
       height: 155,
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.only(
@@ -284,9 +281,9 @@ genSingleFeed(BuildContext context, String email, String message, String time) {
                             onTap: () {
                               print('tapped');
                               Provider.of<ProfileProvider>(context, listen: false).profileMail = email;
-                              print(Provider.of<ProfileProvider>(context, listen: false).profileMail);
+                              // print(Provider.of<ProfileProvider>(context, listen: false).profileMail);
                               Provider.of<ProfileProvider>(context, listen: false).messageTime = time;
-                              print(Provider.of<ProfileProvider>(context, listen: false).messageTime);
+                              // print(Provider.of<ProfileProvider>(context, listen: false).messageTime);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -517,7 +514,13 @@ showSideMenubar(BuildContext context) {
             const SizedBox(height: 25),
             GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, '/view-profile');
+                // Navigator.pushNamed(context, '/view-profile');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const Feeds(),
+                  ),
+                );
               },
               child: Row(
                 children: const [
@@ -634,6 +637,9 @@ showSideMenubar(BuildContext context) {
                 Provider.of<UserProvider>(context, listen: false).loggedStudentmail = '';
                 Provider.of<UserProvider>(context, listen: false).loggedStudentname = '';
                 Provider.of<UserProvider>(context, listen: false).loggedStudentId = '';
+                Provider.of<UserProvider>(context, listen: false).loggedresidence = '';
+                Provider.of<UserProvider>(context, listen: false).loggedmajor = '';
+
                 // Navigator.restorablePushNamedAndRemoveUntil(context, '/login', (route) => false);
                 Navigator.pushAndRemoveUntil(
                   context,
@@ -659,6 +665,69 @@ showSideMenubar(BuildContext context) {
             ),
             // single button ends here
           ],
+        ),
+      ),
+    ),
+  );
+}
+
+Future<void> searchUser(BuildContext context, String profmail) async {
+  CollectionReference profiles = FirebaseFirestore.instance.collection('profiles');
+  QuerySnapshot mail = await profiles.where('this_student.email', isEqualTo: profmail).get();
+  if (mail.docs.isNotEmpty) {
+    DocumentSnapshot documentSnapshot = mail.docs.first;
+    Map<String, dynamic> documentData = documentSnapshot.data() as Map<String, dynamic>;
+    // process the documentData as needed
+    Provider.of<ProfileProvider>(context, listen: false).profileId = documentData['id'];
+    print(Provider.of<ProfileProvider>(context, listen: false).profileId);
+    // ignore: use_build_context_synchronously
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const ViewProfile(),
+      ),
+    );
+  } else {
+    // handle case where no document with the specified field value is found
+    // ignore: use_build_context_synchronously
+    showCustomDialog(context, 'Oops....', 'looks like that user doesn\'t exist....');
+  }
+}
+
+genSearchBar(BuildContext context) {
+  return Expanded(
+    flex: 1,
+    child: Container(
+      color: const Color.fromARGB(255, 255, 255, 255),
+      child: FractionallySizedBox(
+        widthFactor: 1,
+        child: Container(
+          alignment: Alignment.topCenter,
+          decoration: const BoxDecoration(
+            color: Color.fromARGB(255, 255, 255, 255),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.only(top: 55, left: 16, right: 16),
+            child: TextFormField(
+              controller: searchbar,
+              decoration: InputDecoration(
+                labelText: 'Search...',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                labelStyle: const TextStyle(
+                  color: Color.fromRGBO(180, 180, 180, 1),
+                  fontFamily: 'Montserrat',
+                  fontSize: 16,
+                  fontWeight: FontWeight.w300,
+                ),
+              ),
+              onFieldSubmitted: (value) {
+                String email = searchbar.text;
+                searchUser(context, email);
+              },
+            ),
+          ),
         ),
       ),
     ),

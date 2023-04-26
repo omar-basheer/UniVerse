@@ -98,14 +98,14 @@ class MyPostsState extends State<MyPosts> {
                                     const TextSpan(
                                       text: 'UniVerse@',
                                       style: TextStyle(
-                                        color: Color.fromRGBO(30, 30, 30, 1),
+                                        color: Color.fromRGBO(63, 63, 63, 1),
                                         fontFamily: 'Montserrat',
                                         fontSize: 23,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextSpan(
-                                      text: loggedname,
+                                      text: loggedname.toLowerCase(),
                                       style: const TextStyle(
                                         color: Colors.white,
                                         fontFamily: 'Montserrat',
@@ -128,7 +128,7 @@ class MyPostsState extends State<MyPosts> {
 
                                 if (!snapshot.hasData) {
                                   return const Padding(
-                                    padding: EdgeInsets.only(top:300, bottom: 300),
+                                    padding: EdgeInsets.only(top: 300, bottom: 300),
                                     child: Center(
                                       child: CircularProgressIndicator(
                                         // color: Color.fromARGB(255, 132, 94, 194),
@@ -139,6 +139,28 @@ class MyPostsState extends State<MyPosts> {
                                 }
 
                                 final feedsList = snapshot.data!.docs;
+                                print(feedsList.toString());
+                                bool hasFeeds = false;
+
+                                for (var feed in feedsList) {
+                                  if (feed['email'] == loggedmail) {
+                                    hasFeeds = true;
+                                    break;
+                                  }
+                                }
+
+                                if (!hasFeeds) {
+                                  return const Center(
+                                    child: Padding(
+                                      padding: EdgeInsets.only(top: 300, bottom: 300),
+                                      child: Text("you have no posts yet. post something to see your posts!!",
+                                          style: TextStyle(
+                                              color: Color.fromARGB(212, 185, 185, 185),
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600)),
+                                    ),
+                                  );
+                                }
 
                                 return Expanded(
                                   child: SingleChildScrollView(
@@ -170,7 +192,7 @@ class MyPostsState extends State<MyPosts> {
                                   decoration: InputDecoration(
                                       filled: true,
                                       fillColor: const Color.fromRGBO(255, 255, 255, 1),
-                                      hoverColor: const Color.fromRGBO(255, 255, 255 , 1),
+                                      hoverColor: const Color.fromRGBO(255, 255, 255, 1),
                                       labelText: 'Write Something...',
                                       enabledBorder: OutlineInputBorder(
                                           borderRadius: BorderRadius.circular(22),
@@ -224,40 +246,11 @@ class MyPostsState extends State<MyPosts> {
                 ),
               ),
               // Right column-Right Half
-              Expanded(
-                flex: 1,
-                child: Container(
-                  color: const Color.fromARGB(255, 255, 255, 255),
-                  child: FractionallySizedBox(
-                    widthFactor: 1,
-                    child: Container(
-                      alignment: Alignment.topCenter,
-                      decoration: const BoxDecoration(
-                        color: Color.fromARGB(255, 255, 255, 255),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 55, left: 16, right: 16),
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                            labelText: 'Search...',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            labelStyle: const TextStyle(
-                              color: Color.fromRGBO(180, 180, 180, 1),
-                              fontFamily: 'Montserrat',
-                              fontSize: 16,
-                              fontWeight: FontWeight.w300,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+
+              // search bar
+              genSearchBar(context)
             ],
-          )),
+          ),),
     );
   }
 }
