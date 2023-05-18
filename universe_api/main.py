@@ -123,7 +123,23 @@ def edit_profile():
 
     return jsonify({'success': True, 'message': 'Profile updated succesfully'})
 
+@app.route('/get-profiles', methods=['GET'])
+def get_profile():
+    users = []
+    profiles = db.collection('profiles').get()
 
+    for profile in profiles:
+        profile_data = profile.to_dict()
+        user_data = profile_data.get('this_student')
+
+        if user_data:
+            user = {
+                'email': user_data.get('email'),
+                'name': user_data.get('first_name').lower() + ' ' + user_data.get('last_name').lower()
+            }
+            users.append(user)
+    return jsonify(users)
+            
 
 @app.route('/create-post', methods=['PATCH'])
 def create_post():
@@ -171,13 +187,13 @@ def create_post():
     last_name = profile_doc['this_student']['last_name']
     student_name = first_name + ' ' + last_name
     gen_message = 'New Post by ' + student_name + '!'
-    gen_subject = student_name + ' just posted on Universe! Click the link below to access the feed and join the convo: ' 
+    gen_subject = student_name + ' just posted on Universe! Click the link below to access the feed and join the convo: ' + 'https://universeapp-4bb24.web.app/#/'
 
     all_users = db.collection('profiles').get()
     for user in all_users:
         # print(user.to_dict()['this_student']['email'])
         receiver = user.to_dict()['this_student']['email']
-        send_email(receiver, gen_subject, gen_message )
+        # send_email(receiver, gen_subject, gen_message )
         print('mail sent')
 
     return jsonify({'success': True, 'message': 'post with id ' + timestamp + ' by student ' + student_mail + ' created successfully'})
@@ -253,7 +269,7 @@ def send_email(recipient, subject, body):
 
 
 # universe_app.run(debug=True)
-# app.run(debug=True)
+app.run(debug=True)
 
 
 
