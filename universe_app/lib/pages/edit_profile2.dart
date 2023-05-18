@@ -148,7 +148,7 @@ class EditProfState extends State<EditProf> {
                               height: 55,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(17),
-                                color: const Color.fromARGB(255, 97, 194, 94),
+                                color: const Color.fromARGB(255, 10, 151, 252),
                                 // color: const Color.fromARGB(255, 140, 101, 204),
                                 boxShadow: [
                                   BoxShadow(
@@ -192,7 +192,7 @@ class EditProfState extends State<EditProf> {
                                   ? const Padding(
                                       padding: EdgeInsets.only(top: 300),
                                       child: CircularProgressIndicator(
-                                        color: Color.fromARGB(255, 97, 194, 94),
+                                        color: Color.fromARGB(255, 10, 151, 252),
                                         // color: Color.fromARGB(255, 132, 94, 194),
                                       ),
                                     )
@@ -524,7 +524,7 @@ class EditProfState extends State<EditProf> {
                                                   });
                                                 },
                                                 style: ElevatedButton.styleFrom(
-                                                  backgroundColor: const Color.fromARGB(255, 97, 194, 94),
+                                                  backgroundColor: const Color.fromARGB(255, 10, 151, 252),
                                                   // backgroundColor: const Color.fromARGB(255, 132, 94, 194),
                                                   minimumSize: const Size(185, 55),
                                                   shape: const RoundedRectangleBorder(
@@ -561,7 +561,7 @@ class EditProfState extends State<EditProf> {
               // Right column-Right Half
 
               // search bar
-              genSearchBar(context),
+              genSearch(context),
             ],
           )),
     );

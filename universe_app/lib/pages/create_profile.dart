@@ -41,7 +41,7 @@ class CreateProfileState extends State<CreateProfile> {
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(100),
           child: AppBar(
-            backgroundColor: const Color.fromARGB(255, 97, 194, 94),
+            backgroundColor: const Color.fromARGB(255, 10, 151, 252),
             // backgroundColor: Color.fromARGB(255, 132, 94, 194),
             title: Container(
               alignment: Alignment.centerLeft,
@@ -83,7 +83,7 @@ class CreateProfileState extends State<CreateProfile> {
             child: isLoading
                 ? const CircularProgressIndicator(
                     // color: Color.fromARGB(255, 132, 94, 194),
-                    color: Color.fromARGB(255, 97, 194, 94),
+                    color: Color.fromARGB(255, 10, 151, 252),
                   )
                 : Container(
                     width: 700,
@@ -456,7 +456,7 @@ class CreateProfileState extends State<CreateProfile> {
                             best_movie.clear();
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color.fromARGB(255, 97, 194, 94),
+                            backgroundColor: const Color.fromARGB(255, 10, 151, 252),
                             // backgroundColor: const Color.fromARGB(255, 132, 94, 194),
                             minimumSize: const Size(185, 55),
                             shape: const RoundedRectangleBorder(

@@ -85,7 +85,7 @@ class FeedsState extends State<Feeds> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(17),
                                 // color: const Color.fromARGB(255, 140, 101, 204),
-                                color: const Color.fromARGB(255, 97, 194, 94),
+                                color: const Color.fromARGB(255, 10, 151, 252),
                                 boxShadow: [
                                   BoxShadow(
                                     color: const Color.fromARGB(255, 98, 98, 98).withOpacity(0.5),
@@ -136,7 +136,7 @@ class FeedsState extends State<Feeds> {
                                     padding: EdgeInsets.only(top: 300, bottom: 300),
                                     child: Center(
                                       child: CircularProgressIndicator(
-                                        color: Color.fromARGB(255, 97, 194, 94),
+                                        color: Color.fromARGB(255, 10, 151, 252),
                                         // color: Color.fromARGB(255, 132, 94, 194),
                                       ),
                                     ),
@@ -188,14 +188,14 @@ class FeedsState extends State<Feeds> {
                                         )),
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: const BorderSide(
-                                        color: Color.fromARGB(255, 97, 194, 94),
+                                        color: Color.fromARGB(255, 10, 151, 252),
                                         // color: Color.fromARGB(255, 132, 94, 194),
                                       ),
                                       borderRadius: BorderRadius.circular(22),
                                     ),
                                     disabledBorder: OutlineInputBorder(
                                       borderSide: const BorderSide(
-                                        color: Color.fromARGB(255, 97, 194, 94),
+                                        color: Color.fromARGB(255, 10, 151, 252),
                                         // color: Color.fromARGB(255, 132, 94, 194),
                                       ),
                                       borderRadius: BorderRadius.circular(22),
@@ -217,12 +217,20 @@ class FeedsState extends State<Feeds> {
                                       child: const Icon(
                                         Icons.near_me,
                                         size: 20,
-                                        color: Color.fromARGB(255, 97, 194, 94),
+                                        color: Color.fromARGB(255, 10, 151, 252),
                                         // color: Color.fromARGB(255, 132, 94, 194),
                                       ),
                                     ),
                                   ),
                                   maxLines: null,
+                                  textInputAction: TextInputAction.done,
+                                  onFieldSubmitted: (_) {
+                                    String message = postMessage.text;
+                                        if (message != "") {
+                                          createPost(context, loggedId, message);
+                                          postMessage.clear();
+                                        }
+                                  },
                                 ),
                               ),
                             ),
@@ -236,7 +244,7 @@ class FeedsState extends State<Feeds> {
               // Right column-Right Half
 
               // search bar
-              genSearchBar(context)
+              genSearch(context)
             ],
           )),
     );

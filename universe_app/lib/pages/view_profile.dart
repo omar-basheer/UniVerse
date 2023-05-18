@@ -157,7 +157,7 @@ class ViewProfileState extends State<ViewProfile> {
                             height: 55,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(17),
-                              color: const Color.fromARGB(255, 97, 194, 94),
+                              color: const Color.fromARGB(255, 10, 151, 252),
                               // color: const Color.fromARGB(255, 140, 101, 204),
                               boxShadow: [
                                 BoxShadow(
@@ -226,7 +226,7 @@ class ViewProfileState extends State<ViewProfile> {
                                           child: Center(
                                             child: CircularProgressIndicator(
                                               // color: Color.fromARGB(255, 132, 94, 194),
-                                              color: Color.fromARGB(255, 97, 194, 94),
+                                              color: Color.fromARGB(255, 10, 151, 252),
                                             ),
                                           ),
                                         ),
@@ -247,6 +247,10 @@ class ViewProfileState extends State<ViewProfile> {
                                                   child: CircleAvatar(
                                                     radius: 130,
                                                     backgroundColor: Color.fromARGB(212, 192, 192, 192),
+                                                    // child: Icon(
+                                                    //   Icons.person,
+                                                    //   // size: 100,
+                                                    //   ),
                                                   ),
                                                 ),
                                               ),
@@ -378,7 +382,7 @@ class ViewProfileState extends State<ViewProfile> {
                                             padding: EdgeInsets.only(top: 150, bottom: 250),
                                             child: Center(
                                               child: CircularProgressIndicator(
-                                                color: Color.fromARGB(255, 97, 194, 94),
+                                                color: Color.fromARGB(255, 10, 151, 252),
                                                 // color: Color.fromARGB(255, 132, 94, 194),
                                               ),
                                             ),
@@ -441,7 +445,7 @@ class ViewProfileState extends State<ViewProfile> {
             // Right column-Right Half
 
             // search bar
-            genSearchBar(context),
+            genSearch(context),
           ],
         ),
       ),

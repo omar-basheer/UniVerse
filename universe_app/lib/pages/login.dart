@@ -35,7 +35,8 @@ class LoginState extends State<Login> {
             preferredSize: const Size.fromHeight(100),
             child: AppBar(
               // backgroundColor: const Color.fromARGB(255, 132, 94, 194),
-              backgroundColor: const Color.fromARGB(255, 97, 194, 94),
+              // backgroundColor: const Color.fromARGB(255, 97, 194, 94),
+              backgroundColor: Color.fromARGB(255, 10, 151, 252),
               title: Container(
                 alignment: Alignment.centerLeft,
                 padding: const EdgeInsets.only(top: 25, left: 110),
@@ -80,7 +81,7 @@ class LoginState extends State<Login> {
                           padding: EdgeInsets.only(top: 170),
                           child: CircularProgressIndicator(
                             // color: Color.fromARGB(255, 132, 94, 194),
-                            color: Color.fromARGB(255, 97, 194, 94),
+                            color: Color.fromARGB(255, 10, 151, 252),
                           ),
                         )
                       : Column(
@@ -186,7 +187,7 @@ class LoginState extends State<Login> {
                                       student_pass.clear();
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: const Color.fromARGB(255, 97, 194, 94),
+                                      backgroundColor: const Color.fromARGB(255, 10, 151, 252),
                                       // backgroundColor: const Color.fromARGB(255, 132, 94, 194),
                                       minimumSize: const Size(175, 65),
                                       shape: const RoundedRectangleBorder(
@@ -227,7 +228,7 @@ class LoginState extends State<Login> {
                                   TextSpan(
                                     text: 'Sign Up!!',
                                     style: const TextStyle(
-                                      color: Color.fromARGB(255, 97, 194, 94),
+                                      color: Color.fromARGB(255, 10, 151, 252),
                                       // color: Color.fromARGB(255, 132, 94, 194),
                                       fontFamily: 'Montserrat',
                                       fontSize: 14,

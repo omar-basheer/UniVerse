@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
+import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 // import 'package:universe_app/pages/create_profile.dart';
 import 'package:universe_app/pages/edit_profile2.dart';
 import 'package:universe_app/pages/feeds.dart';
@@ -360,7 +361,7 @@ genLoggedFeed(BuildContext context, String email, String message, String time) {
           bottomLeft: Radius.circular(25),
           bottomRight: Radius.circular(0),
         ),
-        color: const Color.fromARGB(255, 97, 194, 94),
+        color: const Color.fromARGB(255, 10, 151, 252),
         // color: const Color.fromARGB(255, 132, 94, 194),
         boxShadow: [
           BoxShadow(
@@ -493,7 +494,7 @@ showSideMenubar(BuildContext context) {
     height: 350,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(25),
-      color: const Color.fromARGB(255, 97, 194, 94),
+      color: const Color.fromARGB(255, 10, 151, 252),
       // color: const Color.fromARGB(255, 132, 94, 194),
       boxShadow: [
         BoxShadow(
@@ -725,6 +726,109 @@ genSearchBar(BuildContext context) {
               onFieldSubmitted: (value) {
                 String email = searchbar.text;
                 searchUser(context, email);
+              },
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+class User {
+  late final String email;
+  late final String name;
+
+  User({required this.email, required this.name});
+
+  int compareTo(User other) {
+    return email.compareTo(other.email);
+  }
+}
+
+genSearch(BuildContext context) {
+  List<User> users = [];
+  bool isLoading = true;
+
+  Future<void> fetchUsers() async {
+    String url = 'http://127.0.0.1:5000/get-profiles';
+    var request = http.Request('GET', Uri.parse(url));
+    print('getting users...');
+    http.StreamedResponse response = await request.send();
+    final getResponse = json.decode(await response.stream.bytesToString());
+    // print(getResponse);
+
+    for (var user in getResponse) {
+      String email = user['email'].toString();
+      String name = user['name'].toString();
+      users.add(User(email: email, name: name));
+    }
+    // print(users.toString());
+  }
+
+  fetchUsers();
+  // fetchUsers().then((_) {
+  //   setState(() {
+  //     isLoading = false;
+  //   });
+  // });
+
+  GlobalKey<AutoCompleteTextFieldState<User>> searchKey = GlobalKey();
+
+  return Expanded(
+    flex: 1,
+    child: Container(
+      color: const Color.fromARGB(255, 255, 255, 255),
+      child: FractionallySizedBox(
+        widthFactor: 1,
+        child: Container(
+          alignment: Alignment.topCenter,
+          decoration: const BoxDecoration(
+            color: Color.fromARGB(255, 255, 255, 255),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.only(top: 55, left: 16, right: 16),
+            child: AutoCompleteTextField<User>(
+              key: searchKey,
+              controller: searchbar,
+              suggestions: users,
+              clearOnSubmit: false,
+              decoration: InputDecoration(
+                labelText: 'Search...',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                labelStyle: const TextStyle(
+                  color: Color.fromRGBO(180, 180, 180, 1),
+                  fontFamily: 'Montserrat',
+                  fontSize: 16,
+                  fontWeight: FontWeight.w300,
+                ),
+              ),
+              itemFilter: (item, query) {
+                final user = item;
+                return user.email.toLowerCase().contains(query.toLowerCase()) ||
+                    user.name.toLowerCase().contains(query.toLowerCase());
+              },
+              itemSorter: (a, b) {
+                return a.compareTo(b);
+              },
+              itemSubmitted: (value) {
+                String email = value.email;
+                print(email);
+                searchbar.text = email;
+                searchUser(context, email);
+              },
+              itemBuilder: (context, item) {
+                final user = item;
+                return ListTile(
+                  leading: const CircleAvatar(
+                    backgroundColor: Color.fromRGBO(180, 180, 180, 1),
+                    child: Icon(Icons.person),
+                  ),
+                  title: Text(user.email),
+                  subtitle: Text(user.name),
+                );
               },
             ),
           ),
