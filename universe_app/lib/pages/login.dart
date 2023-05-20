@@ -28,20 +28,7 @@ class LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    const Color primaryColor = Color.fromRGBO(10, 151, 252, 1);
-    const Color backgroundColorLight = Color.fromRGBO(245, 244, 244, 1);
-    const Color backgroundColorDark = Color.fromARGB(255, 31, 31, 31);
-    const Color textColorLight = Color.fromRGBO(30, 30, 30, 1);
-    const Color textColorDark = Color.fromRGBO(255, 255, 255, 1);
-    const Color textColorLight2 = Color.fromRGBO(72, 72, 72, 1);
-    const Color textColorDark2 = Color.fromRGBO(189, 189, 189, 1);
-    const Color borderColorLight = Color.fromRGBO(245, 244, 244, 1);
-    const Color borderColorDark = Color.fromRGBO(98, 98, 98, 1);
-    Color shadowColorLight = Color.fromARGB(255, 98, 98, 98).withOpacity(0.5);
-    Color shadowColorDark = Color.fromARGB(255, 31, 31, 31);
-
-    final themeData = ThemeData(
-        brightness: isDark ? Brightness.dark : Brightness.light);
+    // final themeData = ThemeData(brightness: isDark ? Brightness.dark : Brightness.light);
 
     return ChangeNotifierProvider(
       create: (_) => UserProvider(),
@@ -101,9 +88,9 @@ class LoginState extends State<Login> {
                       ? const Padding(
                           padding: EdgeInsets.only(top: 170),
                           child: CircularProgressIndicator(
-                              // color: Color.fromARGB(255, 132, 94, 194),
-                              color: primaryColor,
-                              ),
+                            // color: Color.fromARGB(255, 132, 94, 194),
+                            color: primaryColor,
+                          ),
                         )
                       : Column(
                           children: [
@@ -117,33 +104,33 @@ class LoginState extends State<Login> {
                                 borderRadius: BorderRadius.circular(10),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: isDark? shadowColorDark : shadowColorLight ,
+                                    color: isDark ? shadowColorDark : shadowColorLight,
                                     spreadRadius: 0,
                                     blurRadius: 3,
                                     offset: const Offset(0, 3),
                                   ),
                                 ],
                                 border: Border.all(
-                                  color: isDark? borderColorDark : borderColorLight
-                                )
+                                  color: isDark ? borderColorDark : borderColorLight,
+                                ),
                               ),
                               child: Column(
                                 children: [
                                   const SizedBox(height: 35),
-                                   Text(
+                                  Text(
                                     'Welcome Back!',
                                     style: TextStyle(
-                                        color: isDark? textColorDark : textColorLight,
+                                        color: isDark ? textColorDark : textColorLight,
                                         /*white*/
                                         fontSize: 35,
                                         fontFamily: 'Montserrat',
                                         fontWeight: FontWeight.w300),
                                   ),
                                   const SizedBox(height: 20),
-                                   Text(
+                                  Text(
                                     'It\'s Been A Minute Since We Heard From You',
                                     style: TextStyle(
-                                        color: isDark? textColorDark : textColorLight,
+                                        color: isDark ? textColorDark : textColorLight,
                                         /*white*/
                                         fontSize: 14,
                                         fontFamily: 'Montserrat',
@@ -166,8 +153,8 @@ class LoginState extends State<Login> {
                                           border: OutlineInputBorder(
                                             borderRadius: BorderRadius.circular(10),
                                           ),
-                                          labelStyle:  TextStyle(
-                                              color: isDark? textColorDark : textColorLight,
+                                          labelStyle: TextStyle(
+                                              color: isDark ? textColorDark : textColorLight,
                                               /*white*/
                                               fontFamily: 'Montserrat',
                                               fontSize: 15,
@@ -190,8 +177,8 @@ class LoginState extends State<Login> {
                                           border: OutlineInputBorder(
                                             borderRadius: BorderRadius.circular(10),
                                           ),
-                                          labelStyle:  TextStyle(
-                                              color: isDark? textColorDark : textColorLight,
+                                          labelStyle: TextStyle(
+                                              color: isDark ? textColorDark : textColorLight,
                                               fontFamily: 'Montserrat',
                                               fontSize: 15,
                                               fontWeight: FontWeight.w300),
@@ -244,10 +231,10 @@ class LoginState extends State<Login> {
                             RichText(
                               text: TextSpan(
                                 children: [
-                                   TextSpan(
+                                  TextSpan(
                                     text: 'Aren\'t a member? ',
                                     style: TextStyle(
-                                      color: isDark? textColorDark2 : textColorLight2,
+                                      color: isDark ? textColorDark2 : textColorLight2,
                                       /*white*/
                                       fontFamily: 'Montserrat',
                                       // fontFamily: 'Rubik_Pixels',

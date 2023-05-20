@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:universe_app/functions/functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:universe_app/providers/profile_provider.dart';
+import '../preferences/dark_mode_service.dart';
 import '../providers/user_provider.dart';
 // import 'package:flutter/rendering.dart';
 
@@ -20,6 +21,7 @@ class ViewProfile extends StatefulWidget {
 
 class ViewProfileState extends State<ViewProfile> {
   bool isLoading = false;
+  bool isDark = DarkModeService.getDarkMode();
   Stream<QuerySnapshot> feedsStream = FirebaseFirestore.instance.collection('feeds').snapshots();
   Map<String, dynamic> studentInfo = {};
   Map<String, dynamic> feedInfo = {};
@@ -114,9 +116,9 @@ class ViewProfileState extends State<ViewProfile> {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(fontFamily: 'Montserrat'),
+      theme: themeData,
       home: Scaffold(
-        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+        backgroundColor: isDark ? backgroundColorDark : backgroundColorLight,
         body: Row(
           children: [
             // Left column-Left Half
@@ -128,7 +130,7 @@ class ViewProfileState extends State<ViewProfile> {
                   Expanded(
                     flex: 1,
                     child: Container(
-                      color: const Color.fromRGBO(245, 244, 244, 1),
+                      color: isDark ? backgroundColorDark : backgroundColorLight,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -142,7 +144,7 @@ class ViewProfileState extends State<ViewProfile> {
                   Expanded(
                     flex: 4,
                     child: Container(
-                      color: const Color.fromRGBO(245, 244, 244, 1),
+                      color: isDark ? backgroundColorDark : backgroundColorLight,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -157,16 +159,19 @@ class ViewProfileState extends State<ViewProfile> {
                             height: 55,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(17),
-                              color: const Color.fromARGB(255, 10, 151, 252),
+                              color: primaryColor,
                               // color: const Color.fromARGB(255, 140, 101, 204),
                               boxShadow: [
                                 BoxShadow(
-                                  color: const Color.fromARGB(255, 98, 98, 98).withOpacity(0.5),
+                                  color: isDark ? shadowColorDark : shadowColorLight,
                                   spreadRadius: 0,
                                   blurRadius: 2,
                                   offset: const Offset(0, 2),
                                 ),
                               ],
+                              border: Border.all(
+                                color: isDark ? backgroundColorDark : borderColorLight,
+                              ),
                             ),
                             child: RichText(
                               textAlign: TextAlign.center,
@@ -202,23 +207,25 @@ class ViewProfileState extends State<ViewProfile> {
                               height: 700,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(17),
-                                color: const Color.fromARGB(255, 255, 255, 255),
+                                color: isDark ? backgroundColorDark : borderColorLight,
                                 // color: const Color.fromARGB(255, 140, 101, 204),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: const Color.fromARGB(255, 98, 98, 98).withOpacity(0.5),
+                                    color: isDark ? shadowColorDark : shadowColorLight,
                                     spreadRadius: 0,
                                     blurRadius: 2,
                                     offset: const Offset(0, 2),
                                   ),
                                 ],
+                                border: Border.all(
+                                  color: isDark ? backgroundColorDark : borderColorLight,
+                                ),
                               ),
                               child: Column(
                                 children: [
                                   Expanded(
                                     flex: 2,
-                                    child: Stack(
-                                      children: [
+                                    child: Stack(children: [
                                       Visibility(
                                         visible: studentInfo.isEmpty,
                                         child: const Padding(
@@ -226,12 +233,11 @@ class ViewProfileState extends State<ViewProfile> {
                                           child: Center(
                                             child: CircularProgressIndicator(
                                               // color: Color.fromARGB(255, 132, 94, 194),
-                                              color: Color.fromARGB(255, 10, 151, 252),
+                                              color: primaryColor,
                                             ),
                                           ),
                                         ),
                                       ),
-                                      
                                       Visibility(
                                         visible: !studentInfo.isEmpty,
                                         child: Row(
@@ -357,7 +363,7 @@ class ViewProfileState extends State<ViewProfile> {
 
                                   // SizedBox(height: 10,),
 
-                                  const Divider(height: 1, color: Color.fromARGB(255, 161, 161, 161)),
+                                   Divider(height: 1, color: isDark? backgroundColorLight : Color.fromARGB(255, 161, 161, 161)),
 
                                   StreamBuilder<QuerySnapshot>(
                                       stream: feedsStream,

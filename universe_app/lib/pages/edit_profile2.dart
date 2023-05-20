@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:universe_app/functions/functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../preferences/dark_mode_service.dart';
 import '../providers/user_provider.dart';
 // import 'package:flutter/rendering.dart';
 
@@ -20,6 +21,7 @@ class EditProf extends StatefulWidget {
 
 class EditProfState extends State<EditProf> {
   bool isLoading = false;
+  bool isDark = DarkModeService.getDarkMode();
   Map<String, dynamic> student_info = {};
   String loggedmail = '';
   String loggedid = '';
@@ -105,9 +107,10 @@ class EditProfState extends State<EditProf> {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(fontFamily: 'Montserrat'),
+      // theme: ThemeData(fontFamily: 'Montserrat'),
+      theme: themeData,
       home: Scaffold(
-          backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+          backgroundColor: isDark ? backgroundColorDark : backgroundColorLight,
           body: Row(
             children: [
               // Left column-Left Half
@@ -119,7 +122,7 @@ class EditProfState extends State<EditProf> {
                     Expanded(
                       flex: 1,
                       child: Container(
-                        color: const Color.fromRGBO(245, 244, 244, 1),
+                        color: isDark ? backgroundColorDark : backgroundColorLight,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -133,7 +136,7 @@ class EditProfState extends State<EditProf> {
                     Expanded(
                       flex: 4,
                       child: Container(
-                        color: const Color.fromRGBO(245, 244, 244, 1),
+                        color: isDark ? backgroundColorDark : backgroundColorLight,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -148,16 +151,19 @@ class EditProfState extends State<EditProf> {
                               height: 55,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(17),
-                                color: const Color.fromARGB(255, 10, 151, 252),
+                                color: primaryColor,
                                 // color: const Color.fromARGB(255, 140, 101, 204),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: const Color.fromARGB(255, 98, 98, 98).withOpacity(0.5),
+                                    color: isDark ? shadowColorDark : shadowColorLight,
                                     spreadRadius: 0,
                                     blurRadius: 2,
                                     offset: const Offset(0, 2),
                                   ),
                                 ],
+                                border: Border.all(
+                                  color: isDark ? backgroundColorDark : borderColorLight,
+                                ),
                               ),
                               child: RichText(
                                 textAlign: TextAlign.center,
@@ -192,7 +198,7 @@ class EditProfState extends State<EditProf> {
                                   ? const Padding(
                                       padding: EdgeInsets.only(top: 300),
                                       child: CircularProgressIndicator(
-                                        color: Color.fromARGB(255, 10, 151, 252),
+                                        color: primaryColor,
                                         // color: Color.fromARGB(255, 132, 94, 194),
                                       ),
                                     )
@@ -203,33 +209,36 @@ class EditProfState extends State<EditProf> {
                                           width: 700,
                                           height: 650,
                                           decoration: BoxDecoration(
-                                            color: const Color.fromRGBO(255, 255, 255, 1),
+                                            color: isDark ? feedBackgroundColorDark : backgroundColorLight,
                                             borderRadius: BorderRadius.circular(10),
                                             boxShadow: [
                                               BoxShadow(
-                                                color: Colors.grey.withOpacity(0.5),
+                                                color: isDark ? shadowColorDark : shadowColorLight,
                                                 spreadRadius: 0,
                                                 blurRadius: 3,
                                                 offset: const Offset(0, 3),
                                               ),
                                             ],
+                                            border: Border.all(
+                                              color: isDark ? borderColorDark : borderColorLight,
+                                            ),
                                           ),
                                           child: Column(
                                             children: [
                                               const SizedBox(height: 35),
                                               Text(
                                                 loggedmail,
-                                                style: const TextStyle(
-                                                    color: Color.fromRGBO(63, 63, 63, 1),
+                                                style: TextStyle(
+                                                    color: isDark ? textColorDark : loggedMailLight,
                                                     fontSize: 35,
                                                     fontFamily: 'Montserrat',
                                                     fontWeight: FontWeight.w300),
                                               ),
                                               const SizedBox(height: 20),
-                                              const Text(
+                                              Text(
                                                 'Edit Your Profile',
                                                 style: TextStyle(
-                                                    color: Color.fromRGBO(63, 63, 63, 1),
+                                                    color: isDark ? textColorDark : loggedMailLight,
                                                     fontSize: 20,
                                                     fontFamily: 'Montserrat',
                                                     fontWeight: FontWeight.w300),
@@ -259,8 +268,8 @@ class EditProfState extends State<EditProf> {
                                                                 border: OutlineInputBorder(
                                                                   borderRadius: BorderRadius.circular(10),
                                                                 ),
-                                                                labelStyle: const TextStyle(
-                                                                    color: Color.fromRGBO(99, 99, 99, 1),
+                                                                labelStyle: TextStyle(
+                                                                    color: isDark ? textColorDark : textColorLight,
                                                                     fontFamily: 'Montserrat',
                                                                     fontSize: 15,
                                                                     fontWeight: FontWeight.w300),
@@ -284,8 +293,8 @@ class EditProfState extends State<EditProf> {
                                                                 border: OutlineInputBorder(
                                                                   borderRadius: BorderRadius.circular(10),
                                                                 ),
-                                                                labelStyle: const TextStyle(
-                                                                    color: Color.fromRGBO(99, 99, 99, 1),
+                                                                labelStyle: TextStyle(
+                                                                    color: isDark ? textColorDark : textColorLight,
                                                                     fontFamily: 'Montserrat',
                                                                     fontSize: 15,
                                                                     fontWeight: FontWeight.w300),
@@ -305,8 +314,8 @@ class EditProfState extends State<EditProf> {
                                                                 border: OutlineInputBorder(
                                                                   borderRadius: BorderRadius.circular(10),
                                                                 ),
-                                                                labelStyle: const TextStyle(
-                                                                    color: Color.fromRGBO(99, 99, 99, 1),
+                                                                labelStyle: TextStyle(
+                                                                    color: isDark ? textColorDark : textColorLight,
                                                                     fontFamily: 'Montserrat',
                                                                     fontSize: 15,
                                                                     fontWeight: FontWeight.w300),
@@ -326,8 +335,8 @@ class EditProfState extends State<EditProf> {
                                                                 border: OutlineInputBorder(
                                                                   borderRadius: BorderRadius.circular(10),
                                                                 ),
-                                                                labelStyle: const TextStyle(
-                                                                    color: Color.fromRGBO(99, 99, 99, 1),
+                                                                labelStyle: TextStyle(
+                                                                    color: isDark ? textColorDark : textColorLight,
                                                                     fontFamily: 'Montserrat',
                                                                     fontSize: 15,
                                                                     fontWeight: FontWeight.w300),
@@ -347,8 +356,8 @@ class EditProfState extends State<EditProf> {
                                                                 border: OutlineInputBorder(
                                                                   borderRadius: BorderRadius.circular(10),
                                                                 ),
-                                                                labelStyle: const TextStyle(
-                                                                    color: Color.fromRGBO(99, 99, 99, 1),
+                                                                labelStyle: TextStyle(
+                                                                    color: isDark ? textColorDark : textColorLight,
                                                                     fontFamily: 'Montserrat',
                                                                     fontSize: 15,
                                                                     fontWeight: FontWeight.w300),
@@ -383,8 +392,8 @@ class EditProfState extends State<EditProf> {
                                                                 border: OutlineInputBorder(
                                                                   borderRadius: BorderRadius.circular(10),
                                                                 ),
-                                                                labelStyle: const TextStyle(
-                                                                    color: Color.fromRGBO(99, 99, 99, 1),
+                                                                labelStyle: TextStyle(
+                                                                    color: isDark ? textColorDark : textColorLight,
                                                                     fontFamily: 'Montserrat',
                                                                     fontSize: 15,
                                                                     fontWeight: FontWeight.w300),
@@ -408,8 +417,8 @@ class EditProfState extends State<EditProf> {
                                                                 border: OutlineInputBorder(
                                                                   borderRadius: BorderRadius.circular(10),
                                                                 ),
-                                                                labelStyle: const TextStyle(
-                                                                    color: Color.fromRGBO(99, 99, 99, 1),
+                                                                labelStyle: TextStyle(
+                                                                    color: isDark ? textColorDark : textColorLight,
                                                                     fontFamily: 'Montserrat',
                                                                     fontSize: 15,
                                                                     fontWeight: FontWeight.w300),
@@ -432,7 +441,12 @@ class EditProfState extends State<EditProf> {
                                                             ),
                                                             child: DropdownButtonHideUnderline(
                                                               child: DropdownButton2(
-                                                                hint: Text('Major'),
+                                                                hint: Text(
+                                                                  'Major',
+                                                                  style: TextStyle(
+                                                                    color: isDark ? textColorDark : textColorLight,
+                                                                  ),
+                                                                ),
                                                                 items: majorDropdown
                                                                     .map((item) => DropdownMenuItem<String>(
                                                                         value: item, child: Text(item)))
@@ -462,7 +476,12 @@ class EditProfState extends State<EditProf> {
                                                             ),
                                                             child: DropdownButtonHideUnderline(
                                                               child: DropdownButton2(
-                                                                hint: const Text('Residence'),
+                                                                hint: Text(
+                                                                  'Residence',
+                                                                  style: TextStyle(
+                                                                    color: isDark ? textColorDark : textColorLight,
+                                                                  ),
+                                                                ),
                                                                 items: residenceDropdown
                                                                     .map((item) => DropdownMenuItem<String>(
                                                                         value: item, child: Text(item)))
@@ -489,8 +508,8 @@ class EditProfState extends State<EditProf> {
                                                                 border: OutlineInputBorder(
                                                                   borderRadius: BorderRadius.circular(10),
                                                                 ),
-                                                                labelStyle: const TextStyle(
-                                                                    color: Color.fromRGBO(99, 99, 99, 1),
+                                                                labelStyle: TextStyle(
+                                                                    color: isDark ? textColorDark : textColorLight,
                                                                     fontFamily: 'Montserrat',
                                                                     fontSize: 15,
                                                                     fontWeight: FontWeight.w300),
@@ -524,7 +543,7 @@ class EditProfState extends State<EditProf> {
                                                   });
                                                 },
                                                 style: ElevatedButton.styleFrom(
-                                                  backgroundColor: const Color.fromARGB(255, 10, 151, 252),
+                                                  backgroundColor: primaryColor,
                                                   // backgroundColor: const Color.fromARGB(255, 132, 94, 194),
                                                   minimumSize: const Size(185, 55),
                                                   shape: const RoundedRectangleBorder(

@@ -15,6 +15,7 @@ import 'package:universe_app/pages/my_posts.dart';
 import 'package:universe_app/pages/view_profile.dart';
 import 'package:universe_app/providers/profile_provider.dart';
 import '../pages/login.dart';
+import '../preferences/dark_mode_service.dart';
 import '../providers/user_provider.dart';
 
 // my providers
@@ -228,7 +229,7 @@ Future<void> createPost(BuildContext context, String studentid, String postMessa
 // single user feed for other users
 genSingleFeed(BuildContext context, String email, String message, String time) {
   // message box
-
+  bool isDark = DarkModeService.getDarkMode();
   return Padding(
     padding: const EdgeInsets.only(top: 40, right: 30),
     child: Container(
@@ -241,10 +242,10 @@ genSingleFeed(BuildContext context, String email, String message, String time) {
           bottomLeft: Radius.circular(25),
           bottomRight: Radius.circular(25),
         ),
-        color: const Color.fromARGB(255, 255, 255, 255),
+        color: isDark? feedDark : feedLight,
         boxShadow: [
           BoxShadow(
-            color: const Color.fromARGB(255, 98, 98, 98).withOpacity(0.5),
+            color: isDark ? shadowColorDark : shadowColorLight,
             spreadRadius: 0,
             blurRadius: 2,
             offset: const Offset(1, 3),
@@ -294,8 +295,8 @@ genSingleFeed(BuildContext context, String email, String message, String time) {
                             },
                             child: Text(
                               email,
-                              style: const TextStyle(
-                                  color: Color.fromARGB(255, 105, 105, 105), fontSize: 12, fontWeight: FontWeight.w500),
+                              style:  TextStyle(
+                                  color: isDark? textColorDark : Color.fromARGB(255, 105, 105, 105), fontSize: 12, fontWeight: FontWeight.w500),
                             ),
                           ),
                         ),
@@ -307,8 +308,9 @@ genSingleFeed(BuildContext context, String email, String message, String time) {
                       padding: const EdgeInsets.only(left: 500, bottom: 15),
                       child: Text(
                         time,
-                        style: const TextStyle(
-                            color: Color.fromARGB(255, 142, 142, 142), fontSize: 10, fontWeight: FontWeight.w300),
+                        style:  TextStyle(
+                            color: isDark? feedTextDark : feedTextLight,
+                            fontSize: 10, fontWeight: FontWeight.w300),
                       ),
                     ),
                   )
@@ -329,8 +331,9 @@ genSingleFeed(BuildContext context, String email, String message, String time) {
                           message,
                           // overflow: TextOverflow.clip,
                           textAlign: TextAlign.left,
-                          style: const TextStyle(
-                              color: Color.fromARGB(255, 142, 142, 142), fontSize: 12, fontWeight: FontWeight.w400),
+                          style:  TextStyle(
+                              color: isDark? feedTextDark : feedTextLight,
+                              fontSize: 12, fontWeight: FontWeight.w400),
                         ),
                       ),
                     ],
@@ -749,6 +752,7 @@ class User {
 genSearch(BuildContext context) {
   List<User> users = [];
   bool isLoading = true;
+  bool isDark = DarkModeService.getDarkMode();
 
   Future<void> fetchUsers() async {
     String url = 'http://127.0.0.1:5000/get-profiles';
@@ -778,13 +782,13 @@ genSearch(BuildContext context) {
   return Expanded(
     flex: 1,
     child: Container(
-      color: const Color.fromARGB(255, 255, 255, 255),
+      color: isDark ? searchColorDark : backgroundColorLight,
       child: FractionallySizedBox(
         widthFactor: 1,
         child: Container(
           alignment: Alignment.topCenter,
-          decoration: const BoxDecoration(
-            color: Color.fromARGB(255, 255, 255, 255),
+          decoration: BoxDecoration(
+            color: isDark ? searchColorDark : backgroundColorLight,
           ),
           child: Padding(
             padding: const EdgeInsets.only(top: 55, left: 16, right: 16),
@@ -798,8 +802,8 @@ genSearch(BuildContext context) {
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                labelStyle: const TextStyle(
-                  color: Color.fromRGBO(180, 180, 180, 1),
+                labelStyle: TextStyle(
+                  color: isDark ? textColorDark : textColorLight,
                   fontFamily: 'Montserrat',
                   fontSize: 16,
                   fontWeight: FontWeight.w300,

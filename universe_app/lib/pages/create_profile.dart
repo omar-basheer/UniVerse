@@ -1,6 +1,7 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:universe_app/functions/functions.dart';
+import 'package:universe_app/preferences/dark_mode_service.dart';
 // import 'package:flutter/rendering.dart';
 // import 'package:date_time_picker/date_time_picker.dart';
 
@@ -32,16 +33,18 @@ class CreateProfile extends StatefulWidget {
 
 class CreateProfileState extends State<CreateProfile> {
   bool isLoading = false;
+  bool isDark = DarkModeService.getDarkMode();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: themeData,
       home: Scaffold(
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(100),
           child: AppBar(
-            backgroundColor: const Color.fromARGB(255, 10, 151, 252),
+            backgroundColor: primaryColor,
             // backgroundColor: Color.fromARGB(255, 132, 94, 194),
             title: Container(
               alignment: Alignment.centerLeft,
@@ -73,7 +76,7 @@ class CreateProfileState extends State<CreateProfile> {
             ),
           ),
         ),
-        backgroundColor: const Color.fromRGBO(245, 244, 244, 1),
+        backgroundColor: isDark ? backgroundColorDark : backgroundColorLight,
         // rgba(245, 244, 244, 1)
 
         // profile box
@@ -83,39 +86,42 @@ class CreateProfileState extends State<CreateProfile> {
             child: isLoading
                 ? const CircularProgressIndicator(
                     // color: Color.fromARGB(255, 132, 94, 194),
-                    color: Color.fromARGB(255, 10, 151, 252),
+                    color: primaryColor,
                   )
                 : Container(
                     width: 700,
                     height: 700,
                     decoration: BoxDecoration(
-                      color: const Color.fromRGBO(255, 255, 255, 1),
+                      color: isDark ? backgroundColorDark : backgroundColorLight,
                       borderRadius: BorderRadius.circular(10),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
+                          color: isDark ? shadowColorDark : shadowColorLight,
                           spreadRadius: 0,
                           blurRadius: 3,
                           offset: const Offset(0, 3),
                         ),
                       ],
+                      border: Border.all(
+                        color: isDark ? borderColorDark : borderColorLight,
+                      ),
                     ),
                     child: Column(
                       children: [
                         const SizedBox(height: 35),
-                        const Text(
+                        Text(
                           'Join The UniVerse Community',
                           style: TextStyle(
-                              color: Color.fromRGBO(30, 30, 30, 1),
+                              color: isDark ? textColorDark : textColorLight,
                               fontSize: 35,
                               fontFamily: 'Montserrat',
                               fontWeight: FontWeight.w300),
                         ),
                         const SizedBox(height: 20),
-                        const Text(
+                        Text(
                           'Create Your Profile',
                           style: TextStyle(
-                              color: Color.fromRGBO(30, 30, 30, 1),
+                              color: isDark ? textColorDark : textColorLight,
                               fontSize: 14,
                               fontFamily: 'Montserrat',
                               fontWeight: FontWeight.w300),
@@ -145,8 +151,8 @@ class CreateProfileState extends State<CreateProfile> {
                                           border: OutlineInputBorder(
                                             borderRadius: BorderRadius.circular(10),
                                           ),
-                                          labelStyle: const TextStyle(
-                                              color: Color.fromRGBO(99, 99, 99, 1),
+                                          labelStyle: TextStyle(
+                                              color: isDark ? textColorDark : textColorLight,
                                               fontFamily: 'Montserrat',
                                               fontSize: 15,
                                               fontWeight: FontWeight.w300),
@@ -170,8 +176,8 @@ class CreateProfileState extends State<CreateProfile> {
                                           border: OutlineInputBorder(
                                             borderRadius: BorderRadius.circular(10),
                                           ),
-                                          labelStyle: const TextStyle(
-                                              color: Color.fromRGBO(99, 99, 99, 1),
+                                          labelStyle: TextStyle(
+                                              color: isDark ? textColorDark : textColorLight,
                                               fontFamily: 'Montserrat',
                                               fontSize: 15,
                                               fontWeight: FontWeight.w300),
@@ -195,8 +201,8 @@ class CreateProfileState extends State<CreateProfile> {
                                           border: OutlineInputBorder(
                                             borderRadius: BorderRadius.circular(10),
                                           ),
-                                          labelStyle: const TextStyle(
-                                              color: Color.fromRGBO(99, 99, 99, 1),
+                                          labelStyle: TextStyle(
+                                              color: isDark ? textColorDark : textColorLight,
                                               fontFamily: 'Montserrat',
                                               fontSize: 15,
                                               fontWeight: FontWeight.w300),
@@ -220,8 +226,8 @@ class CreateProfileState extends State<CreateProfile> {
                                           border: OutlineInputBorder(
                                             borderRadius: BorderRadius.circular(10),
                                           ),
-                                          labelStyle: const TextStyle(
-                                              color: Color.fromRGBO(99, 99, 99, 1),
+                                          labelStyle: TextStyle(
+                                              color: isDark ? textColorDark : textColorLight,
                                               fontFamily: 'Montserrat',
                                               fontSize: 15,
                                               fontWeight: FontWeight.w300),
@@ -246,8 +252,8 @@ class CreateProfileState extends State<CreateProfile> {
                                           border: OutlineInputBorder(
                                             borderRadius: BorderRadius.circular(10),
                                           ),
-                                          labelStyle: const TextStyle(
-                                              color: Color.fromRGBO(99, 99, 99, 1),
+                                          labelStyle: TextStyle(
+                                              color: isDark ? textColorDark : textColorLight,
                                               fontFamily: 'Montserrat',
                                               fontSize: 15,
                                               fontWeight: FontWeight.w300),
@@ -280,7 +286,12 @@ class CreateProfileState extends State<CreateProfile> {
                                       ),
                                       child: DropdownButtonHideUnderline(
                                         child: DropdownButton2(
-                                          hint: const Text('Major'),
+                                          hint: Text(
+                                            'Major',
+                                            style: TextStyle(
+                                              color: isDark ? textColorDark : textColorLight,
+                                            ),
+                                          ),
                                           items: majorDropdown
                                               .map((item) => DropdownMenuItem<String>(value: item, child: Text(item)))
                                               .toList(),
@@ -310,8 +321,8 @@ class CreateProfileState extends State<CreateProfile> {
                                           border: OutlineInputBorder(
                                             borderRadius: BorderRadius.circular(10),
                                           ),
-                                          labelStyle: const TextStyle(
-                                              color: Color.fromRGBO(99, 99, 99, 1),
+                                          labelStyle: TextStyle(
+                                              color: isDark ? textColorDark : textColorLight,
                                               fontFamily: 'Montserrat',
                                               fontSize: 15,
                                               fontWeight: FontWeight.w300),
@@ -334,8 +345,8 @@ class CreateProfileState extends State<CreateProfile> {
                                           border: OutlineInputBorder(
                                             borderRadius: BorderRadius.circular(10),
                                           ),
-                                          labelStyle: const TextStyle(
-                                              color: Color.fromRGBO(99, 99, 99, 1),
+                                          labelStyle: TextStyle(
+                                              color: isDark ? textColorDark : textColorLight,
                                               fontFamily: 'Montserrat',
                                               fontSize: 15,
                                               fontWeight: FontWeight.w300),
@@ -358,7 +369,12 @@ class CreateProfileState extends State<CreateProfile> {
                                       ),
                                       child: DropdownButtonHideUnderline(
                                         child: DropdownButton2(
-                                          hint: const Text('Residence'),
+                                          hint: Text(
+                                            'Residence',
+                                            style: TextStyle(
+                                              color: isDark ? textColorDark : textColorLight,
+                                            ),
+                                          ),
                                           items: residenceDropdown
                                               .map((item) => DropdownMenuItem<String>(value: item, child: Text(item)))
                                               .toList(),
@@ -384,8 +400,8 @@ class CreateProfileState extends State<CreateProfile> {
                                           border: OutlineInputBorder(
                                             borderRadius: BorderRadius.circular(10),
                                           ),
-                                          labelStyle: const TextStyle(
-                                              color: Color.fromRGBO(99, 99, 99, 1),
+                                          labelStyle: TextStyle(
+                                              color: isDark ? textColorDark : textColorLight,
                                               fontFamily: 'Montserrat',
                                               fontSize: 15,
                                               fontWeight: FontWeight.w300),
@@ -405,8 +421,8 @@ class CreateProfileState extends State<CreateProfile> {
                                           border: OutlineInputBorder(
                                             borderRadius: BorderRadius.circular(10),
                                           ),
-                                          labelStyle: const TextStyle(
-                                              color: Color.fromRGBO(99, 99, 99, 1),
+                                          labelStyle: TextStyle(
+                                              color: isDark ? textColorDark : textColorLight,
                                               fontFamily: 'Montserrat',
                                               fontSize: 15,
                                               fontWeight: FontWeight.w300),
@@ -438,7 +454,7 @@ class CreateProfileState extends State<CreateProfile> {
                               isLoading = true;
                             });
                             await createProfile(context, studentId, fName, lName, email, password, major, year,
-                                 birthday, residence, bestFood, bestMov);
+                                birthday, residence, bestFood, bestMov);
                             setState(() {
                               isLoading = false;
                             });
@@ -456,7 +472,7 @@ class CreateProfileState extends State<CreateProfile> {
                             best_movie.clear();
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color.fromARGB(255, 10, 151, 252),
+                            backgroundColor: primaryColor,
                             // backgroundColor: const Color.fromARGB(255, 132, 94, 194),
                             minimumSize: const Size(185, 55),
                             shape: const RoundedRectangleBorder(

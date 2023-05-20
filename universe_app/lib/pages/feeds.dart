@@ -8,6 +8,7 @@ import 'package:universe_app/functions/functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:universe_app/pages/view_profile.dart';
 
+import '../preferences/dark_mode_service.dart';
 import '../providers/user_provider.dart';
 import '../providers/profile_provider.dart';
 // import 'package:flutter/rendering.dart';
@@ -25,6 +26,7 @@ class Feeds extends StatefulWidget {
 
 class FeedsState extends State<Feeds> {
   bool isLoading = false;
+  bool isDark = DarkModeService.getDarkMode();
   Stream<QuerySnapshot> feedsStream = FirebaseFirestore.instance.collection('feeds').snapshots();
 
   @override
@@ -41,9 +43,9 @@ class FeedsState extends State<Feeds> {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(fontFamily: 'Montserrat'),
+      theme: themeData,
       home: Scaffold(
-          backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+          backgroundColor: isDark ? backgroundColorDark : backgroundColorLight,
           body: Row(
             children: [
               // Left column-Left Half
@@ -55,7 +57,7 @@ class FeedsState extends State<Feeds> {
                     Expanded(
                       flex: 1,
                       child: Container(
-                        color: const Color.fromRGBO(245, 244, 244, 1),
+                        color: isDark ? backgroundColorDark : backgroundColorLight,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -69,7 +71,7 @@ class FeedsState extends State<Feeds> {
                     Expanded(
                       flex: 4,
                       child: Container(
-                        color: const Color.fromRGBO(245, 244, 244, 1),
+                        color: isDark ? backgroundColorDark : backgroundColorLight,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -85,15 +87,18 @@ class FeedsState extends State<Feeds> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(17),
                                 // color: const Color.fromARGB(255, 140, 101, 204),
-                                color: const Color.fromARGB(255, 10, 151, 252),
+                                color: primaryColor,
                                 boxShadow: [
                                   BoxShadow(
-                                    color: const Color.fromARGB(255, 98, 98, 98).withOpacity(0.5),
+                                    color: isDark ? shadowColorDark : shadowColorLight,
                                     spreadRadius: 0,
                                     blurRadius: 2,
                                     offset: const Offset(0, 2),
                                   ),
                                 ],
+                                border: Border.all(
+                                  color: isDark ? backgroundColorDark : borderColorLight,
+                                ),
                               ),
                               child: RichText(
                                 textAlign: TextAlign.center,
@@ -136,7 +141,7 @@ class FeedsState extends State<Feeds> {
                                     padding: EdgeInsets.only(top: 300, bottom: 300),
                                     child: Center(
                                       child: CircularProgressIndicator(
-                                        color: Color.fromARGB(255, 10, 151, 252),
+                                        color: primaryColor,
                                         // color: Color.fromARGB(255, 132, 94, 194),
                                       ),
                                     ),
@@ -172,13 +177,13 @@ class FeedsState extends State<Feeds> {
                                 child: TextFormField(
                                   controller: postMessage,
                                   style: const TextStyle(
-                                      color: Color.fromARGB(213, 101, 101, 101),
+                                      color: Color.fromARGB(212, 101, 101, 101),
                                       fontSize: 14,
                                       fontWeight: FontWeight.w400),
                                   decoration: InputDecoration(
                                     filled: true,
-                                    fillColor: const Color.fromRGBO(255, 255, 255, 1),
-                                    hoverColor: const Color.fromRGBO(255, 255, 255, 1),
+                                    fillColor: isDark ? fillColorDark : fillColorLight,
+                                    hoverColor: isDark ? hoverColorDark : hoverColorLight,
                                     labelText: 'Write Something...',
                                     enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(22),
@@ -188,20 +193,20 @@ class FeedsState extends State<Feeds> {
                                         )),
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: const BorderSide(
-                                        color: Color.fromARGB(255, 10, 151, 252),
+                                        color: primaryColor,
                                         // color: Color.fromARGB(255, 132, 94, 194),
                                       ),
                                       borderRadius: BorderRadius.circular(22),
                                     ),
                                     disabledBorder: OutlineInputBorder(
                                       borderSide: const BorderSide(
-                                        color: Color.fromARGB(255, 10, 151, 252),
+                                        color: primaryColor,
                                         // color: Color.fromARGB(255, 132, 94, 194),
                                       ),
                                       borderRadius: BorderRadius.circular(22),
                                     ),
-                                    labelStyle: const TextStyle(
-                                      color: Color.fromARGB(196, 122, 122, 122),
+                                    labelStyle: TextStyle(
+                                      color: isDark ? textColorDark : Color.fromARGB(196, 122, 122, 122),
                                       fontFamily: 'Montserrat',
                                       fontSize: 15,
                                       fontWeight: FontWeight.w300,
@@ -217,7 +222,7 @@ class FeedsState extends State<Feeds> {
                                       child: const Icon(
                                         Icons.near_me,
                                         size: 20,
-                                        color: Color.fromARGB(255, 10, 151, 252),
+                                        color: primaryColor,
                                         // color: Color.fromARGB(255, 132, 94, 194),
                                       ),
                                     ),
@@ -226,10 +231,10 @@ class FeedsState extends State<Feeds> {
                                   textInputAction: TextInputAction.done,
                                   onFieldSubmitted: (_) {
                                     String message = postMessage.text;
-                                        if (message != "") {
-                                          createPost(context, loggedId, message);
-                                          postMessage.clear();
-                                        }
+                                    if (message != "") {
+                                      createPost(context, loggedId, message);
+                                      postMessage.clear();
+                                    }
                                   },
                                 ),
                               ),
