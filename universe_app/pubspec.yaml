@@ -33,6 +33,7 @@ dependencies:
     
   http: ^0.13.3
   provider: ^5.0.0
+  shared_preferences: ^2.1.1
   firebase_core: ^2.10.0
   cloud_firestore: ^4.5.2
   date_time_picker: ^2.1.0

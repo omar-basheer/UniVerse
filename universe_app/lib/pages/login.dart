@@ -8,6 +8,7 @@ import 'package:universe_app/functions/functions.dart';
 // my providers
 import 'package:provider/provider.dart';
 import 'package:universe_app/pages/create_profile.dart';
+import '../preferences/dark_mode_service.dart';
 import '../providers/user_provider.dart';
 
 // store stdent id and password entered by user
@@ -23,20 +24,38 @@ class Login extends StatefulWidget {
 
 class LoginState extends State<Login> {
   bool isLoading = false;
+  bool isDark = DarkModeService.getDarkMode();
 
   @override
   Widget build(BuildContext context) {
+    const Color primaryColor = Color.fromRGBO(10, 151, 252, 1);
+    const Color backgroundColorLight = Color.fromRGBO(245, 244, 244, 1);
+    const Color backgroundColorDark = Color.fromARGB(255, 31, 31, 31);
+    const Color textColorLight = Color.fromRGBO(30, 30, 30, 1);
+    const Color textColorDark = Color.fromRGBO(255, 255, 255, 1);
+    const Color textColorLight2 = Color.fromRGBO(72, 72, 72, 1);
+    const Color textColorDark2 = Color.fromRGBO(189, 189, 189, 1);
+    const Color borderColorLight = Color.fromRGBO(245, 244, 244, 1);
+    const Color borderColorDark = Color.fromRGBO(98, 98, 98, 1);
+    Color shadowColorLight = Color.fromARGB(255, 98, 98, 98).withOpacity(0.5);
+    Color shadowColorDark = Color.fromARGB(255, 31, 31, 31);
+
+    final themeData = ThemeData(
+        brightness: isDark ? Brightness.dark : Brightness.light);
+
     return ChangeNotifierProvider(
       create: (_) => UserProvider(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
+        theme: themeData,
         home: Scaffold(
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(100),
             child: AppBar(
               // backgroundColor: const Color.fromARGB(255, 132, 94, 194),
               // backgroundColor: const Color.fromARGB(255, 97, 194, 94),
-              backgroundColor: Color.fromARGB(255, 10, 151, 252),
+              // backgroundColor: Color.fromRGBO(10, 151, 252, 1),
+              backgroundColor: primaryColor,
               title: Container(
                 alignment: Alignment.centerLeft,
                 padding: const EdgeInsets.only(top: 25, left: 110),
@@ -69,7 +88,9 @@ class LoginState extends State<Login> {
               ),
             ),
           ),
-          backgroundColor: const Color.fromRGBO(245, 244, 244, 1),
+          // backgroundColor: const Color.fromRGBO(245, 244, 244, 1),
+          backgroundColor: isDark ? backgroundColorDark : backgroundColorLight,
+          /*black*/
           // rgba(245, 244, 244, 1)
           body: Column(
             children: [
@@ -80,9 +101,9 @@ class LoginState extends State<Login> {
                       ? const Padding(
                           padding: EdgeInsets.only(top: 170),
                           child: CircularProgressIndicator(
-                            // color: Color.fromARGB(255, 132, 94, 194),
-                            color: Color.fromARGB(255, 10, 151, 252),
-                          ),
+                              // color: Color.fromARGB(255, 132, 94, 194),
+                              color: primaryColor,
+                              ),
                         )
                       : Column(
                           children: [
@@ -90,33 +111,40 @@ class LoginState extends State<Login> {
                               width: 410,
                               height: 400,
                               decoration: BoxDecoration(
-                                color: const Color.fromRGBO(255, 255, 255, 1),
+                                // color: const Color.fromRGBO(255, 255, 255, 1),
+                                color: isDark ? backgroundColorDark : backgroundColorLight,
+                                /*grey*/
                                 borderRadius: BorderRadius.circular(10),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: const Color.fromARGB(255, 98, 98, 98).withOpacity(0.5),
+                                    color: isDark? shadowColorDark : shadowColorLight ,
                                     spreadRadius: 0,
                                     blurRadius: 3,
                                     offset: const Offset(0, 3),
                                   ),
                                 ],
+                                border: Border.all(
+                                  color: isDark? borderColorDark : borderColorLight
+                                )
                               ),
                               child: Column(
                                 children: [
                                   const SizedBox(height: 35),
-                                  const Text(
+                                   Text(
                                     'Welcome Back!',
                                     style: TextStyle(
-                                        color: Color.fromRGBO(30, 30, 30, 1),
+                                        color: isDark? textColorDark : textColorLight,
+                                        /*white*/
                                         fontSize: 35,
                                         fontFamily: 'Montserrat',
                                         fontWeight: FontWeight.w300),
                                   ),
                                   const SizedBox(height: 20),
-                                  const Text(
+                                   Text(
                                     'It\'s Been A Minute Since We Heard From You',
                                     style: TextStyle(
-                                        color: Color.fromRGBO(30, 30, 30, 1),
+                                        color: isDark? textColorDark : textColorLight,
+                                        /*white*/
                                         fontSize: 14,
                                         fontFamily: 'Montserrat',
                                         fontWeight: FontWeight.w200),
@@ -133,13 +161,14 @@ class LoginState extends State<Login> {
                                           labelText: 'Student Id',
                                           hintText: '########',
                                           hintStyle: const TextStyle(
-                                            color: Color.fromRGBO(184, 184, 184, 1),
+                                            color: Color.fromRGBO(184, 184, 184, 1), /*white*/
                                           ),
                                           border: OutlineInputBorder(
                                             borderRadius: BorderRadius.circular(10),
                                           ),
-                                          labelStyle: const TextStyle(
-                                              color: Color.fromRGBO(30, 30, 30, 1),
+                                          labelStyle:  TextStyle(
+                                              color: isDark? textColorDark : textColorLight,
+                                              /*white*/
                                               fontFamily: 'Montserrat',
                                               fontSize: 15,
                                               fontWeight: FontWeight.w300),
@@ -161,8 +190,8 @@ class LoginState extends State<Login> {
                                           border: OutlineInputBorder(
                                             borderRadius: BorderRadius.circular(10),
                                           ),
-                                          labelStyle: const TextStyle(
-                                              color: Color.fromRGBO(30, 30, 30, 1),
+                                          labelStyle:  TextStyle(
+                                              color: isDark? textColorDark : textColorLight,
                                               fontFamily: 'Montserrat',
                                               fontSize: 15,
                                               fontWeight: FontWeight.w300),
@@ -187,7 +216,7 @@ class LoginState extends State<Login> {
                                       student_pass.clear();
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: const Color.fromARGB(255, 10, 151, 252),
+                                      backgroundColor: primaryColor,
                                       // backgroundColor: const Color.fromARGB(255, 132, 94, 194),
                                       minimumSize: const Size(175, 65),
                                       shape: const RoundedRectangleBorder(
@@ -215,10 +244,11 @@ class LoginState extends State<Login> {
                             RichText(
                               text: TextSpan(
                                 children: [
-                                  const TextSpan(
+                                   TextSpan(
                                     text: 'Aren\'t a member? ',
                                     style: TextStyle(
-                                      color: Color.fromRGBO(72, 72, 72, 1),
+                                      color: isDark? textColorDark2 : textColorLight2,
+                                      /*white*/
                                       fontFamily: 'Montserrat',
                                       // fontFamily: 'Rubik_Pixels',
                                       fontSize: 14,
@@ -228,7 +258,7 @@ class LoginState extends State<Login> {
                                   TextSpan(
                                     text: 'Sign Up!!',
                                     style: const TextStyle(
-                                      color: Color.fromARGB(255, 10, 151, 252),
+                                      color: primaryColor,
                                       // color: Color.fromARGB(255, 132, 94, 194),
                                       fontFamily: 'Montserrat',
                                       fontSize: 14,

@@ -2,6 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:universe_app/preferences/dark_mode_service.dart';
 import 'package:universe_app/providers/profile_provider.dart';
 import 'package:universe_app/providers/user_provider.dart';
 import 'dart:async';
@@ -19,6 +21,7 @@ import 'pages/my_posts.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await DarkModeService.initDarkPreference();
   await Firebase.initializeApp(
     options: const FirebaseOptions(
         apiKey: "AIzaSyAumQO1Zjzz2AzwOPqWNhzkkszoYpAjvdc",
@@ -32,26 +35,34 @@ void main() async {
   runApp(const MyApp());
 }
 
+// bool isDark = false;
+bool isDark = true;
+
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    DarkModeService.setDarkMode(isDark);
+    DarkModeService.getDarkMode();
+
     return MultiProvider(
       // Use MultiProvider to provide multiple providers
       providers: [
+        // UserProvider
         ChangeNotifierProvider<UserProvider>(
-          // UserProvider
           create: (_) => UserProvider(),
         ),
+
+        // ProfileProvider
         ChangeNotifierProvider<ProfileProvider>(
-          // ProfileProvider
           create: (_) => ProfileProvider(),
         ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'UniVerseApp',
+        theme: isDark ? ThemeData.dark() : ThemeData.light(),
         initialRoute: '/login',
         routes: {
           '/login': (context) => const Login(),
