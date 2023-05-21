@@ -99,7 +99,7 @@ class LoginState extends State<Login> {
                               height: 400,
                               decoration: BoxDecoration(
                                 // color: const Color.fromRGBO(255, 255, 255, 1),
-                                color: isDark ? backgroundColorDark : backgroundColorLight,
+                                color: isDark ? foregroundColorDark : backgroundColorLight,
                                 /*grey*/
                                 borderRadius: BorderRadius.circular(10),
                                 boxShadow: [

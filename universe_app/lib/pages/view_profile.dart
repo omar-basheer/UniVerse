@@ -207,7 +207,7 @@ class ViewProfileState extends State<ViewProfile> {
                               height: 700,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(17),
-                                color: isDark ? backgroundColorDark : borderColorLight,
+                                color: isDark ? foregroundColorDark : foregroundColorLight,
                                 // color: const Color.fromARGB(255, 140, 101, 204),
                                 boxShadow: [
                                   BoxShadow(
@@ -218,7 +218,7 @@ class ViewProfileState extends State<ViewProfile> {
                                   ),
                                 ],
                                 border: Border.all(
-                                  color: isDark ? backgroundColorDark : borderColorLight,
+                                  color: isDark ? borderColorDark : borderColorLight,
                                 ),
                               ),
                               child: Column(
@@ -273,12 +273,12 @@ class ViewProfileState extends State<ViewProfile> {
                                                       children: [
                                                         Text(
                                                           '$fname $lname',
-                                                          style: const TextStyle(
-                                                              fontSize: 24,
-                                                              fontWeight: FontWeight.w600,
-                                                              color: Color.fromARGB(255, 85, 85, 85)
-                                                              // color: Color.fromARGB(255, 97, 194, 94),
-                                                              ),
+                                                          style: TextStyle(
+                                                            fontSize: 24,
+                                                            fontWeight: FontWeight.w600,
+                                                            color: isDark ? textColorDark3 : textColorLight3,
+                                                            // color: Color.fromARGB(255, 97, 194, 94),
+                                                          ),
                                                         ),
                                                         const SizedBox(width: 8),
                                                       ],
@@ -303,28 +303,30 @@ class ViewProfileState extends State<ViewProfile> {
                                                       children: [
                                                         Text(
                                                           '$major |',
-                                                          style: const TextStyle(
-                                                              fontSize: 19,
-                                                              fontWeight: FontWeight.w500,
-                                                              color: Color.fromARGB(255, 107, 107, 107)
-                                                              // color: Color.fromARGB(255, 97, 194, 94),
-                                                              ),
+                                                          style: TextStyle(
+                                                            fontSize: 19,
+                                                            fontWeight: FontWeight.w500,
+                                                            color: isDark ? textColorDark4 : textColorLight4,
+                                                            // color: Color.fromARGB(255, 97, 194, 94),
+                                                          ),
                                                         ),
                                                         const SizedBox(width: 8),
                                                         Text(
                                                           '$year |',
-                                                          style: const TextStyle(
-                                                              fontSize: 19,
-                                                              fontWeight: FontWeight.w500,
-                                                              color: Color.fromARGB(255, 107, 107, 107)),
+                                                          style: TextStyle(
+                                                            fontSize: 19,
+                                                            fontWeight: FontWeight.w500,
+                                                            color: isDark ? textColorDark4 : textColorLight4,
+                                                          ),
                                                         ),
                                                         const SizedBox(width: 8),
                                                         Text(
                                                           '$residence ',
-                                                          style: const TextStyle(
-                                                              fontSize: 19,
-                                                              fontWeight: FontWeight.w500,
-                                                              color: Color.fromARGB(255, 107, 107, 107)),
+                                                          style: TextStyle(
+                                                            fontSize: 19,
+                                                            fontWeight: FontWeight.w500,
+                                                            color: isDark ? textColorDark4 : textColorLight4,
+                                                          ),
                                                         ),
                                                       ],
                                                     ),
@@ -334,19 +336,19 @@ class ViewProfileState extends State<ViewProfile> {
                                                       children: [
                                                         Text(
                                                           '$food, ',
-                                                          style: const TextStyle(
+                                                          style: TextStyle(
                                                             fontSize: 15,
                                                             fontWeight: FontWeight.w300,
-                                                            color: Color.fromARGB(255, 139, 139, 139),
+                                                            color: isDark ? textColorDark4 : textColorLight5,
                                                           ),
                                                         ),
                                                         const SizedBox(width: 5),
                                                         Text(
                                                           '$movie ',
-                                                          style: const TextStyle(
+                                                          style: TextStyle(
                                                             fontSize: 15,
                                                             fontWeight: FontWeight.w300,
-                                                            color: Color.fromARGB(255, 139, 139, 139),
+                                                            color: isDark ? textColorDark4 : textColorLight5,
                                                           ),
                                                         ),
                                                       ],
@@ -363,7 +365,9 @@ class ViewProfileState extends State<ViewProfile> {
 
                                   // SizedBox(height: 10,),
 
-                                   Divider(height: 1, color: isDark? backgroundColorLight : Color.fromARGB(255, 161, 161, 161)),
+                                  Divider(
+                                      height: 1,
+                                      color: isDark ? backgroundColorLight : Color.fromARGB(255, 161, 161, 161)),
 
                                   StreamBuilder<QuerySnapshot>(
                                       stream: feedsStream,
@@ -374,8 +378,8 @@ class ViewProfileState extends State<ViewProfile> {
                                             child: Center(
                                               child: Text(
                                                 'Error: ${snapshot.error}',
-                                                style: const TextStyle(
-                                                    color: Color.fromARGB(212, 185, 185, 185),
+                                                style: TextStyle(
+                                                    color: isDark ? textErrorDark : textErrorLight,
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.w600),
                                               ),
@@ -388,7 +392,7 @@ class ViewProfileState extends State<ViewProfile> {
                                             padding: EdgeInsets.only(top: 150, bottom: 250),
                                             child: Center(
                                               child: CircularProgressIndicator(
-                                                color: Color.fromARGB(255, 10, 151, 252),
+                                                color: primaryColor,
                                                 // color: Color.fromARGB(255, 132, 94, 194),
                                               ),
                                             ),

@@ -242,7 +242,7 @@ genSingleFeed(BuildContext context, String email, String message, String time) {
           bottomLeft: Radius.circular(25),
           bottomRight: Radius.circular(25),
         ),
-        color: isDark? feedDark : feedLight,
+        color: isDark ? feedDark : feedLight,
         boxShadow: [
           BoxShadow(
             color: isDark ? shadowColorDark : shadowColorLight,
@@ -295,8 +295,10 @@ genSingleFeed(BuildContext context, String email, String message, String time) {
                             },
                             child: Text(
                               email,
-                              style:  TextStyle(
-                                  color: isDark? textColorDark : Color.fromARGB(255, 105, 105, 105), fontSize: 12, fontWeight: FontWeight.w500),
+                              style: TextStyle(
+                                  color: isDark ? textColorDark : Color.fromARGB(255, 105, 105, 105),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500),
                             ),
                           ),
                         ),
@@ -308,9 +310,8 @@ genSingleFeed(BuildContext context, String email, String message, String time) {
                       padding: const EdgeInsets.only(left: 500, bottom: 15),
                       child: Text(
                         time,
-                        style:  TextStyle(
-                            color: isDark? feedTextDark : feedTextLight,
-                            fontSize: 10, fontWeight: FontWeight.w300),
+                        style: TextStyle(
+                            color: isDark ? feedTextDark : feedTextLight, fontSize: 10, fontWeight: FontWeight.w300),
                       ),
                     ),
                   )
@@ -331,9 +332,8 @@ genSingleFeed(BuildContext context, String email, String message, String time) {
                           message,
                           // overflow: TextOverflow.clip,
                           textAlign: TextAlign.left,
-                          style:  TextStyle(
-                              color: isDark? feedTextDark : feedTextLight,
-                              fontSize: 12, fontWeight: FontWeight.w400),
+                          style: TextStyle(
+                              color: isDark ? feedTextDark : feedTextLight, fontSize: 12, fontWeight: FontWeight.w400),
                         ),
                       ),
                     ],
@@ -755,7 +755,8 @@ genSearch(BuildContext context) {
   bool isDark = DarkModeService.getDarkMode();
 
   Future<void> fetchUsers() async {
-    String url = 'http://127.0.0.1:5000/get-profiles';
+    // String url = 'http://127.0.0.1:5000/get-profiles';
+     String url = 'https://universeapp-4bb24.nw.r.appspot.com/get-profiles';
     var request = http.Request('GET', Uri.parse(url));
     print('getting users...');
     http.StreamedResponse response = await request.send();
@@ -782,13 +783,13 @@ genSearch(BuildContext context) {
   return Expanded(
     flex: 1,
     child: Container(
-      color: isDark ? searchColorDark : backgroundColorLight,
+      color: isDark ? foregroundColorDark : backgroundColorLight,
       child: FractionallySizedBox(
         widthFactor: 1,
         child: Container(
           alignment: Alignment.topCenter,
           decoration: BoxDecoration(
-            color: isDark ? searchColorDark : backgroundColorLight,
+            color: isDark ? foregroundColorDark : backgroundColorLight,
           ),
           child: Padding(
             padding: const EdgeInsets.only(top: 55, left: 16, right: 16),

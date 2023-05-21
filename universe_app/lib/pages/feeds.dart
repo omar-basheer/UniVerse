@@ -176,14 +176,14 @@ class FeedsState extends State<Feeds> {
                                 opacity: 0.8,
                                 child: TextFormField(
                                   controller: postMessage,
-                                  style: const TextStyle(
-                                      color: Color.fromARGB(212, 101, 101, 101),
+                                  style:  TextStyle(
+                                      color: isDark? textColorDark : const Color.fromARGB(212, 101, 101, 101),
                                       fontSize: 14,
                                       fontWeight: FontWeight.w400),
                                   decoration: InputDecoration(
                                     filled: true,
                                     fillColor: isDark ? fillColorDark : fillColorLight,
-                                    hoverColor: isDark ? hoverColorDark : hoverColorLight,
+                                    hoverColor: isDark ? fillColorDark : hoverColorLight,
                                     labelText: 'Write Something...',
                                     enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(22),
@@ -206,7 +206,7 @@ class FeedsState extends State<Feeds> {
                                       borderRadius: BorderRadius.circular(22),
                                     ),
                                     labelStyle: TextStyle(
-                                      color: isDark ? textColorDark : Color.fromARGB(196, 122, 122, 122),
+                                      color: isDark ? textColorDark2 : const Color.fromARGB(196, 122, 122, 122),
                                       fontFamily: 'Montserrat',
                                       fontSize: 15,
                                       fontWeight: FontWeight.w300,

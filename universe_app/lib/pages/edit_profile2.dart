@@ -229,7 +229,7 @@ class EditProfState extends State<EditProf> {
                                               Text(
                                                 loggedmail,
                                                 style: TextStyle(
-                                                    color: isDark ? textColorDark : loggedMailLight,
+                                                    color: isDark ? loggedMailDark : loggedMailLight,
                                                     fontSize: 35,
                                                     fontFamily: 'Montserrat',
                                                     fontWeight: FontWeight.w300),
@@ -238,7 +238,7 @@ class EditProfState extends State<EditProf> {
                                               Text(
                                                 'Edit Your Profile',
                                                 style: TextStyle(
-                                                    color: isDark ? textColorDark : loggedMailLight,
+                                                    color: isDark ? loggedMailDark : loggedMailLight,
                                                     fontSize: 20,
                                                     fontFamily: 'Montserrat',
                                                     fontWeight: FontWeight.w300),
@@ -259,8 +259,8 @@ class EditProfState extends State<EditProf> {
                                                             widthFactor: 0.9,
                                                             child: TextFormField(
                                                               controller: student_id,
-                                                              style: const TextStyle(
-                                                                color: Color.fromARGB(213, 101, 101, 101),
+                                                              style:  TextStyle(
+                                                                color: isDark ? disabledTextDark : disabledTextLight,
                                                               ),
                                                               enabled: false,
                                                               decoration: InputDecoration(
@@ -284,8 +284,8 @@ class EditProfState extends State<EditProf> {
                                                             widthFactor: 0.90,
                                                             child: TextFormField(
                                                               controller: first_name,
-                                                              style: const TextStyle(
-                                                                color: Color.fromARGB(213, 101, 101, 101),
+                                                              style:  TextStyle(
+                                                                color: isDark ? disabledTextDark : disabledTextLight,
                                                               ),
                                                               enabled: false,
                                                               decoration: InputDecoration(
@@ -383,8 +383,8 @@ class EditProfState extends State<EditProf> {
                                                             widthFactor: 0.90,
                                                             child: TextFormField(
                                                               controller: student_email,
-                                                              style: const TextStyle(
-                                                                color: Color.fromARGB(213, 101, 101, 101),
+                                                              style:  TextStyle(
+                                                                color: isDark ? disabledTextDark : disabledTextLight,
                                                               ),
                                                               enabled: false,
                                                               decoration: InputDecoration(
@@ -408,8 +408,8 @@ class EditProfState extends State<EditProf> {
                                                             widthFactor: 0.90,
                                                             child: TextFormField(
                                                               controller: last_name,
-                                                              style: const TextStyle(
-                                                                color: Color.fromARGB(213, 101, 101, 101),
+                                                              style:  TextStyle(
+                                                                color: isDark ? disabledTextDark : disabledTextLight,
                                                               ),
                                                               enabled: false,
                                                               decoration: InputDecoration(
