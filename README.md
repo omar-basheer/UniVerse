@@ -28,7 +28,8 @@ stored in an appropriate database
 Allows a user to create a post that is updated on the feed page in real time
 
 ## Feed Page
-Allows a user to view the posts of all users on the network. The page is updated in real time as other users create posts
+Allows a user to view the posts of all users on the network. The page is updated in real time as other users create posts. 
+That is, if a user is on the page when another user makes a post, the post immediately appears at the top of the feed.
 
 ## Mailer function
 Sends an email notification to all users on the platform whenever a new post is made. The email contains the name of the
@@ -41,5 +42,4 @@ This allows for user specific information to be displayed.
 
 
 Provide a page or section which shows all the posts that users have made in descending
-order of time. This page should update in real-time. That is, if a user is on the page when
-another user makes a post, the post should immediately appear at the top of the feed.
+order of time. This page should update in real-time. 
