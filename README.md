@@ -37,6 +37,7 @@ user that made the post and a direct link to view the post
 ## Other
 * A Login page and its associated funcitonality (logout) is included to track which user is using the app at a given time.
 This allows for user specific information to be displayed.
+* Dark mode functionality to aid viewing in lowlight conditions.
 
 
 Provide a page or section which shows all the posts that users have made in descending
