@@ -92,7 +92,7 @@ class CreateProfileState extends State<CreateProfile> {
                     width: 700,
                     height: 700,
                     decoration: BoxDecoration(
-                      color: isDark ? backgroundColorDark : backgroundColorLight,
+                      color: isDark ? foregroundColorDark : foregroundColorLight,
                       borderRadius: BorderRadius.circular(10),
                       boxShadow: [
                         BoxShadow(

@@ -36,7 +36,7 @@ void main() async {
 }
 
 // bool isDark = false;
-bool isDark = true;
+bool isDark = DarkModeService.getDarkMode();
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);

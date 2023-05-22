@@ -668,6 +668,31 @@ showSideMenubar(BuildContext context) {
               ),
             ),
             // single button ends here
+
+            // // single button starts here
+            // const SizedBox(height: 25),
+            // // dark mode toggle
+            // Container(
+            //   // alignment: Alignment.centerRight,
+            //   padding: const EdgeInsets.only(top: 25),
+            //   child: ElevatedButton(
+            //     onPressed: () async {
+            //       toggleDarkMode();
+            //     },
+            //     style: ElevatedButton.styleFrom(
+            //       backgroundColor: primaryColor,
+            //       minimumSize: const Size(45, 45),
+            //       shape: const CircleBorder(
+            //         side: BorderSide(color: primaryColor),
+            //         eccentricity: 0,
+            //       ),
+            //     ),
+            //     child: Icon(
+            //       isDark ? Icons.mode_night_rounded : Icons.light_mode,
+            //       color: isDark ? textColorLight2 : backgroundColorLight,
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),
@@ -756,7 +781,7 @@ genSearch(BuildContext context) {
 
   Future<void> fetchUsers() async {
     // String url = 'http://127.0.0.1:5000/get-profiles';
-     String url = 'https://universeapp-4bb24.nw.r.appspot.com/get-profiles';
+    String url = 'https://universeapp-4bb24.nw.r.appspot.com/get-profiles';
     var request = http.Request('GET', Uri.parse(url));
     print('getting users...');
     http.StreamedResponse response = await request.send();
@@ -838,6 +863,30 @@ genSearch(BuildContext context) {
             ),
           ),
         ),
+      ),
+    ),
+  );
+}
+
+genDarkModeToggle(bool isDark, void function) {
+  return Container(
+    // alignment: Alignment.centerRight,
+    padding: const EdgeInsets.only(top: 25),
+    child: ElevatedButton(
+      onPressed: () async {
+        function;
+      },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: primaryColor,
+        minimumSize: const Size(45, 45),
+        shape: const CircleBorder(
+          side: BorderSide(color: primaryColor),
+          eccentricity: 0,
+        ),
+      ),
+      child: Icon(
+        isDark ? Icons.mode_night_rounded : Icons.light_mode,
+        color: isDark ? textColorLight2 : backgroundColorLight,
       ),
     ),
   );

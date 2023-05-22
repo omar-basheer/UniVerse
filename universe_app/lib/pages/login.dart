@@ -26,6 +26,13 @@ class LoginState extends State<Login> {
   bool isLoading = false;
   bool isDark = DarkModeService.getDarkMode();
 
+  void toggleDarkMode() {
+    setState(() {
+      isDark = !isDark;
+      DarkModeService.setDarkMode(isDark);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // final themeData = ThemeData(brightness: isDark ? Brightness.dark : Brightness.light);
@@ -37,41 +44,71 @@ class LoginState extends State<Login> {
         theme: themeData,
         home: Scaffold(
           appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(100),
+            preferredSize:  Size.fromHeight(100),
             child: AppBar(
               // backgroundColor: const Color.fromARGB(255, 132, 94, 194),
               // backgroundColor: const Color.fromARGB(255, 97, 194, 94),
               // backgroundColor: Color.fromRGBO(10, 151, 252, 1),
               backgroundColor: primaryColor,
-              title: Container(
-                alignment: Alignment.centerLeft,
-                padding: const EdgeInsets.only(top: 25, left: 110),
-                child: RichText(
-                  text: const TextSpan(
-                    children: [
-                      TextSpan(
-                        text: 'UniVerse ',
-                        style: TextStyle(
-                          color: Color.fromRGBO(63, 63, 63, 1),
-                          fontFamily: 'Montserrat',
-                          // fontFamily: 'Rubik_Pixels',
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
-                        ),
+              title: Row(
+                children: [
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    padding: const EdgeInsets.only(top: 25, left: 110),
+                    child: RichText(
+                      text: const TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'UniVerse ',
+                            style: TextStyle(
+                              color: Color.fromRGBO(63, 63, 63, 1),
+                              fontFamily: 'Montserrat',
+                              // fontFamily: 'Rubik_Pixels',
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          TextSpan(
+                            text: 'Desktop',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'Montserrat',
+                              fontSize: 28,
+                              // fontStyle: FontStyle.italic
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
-                      TextSpan(
-                        text: 'Desktop',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Montserrat',
-                          fontSize: 28,
-                          // fontStyle: FontStyle.italic
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
+                  const SizedBox(
+                    width: 950,
+                  ),
+                  
+                  // dark mode toggle
+                  Container(
+                    // alignment: Alignment.centerRight,
+                    padding: const EdgeInsets.only(top: 25),
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        toggleDarkMode();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: primaryColor,
+                        minimumSize: const Size(45, 45),
+                        shape: const CircleBorder(
+                          side: BorderSide(color: primaryColor),
+                          eccentricity: 0,
+                        ),
+                      ),
+                      child:  Icon(
+                        isDark?  Icons.mode_night_rounded : Icons.light_mode,
+                        color: isDark? textColorLight2 : backgroundColorLight,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
