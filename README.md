@@ -2,7 +2,7 @@
 This project is a social network app designed for Ashesi students. The app has six main functionalities 
 and was developed using REST API concepts, serverless and cloud technologies, and the flutter framework
 
-<img src="https://github.com/omar-basheer/UniVerse-Social-Network-App/blob/main/fulldemo-_1_.gif" width="1100" height="540"/>
+<img src="https://github.com/omar-basheer/UniVerse-Social-Network-App/blob/main/fulldemo-_1_.gif" width="1170" height="440"/>
 <!-- ![](https://github.com/omar-basheer/UniVerse-Social-Network-App/blob/main/demogif2.gif) -->
 <!-- https://github.com/omar-basheer/UniVerse-Social-Network-App/blob/main/demogif.png -->
 
