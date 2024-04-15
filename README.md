@@ -1,6 +1,8 @@
 # UniVerse Social Network App
-This project is a social network app designed for Ashesi students. The app has six main functionalities 
-and was developed using REST API concepts, serverless and cloud technologies, and the flutter framework
+This repository contains the codebase for a social network app designed for Ashesi students. The app has six main functionalities 
+and was developed using REST API concepts, serverless and cloud technologies, and the flutter framework.
+
+# Demo
 
 <img src="https://github.com/omar-basheer/UniVerse-Social-Network-App/blob/main/fulldemo-_1_.gif" width="1170" height="440"/>
 <!-- ![](https://github.com/omar-basheer/UniVerse-Social-Network-App/blob/main/demogif2.gif) -->
