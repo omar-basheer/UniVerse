@@ -1,5 +1,5 @@
 # UniVerse
-This repository contains the codebase for a social network app designed for Ashesi students. The app has six main functionalities 
+This repository contains the codebase for a social network app designed for Ashesi Univeersity students. The app has six main functionalities 
 and was developed using REST API concepts, serverless and cloud technologies, and the flutter framework.
 
 # Demo
